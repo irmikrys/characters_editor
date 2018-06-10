@@ -1,0 +1,4 @@
+rootProject.name = 'characters_editor'
+include 'web'
+include 'ejb'
+
