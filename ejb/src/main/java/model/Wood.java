@@ -3,21 +3,20 @@ package model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
-@Table(name = "woods")
+@Table(name = "woods", schema = "soa_game")
 public class Wood implements Serializable {
+    private static final long serialVersionUID = 5793941245980666186L;
     private int idWood;
     private String name;
     private int treesNum;
     private Collection<Elf> elfByIdWood;
     private User userByIdUser;
-
+    
     public Wood() {
-
     }
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idWood", nullable = false)
@@ -29,8 +28,7 @@ public class Wood implements Serializable {
         this.idWood = idWood;
     }
 
-    @Basic
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
@@ -39,7 +37,6 @@ public class Wood implements Serializable {
         this.name = name;
     }
 
-    @Basic
     @Column(name = "treesNum", nullable = false)
     public int getTreesNum() {
         return treesNum;
@@ -48,24 +45,9 @@ public class Wood implements Serializable {
     public void setTreesNum(int treesNum) {
         this.treesNum = treesNum;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Wood wood = (Wood) o;
-        return idWood == wood.idWood &&
-                treesNum == wood.treesNum &&
-                Objects.equals(name, wood.name);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(idWood, name, treesNum);
-    }
-
-    @OneToMany(mappedBy = "woodByIdWood")
+    
+    // TODO set to .LAZY
+    @OneToMany(mappedBy = "woodByIdWood", fetch = FetchType.EAGER)
     public Collection<Elf> getElfByIdWood() {
         return elfByIdWood;
     }
@@ -74,7 +56,7 @@ public class Wood implements Serializable {
         this.elfByIdWood = elfByIdWood;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)
     public User getUserByIdUser() {
         return userByIdUser;

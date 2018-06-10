@@ -7,7 +7,7 @@ import model.Wood;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.annotation.Resource;
-import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.SessionContext;
@@ -16,6 +16,7 @@ import java.util.LinkedList;
 
 @Stateless
 @SecurityDomain("soaEJBApplicationDomain")
+@RolesAllowed({ "User" })
 @Remote(CharactersServiceRemote.class)
 public class CharactersService implements CharactersServiceRemote {
 
@@ -24,12 +25,10 @@ public class CharactersService implements CharactersServiceRemote {
 
     @EJB
     private UserDAO userDAO;
-
     @EJB
     private WoodDAO woodDAO;
 
     @Override
-    @PermitAll
     public String getHello() {
         System.out.println("EJB:");
         System.out.println("    principal: " + sessionContext.getCallerPrincipal());
@@ -39,13 +38,11 @@ public class CharactersService implements CharactersServiceRemote {
     }
 
     @Override
-    @PermitAll
     public LinkedList<User> getAllUsers() {
         return new LinkedList<>(userDAO.findAll());
     }
 
     @Override
-    @PermitAll
     public LinkedList<Wood> getAllWoods() {
         return new LinkedList<>(woodDAO.findAll());
     }

@@ -5,19 +5,19 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "elves")
+@Table(name = "elves", schema = "soa_game")
 public class Elf implements Serializable {
+    private static final long serialVersionUID = -5383214602565441079L;
     private int idElf;
     private String name;
     private int arrowsNum;
     private int crossbow;
     private int power;
     private Wood woodByIdWood;
-
+    
     public Elf() {
-
     }
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idElf", nullable = false)
@@ -29,8 +29,7 @@ public class Elf implements Serializable {
         this.idElf = idElf;
     }
 
-    @Basic
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
@@ -39,7 +38,6 @@ public class Elf implements Serializable {
         this.name = name;
     }
 
-    @Basic
     @Column(name = "arrowsNum", nullable = false)
     public int getArrowsNum() {
         return arrowsNum;
@@ -49,7 +47,6 @@ public class Elf implements Serializable {
         this.arrowsNum = arrowsNum;
     }
 
-    @Basic
     @Column(name = "crossbow", nullable = false)
     public int getCrossbow() {
         return crossbow;
@@ -59,7 +56,6 @@ public class Elf implements Serializable {
         this.crossbow = crossbow;
     }
 
-    @Basic
     @Column(name = "power", nullable = false)
     public int getPower() {
         return power;
@@ -68,26 +64,8 @@ public class Elf implements Serializable {
     public void setPower(int power) {
         this.power = power;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Elf elf = (Elf) o;
-        return idElf == elf.idElf &&
-                arrowsNum == elf.arrowsNum &&
-                crossbow == elf.crossbow &&
-                power == elf.power &&
-                Objects.equals(name, elf.name);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(idElf, name, arrowsNum, crossbow, power);
-    }
-
-    @ManyToOne
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idWood", referencedColumnName = "idWood", nullable = false)
     public Wood getWoodByIdWood() {
         return woodByIdWood;

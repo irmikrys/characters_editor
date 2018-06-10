@@ -4,10 +4,12 @@ import model.User;
 import org.jboss.ejb3.annotation.SecurityDomain;
 import util.PasswordEncoder;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 
 @Stateless
 @SecurityDomain("soaEJBApplicationDomain")
+@RolesAllowed({ "User" })
 public class UserDAO extends AbstractDAO<User, Long> {
 
     public UserDAO() {

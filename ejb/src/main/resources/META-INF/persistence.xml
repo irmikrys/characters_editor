@@ -8,8 +8,6 @@
 
         <jta-data-source>java:jboss/datasources/soa-game-DS</jta-data-source>
         <class>model.Elf</class>
-        <class>model.Role</class>
-        <class>model.Userrole</class>
         <class>model.User</class>
         <class>model.Wood</class>
 
@@ -18,14 +16,6 @@
             <property name="hibernate.format_sql" value="false"/>
             <property name="hibernate.use_sql_comments" value="false"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-            <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306"/>
-            <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306"/>
-            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
-            <property name="openjpa.ConnectionURL" value="jdbc:mysql://localhost:3306"/>
-            <property name="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver"/>
-            <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306"/>
-            <property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
         </properties>
 
     </persistence-unit>

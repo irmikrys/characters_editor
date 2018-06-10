@@ -1,13 +1,13 @@
 package dao;
 
-import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 import java.util.Optional;
 
-@PermitAll
+@RolesAllowed({ "User" })
 public abstract class AbstractDAO<T, ID> {
 
     protected Class<T> entityClass;
