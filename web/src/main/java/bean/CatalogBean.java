@@ -1,7 +1,6 @@
 package bean;
 
 import boundary.CharactersServiceRemote;
-import model.Wood;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -33,11 +32,6 @@ public class CatalogBean implements Serializable {
     }
 
     public List getWoods() {
-        List<Wood> woods = new LinkedList<>(bean.getAllWoods());
-        woods.forEach(w -> {
-            System.out.println(w.getName());
-            w.getElfByIdWood().forEach(e -> System.out.println(e.getName()));
-        });
         return new LinkedList<>(bean.getAllWoods());
     }
 }

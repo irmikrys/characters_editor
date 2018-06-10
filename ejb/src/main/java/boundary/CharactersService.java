@@ -46,4 +46,9 @@ public class CharactersService implements CharactersServiceRemote {
     public LinkedList<Wood> getAllWoods() {
         return new LinkedList<>(woodDAO.findAll());
     }
+
+    @Override
+    public LinkedList<Wood> getAllWoodsWithElves() {
+        return new LinkedList<>(woodDAO.findAllWithElves());
+    }
 }

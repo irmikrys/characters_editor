@@ -12,4 +12,6 @@ public interface CharactersServiceRemote {
     LinkedList<User> getAllUsers();
 
     LinkedList<Wood> getAllWoods();
+
+    LinkedList<Wood> getAllWoodsWithElves();
 }

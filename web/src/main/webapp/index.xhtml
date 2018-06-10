@@ -3,27 +3,29 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
 
 <h:head>
     <title>Characters editor</title>
 </h:head>
 <h:body>
 
-    <h1>Characters:</h1>
     <h3>
         <h:outputText value="#{helloBean.hello}"/>
     </h3>
 
-    <h:dataTable value="#{catalogBean.woods}" var="wood">
-        <h:column>
-            <h:link value="#{wood.name}" outcome="wood">
-                <f:param name="id" value="#{wood.id}" />
-            </h:link>
-        </h:column>
-    </h:dataTable>
+    <h1>Characters:</h1>
+
+    <h:form>
+        <c:forEach var="wood" items="#{catalogBean.woods}">
+            <h:outputText value="#{wood.name}"/><br/>
+            <c:forEach var="elf" items="#{wood.elfByIdWood}">
+                &nbsp;&nbsp;&nbsp;&nbsp;<h:outputText value="#{elf.name}"/><br/>
+            </c:forEach>
+        </c:forEach>
+    </h:form>
 
 </h:body>
 </html>
