@@ -9,8 +9,8 @@ import java.util.Objects;
 public class Userrole {
     private int idUser;
     private int idRole;
-    private User userByIdUser;
-    private Role roleByIdRole;
+//    private User userByIdUser;
+//    private Role roleByIdRole;
 
     @Id
     @Column(name = "idUser", nullable = false)
@@ -47,23 +47,23 @@ public class Userrole {
         return Objects.hash(idUser, idRole);
     }
 
-    @ManyToOne
-    @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)
-    public User getUserByIdUser() {
-        return userByIdUser;
-    }
-
-    public void setUserByIdUser(User userByIdUser) {
-        this.userByIdUser = userByIdUser;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "idRole", referencedColumnName = "idRole", nullable = false)
-    public Role getRoleByIdRole() {
-        return roleByIdRole;
-    }
-
-    public void setRoleByIdRole(Role roleByIdRole) {
-        this.roleByIdRole = roleByIdRole;
-    }
+//    @ManyToOne
+//    @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)
+//    public User getUserByIdUser() {
+//        return userByIdUser;
+//    }
+//
+//    public void setUserByIdUser(User userByIdUser) {
+//        this.userByIdUser = userByIdUser;
+//    }
+//
+//    @ManyToOne
+//    @JoinColumn(name = "idRole", referencedColumnName = "idRole", nullable = false)
+//    public Role getRoleByIdRole() {
+//        return roleByIdRole;
+//    }
+//
+//    public void setRoleByIdRole(Role roleByIdRole) {
+//        this.roleByIdRole = roleByIdRole;
+//    }
 }

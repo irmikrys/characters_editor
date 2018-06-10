@@ -14,6 +14,7 @@ public class Wood {
     private User userByIdUser;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idWood", nullable = false)
     public int getIdWood() {
         return idWood;

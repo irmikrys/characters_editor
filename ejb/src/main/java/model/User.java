@@ -14,6 +14,7 @@ public class User {
     private Collection<Wood> woodByIdUser;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idUser", nullable = false)
     public int getIdUser() {
         return idUser;
@@ -59,14 +60,14 @@ public class User {
         return Objects.hash(idUser, username, password);
     }
 
-    @OneToMany(mappedBy = "userByIdUser")
-    public Collection<Userrole> getUserroleByIdUser() {
-        return userroleByIdUser;
-    }
-
-    public void setUserroleByIdUser(Collection<Userrole> userroleByIdUser) {
-        this.userroleByIdUser = userroleByIdUser;
-    }
+//    @OneToMany(mappedBy = "userByIdUser")
+//    public Collection<Userrole> getUserroleByIdUser() {
+//        return userroleByIdUser;
+//    }
+//
+//    public void setUserroleByIdUser(Collection<Userrole> userroleByIdUser) {
+//        this.userroleByIdUser = userroleByIdUser;
+//    }
 
     @OneToMany(mappedBy = "userByIdUser")
     public Collection<Wood> getWoodByIdUser() {

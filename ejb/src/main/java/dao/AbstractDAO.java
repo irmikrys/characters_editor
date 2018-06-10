@@ -12,7 +12,7 @@ public abstract class AbstractDAO<T, ID> {
 
     protected Class<T> entityClass;
 
-    @PersistenceContext(unitName = "SOA")
+    @PersistenceContext(unitName = "com.irmikrys.soa")
     protected EntityManager em;
 
     public Optional<T> findById(ID id) {

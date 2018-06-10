@@ -46,12 +46,12 @@ public class Role {
         return Objects.hash(idRole, rolename);
     }
 
-    @OneToMany(mappedBy = "roleByIdRole")
-    public Collection<Userrole> getUserroleByIdRole() {
-        return userroleByIdRole;
-    }
-
-    public void setUserroleByIdRole(Collection<Userrole> userroleByIdRole) {
-        this.userroleByIdRole = userroleByIdRole;
-    }
+//    @OneToMany(mappedBy = "roleByIdRole")
+//    public Collection<Userrole> getUserroleByIdRole() {
+//        return userroleByIdRole;
+//    }
+//
+//    public void setUserroleByIdRole(Collection<Userrole> userroleByIdRole) {
+//        this.userroleByIdRole = userroleByIdRole;
+//    }
 }
