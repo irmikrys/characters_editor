@@ -1,17 +1,22 @@
 package model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name = "woods")
-public class Wood {
+public class Wood implements Serializable {
     private int idWood;
     private String name;
     private int treesNum;
     private Collection<Elf> elfByIdWood;
     private User userByIdUser;
+
+    public Wood() {
+
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,16 +1,21 @@
 package model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @IdClass(UserrolePK.class)
 @Table(name = "userroles")
-public class Userrole {
+public class Userrole implements Serializable {
     private int idUser;
     private int idRole;
 //    private User userByIdUser;
 //    private Role roleByIdRole;
+
+    public Userrole() {
+
+    }
 
     @Id
     @Column(name = "idUser", nullable = false)

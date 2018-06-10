@@ -1,17 +1,22 @@
 package model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
     private int idUser;
     private String username;
     private String password;
     private Collection<Userrole> userroleByIdUser;
     private Collection<Wood> woodByIdUser;
+
+    public User() {
+
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
