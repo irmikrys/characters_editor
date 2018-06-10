@@ -4,12 +4,13 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@IdClass(UserrolesPK.class)
-public class Userroles {
+@IdClass(UserrolePK.class)
+@Table(name = "userroles")
+public class Userrole {
     private int idUser;
     private int idRole;
-    private Users usersByIdUser;
-    private Roles rolesByIdRole;
+    private User userByIdUser;
+    private Role roleByIdRole;
 
     @Id
     @Column(name = "idUser", nullable = false)
@@ -35,9 +36,9 @@ public class Userroles {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Userroles userroles = (Userroles) o;
-        return idUser == userroles.idUser &&
-                idRole == userroles.idRole;
+        Userrole userrole = (Userrole) o;
+        return idUser == userrole.idUser &&
+                idRole == userrole.idRole;
     }
 
     @Override
@@ -48,21 +49,21 @@ public class Userroles {
 
     @ManyToOne
     @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)
-    public Users getUsersByIdUser() {
-        return usersByIdUser;
+    public User getUserByIdUser() {
+        return userByIdUser;
     }
 
-    public void setUsersByIdUser(Users usersByIdUser) {
-        this.usersByIdUser = usersByIdUser;
+    public void setUserByIdUser(User userByIdUser) {
+        this.userByIdUser = userByIdUser;
     }
 
     @ManyToOne
     @JoinColumn(name = "idRole", referencedColumnName = "idRole", nullable = false)
-    public Roles getRolesByIdRole() {
-        return rolesByIdRole;
+    public Role getRoleByIdRole() {
+        return roleByIdRole;
     }
 
-    public void setRolesByIdRole(Roles rolesByIdRole) {
-        this.rolesByIdRole = rolesByIdRole;
+    public void setRoleByIdRole(Role roleByIdRole) {
+        this.roleByIdRole = roleByIdRole;
     }
 }

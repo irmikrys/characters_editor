@@ -5,12 +5,13 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-public class Users {
+@Table(name = "users")
+public class User {
     private int idUser;
     private String username;
     private String password;
-    private Collection<Userroles> userrolesByIdUser;
-    private Collection<Woods> woodsByIdUser;
+    private Collection<Userrole> userroleByIdUser;
+    private Collection<Wood> woodByIdUser;
 
     @Id
     @Column(name = "idUser", nullable = false)
@@ -46,10 +47,10 @@ public class Users {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Users users = (Users) o;
-        return idUser == users.idUser &&
-                Objects.equals(username, users.username) &&
-                Objects.equals(password, users.password);
+        User user = (User) o;
+        return idUser == user.idUser &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password);
     }
 
     @Override
@@ -58,21 +59,21 @@ public class Users {
         return Objects.hash(idUser, username, password);
     }
 
-    @OneToMany(mappedBy = "usersByIdUser")
-    public Collection<Userroles> getUserrolesByIdUser() {
-        return userrolesByIdUser;
+    @OneToMany(mappedBy = "userByIdUser")
+    public Collection<Userrole> getUserroleByIdUser() {
+        return userroleByIdUser;
     }
 
-    public void setUserrolesByIdUser(Collection<Userroles> userrolesByIdUser) {
-        this.userrolesByIdUser = userrolesByIdUser;
+    public void setUserroleByIdUser(Collection<Userrole> userroleByIdUser) {
+        this.userroleByIdUser = userroleByIdUser;
     }
 
-    @OneToMany(mappedBy = "usersByIdUser")
-    public Collection<Woods> getWoodsByIdUser() {
-        return woodsByIdUser;
+    @OneToMany(mappedBy = "userByIdUser")
+    public Collection<Wood> getWoodByIdUser() {
+        return woodByIdUser;
     }
 
-    public void setWoodsByIdUser(Collection<Woods> woodsByIdUser) {
-        this.woodsByIdUser = woodsByIdUser;
+    public void setWoodByIdUser(Collection<Wood> woodByIdUser) {
+        this.woodByIdUser = woodByIdUser;
     }
 }

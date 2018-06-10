@@ -5,10 +5,11 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-public class Roles {
+@Table(name = "roles")
+public class Role {
     private int idRole;
     private String rolename;
-    private Collection<Userroles> userrolesByIdRole;
+    private Collection<Userrole> userroleByIdRole;
 
     @Id
     @Column(name = "idRole", nullable = false)
@@ -34,9 +35,9 @@ public class Roles {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Roles roles = (Roles) o;
-        return idRole == roles.idRole &&
-                Objects.equals(rolename, roles.rolename);
+        Role role = (Role) o;
+        return idRole == role.idRole &&
+                Objects.equals(rolename, role.rolename);
     }
 
     @Override
@@ -45,12 +46,12 @@ public class Roles {
         return Objects.hash(idRole, rolename);
     }
 
-    @OneToMany(mappedBy = "rolesByIdRole")
-    public Collection<Userroles> getUserrolesByIdRole() {
-        return userrolesByIdRole;
+    @OneToMany(mappedBy = "roleByIdRole")
+    public Collection<Userrole> getUserroleByIdRole() {
+        return userroleByIdRole;
     }
 
-    public void setUserrolesByIdRole(Collection<Userroles> userrolesByIdRole) {
-        this.userrolesByIdRole = userrolesByIdRole;
+    public void setUserroleByIdRole(Collection<Userrole> userroleByIdRole) {
+        this.userroleByIdRole = userroleByIdRole;
     }
 }

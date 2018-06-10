@@ -5,12 +5,13 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-public class Woods {
+@Table(name = "woods")
+public class Wood {
     private int idWood;
     private String name;
     private int treesNum;
-    private Collection<Elves> elvesByIdWood;
-    private Users usersByIdUser;
+    private Collection<Elf> elfByIdWood;
+    private User userByIdUser;
 
     @Id
     @Column(name = "idWood", nullable = false)
@@ -46,10 +47,10 @@ public class Woods {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Woods woods = (Woods) o;
-        return idWood == woods.idWood &&
-                treesNum == woods.treesNum &&
-                Objects.equals(name, woods.name);
+        Wood wood = (Wood) o;
+        return idWood == wood.idWood &&
+                treesNum == wood.treesNum &&
+                Objects.equals(name, wood.name);
     }
 
     @Override
@@ -58,22 +59,22 @@ public class Woods {
         return Objects.hash(idWood, name, treesNum);
     }
 
-    @OneToMany(mappedBy = "woodsByIdWood")
-    public Collection<Elves> getElvesByIdWood() {
-        return elvesByIdWood;
+    @OneToMany(mappedBy = "woodByIdWood")
+    public Collection<Elf> getElfByIdWood() {
+        return elfByIdWood;
     }
 
-    public void setElvesByIdWood(Collection<Elves> elvesByIdWood) {
-        this.elvesByIdWood = elvesByIdWood;
+    public void setElfByIdWood(Collection<Elf> elfByIdWood) {
+        this.elfByIdWood = elfByIdWood;
     }
 
     @ManyToOne
     @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)
-    public Users getUsersByIdUser() {
-        return usersByIdUser;
+    public User getUserByIdUser() {
+        return userByIdUser;
     }
 
-    public void setUsersByIdUser(Users usersByIdUser) {
-        this.usersByIdUser = usersByIdUser;
+    public void setUserByIdUser(User userByIdUser) {
+        this.userByIdUser = userByIdUser;
     }
 }

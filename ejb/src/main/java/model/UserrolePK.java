@@ -5,7 +5,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class UserrolesPK implements Serializable {
+public class UserrolePK implements Serializable {
     private int idUser;
     private int idRole;
 
@@ -33,7 +33,7 @@ public class UserrolesPK implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserrolesPK that = (UserrolesPK) o;
+        UserrolePK that = (UserrolePK) o;
         return idUser == that.idUser &&
                 idRole == that.idRole;
     }

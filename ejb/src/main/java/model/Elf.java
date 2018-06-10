@@ -4,13 +4,14 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Elves {
+@Table(name = "elves")
+public class Elf {
     private int idElf;
     private String name;
     private int arrowsNum;
     private int crossbow;
     private int power;
-    private Woods woodsByIdWood;
+    private Wood woodByIdWood;
 
     @Id
     @Column(name = "idElf", nullable = false)
@@ -66,12 +67,12 @@ public class Elves {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Elves elves = (Elves) o;
-        return idElf == elves.idElf &&
-                arrowsNum == elves.arrowsNum &&
-                crossbow == elves.crossbow &&
-                power == elves.power &&
-                Objects.equals(name, elves.name);
+        Elf elf = (Elf) o;
+        return idElf == elf.idElf &&
+                arrowsNum == elf.arrowsNum &&
+                crossbow == elf.crossbow &&
+                power == elf.power &&
+                Objects.equals(name, elf.name);
     }
 
     @Override
@@ -82,11 +83,11 @@ public class Elves {
 
     @ManyToOne
     @JoinColumn(name = "idWood", referencedColumnName = "idWood", nullable = false)
-    public Woods getWoodsByIdWood() {
-        return woodsByIdWood;
+    public Wood getWoodByIdWood() {
+        return woodByIdWood;
     }
 
-    public void setWoodsByIdWood(Woods woodsByIdWood) {
-        this.woodsByIdWood = woodsByIdWood;
+    public void setWoodByIdWood(Wood woodByIdWood) {
+        this.woodByIdWood = woodByIdWood;
     }
 }
