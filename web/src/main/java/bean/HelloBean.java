@@ -1,6 +1,7 @@
 package bean;
 
 import boundary.CharactersServiceRemote;
+import model.Wood;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -32,7 +33,10 @@ public class HelloBean implements Serializable {
         jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
         Context context = new InitialContext(jndiProperties);
 
-        bean = (CharactersServiceRemote) context.lookup("ejb:/web-client_main_war/CharactersService!boundary.CharactersServiceRemote");
+        bean = (CharactersServiceRemote) context.lookup(
+                "ejb:/web_main_war/CharactersService!boundary.CharactersServiceRemote"
+        );
+        getWoods();
         System.out.println("bean PostConstruct end");
     }
 
@@ -41,6 +45,11 @@ public class HelloBean implements Serializable {
     }
 
     public List getWoods() {
+        List<Wood> woods = new LinkedList<>(bean.getAllWoods());
+        woods.forEach(w -> {
+            System.out.println(w.getName());
+            w.getElfByIdWood().forEach(e -> System.out.println(e.getName()));
+        });
         return new LinkedList<>(bean.getAllWoods());
     }
 
