@@ -19,12 +19,11 @@
     <h1>Characters:</h1>
 
     <h:form>
-        <c:forEach var="wood" items="#{catalogBean.woods}">
-            <h:outputText value="#{wood.name}"/><br/>
-            <c:forEach var="elf" items="#{wood.elfByIdWood}">
-                &nbsp;&nbsp;&nbsp;&nbsp;<h:outputText value="#{elf.name}"/><br/>
-            </c:forEach>
-        </c:forEach>
+        <p:tree value="#{catalogBean.root}" var="node" dynamic="true">
+            <p:treeNode>
+                <h:outputText value="#{node}" />
+            </p:treeNode>
+        </p:tree>
     </h:form>
 
 </h:body>
