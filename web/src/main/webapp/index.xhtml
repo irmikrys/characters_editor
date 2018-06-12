@@ -8,25 +8,36 @@
 
 <h:head>
     <title>Characters editor</title>
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 </h:head>
 <h:body>
+    <div class="jumbotron text-center">
+        <h2>Characters editor</h2>
+        <p>Add and edit your fantasy game elements!</p>
+    </div>
+    <div class="main">
+        <div>
+            <h3>
+                <h:outputText value="#{helloBean.hello}"/>
+            </h3>
 
-    <h3>
-        <h:outputText value="#{helloBean.hello}"/>
-    </h3>
+            <h:panelGrid columns="3" styleClass="top-menu">
+                <h:outputLink value="category.xhtml">Add new category</h:outputLink>
+                <h:outputLink value="element.xhtml">Add new element</h:outputLink>
+            </h:panelGrid>
 
-    <h:outputLink value="category.xhtml">Add new category</h:outputLink>
-    <h:outputLink value="element.xhtml">Add new element</h:outputLink>
+            <h1>Characters:</h1>
 
-    <h1>Characters:</h1>
-
-    <h:form>
-        <p:tree value="#{catalogBean.root}" var="node" dynamic="true">
-            <p:treeNode>
-                <h:outputText value="#{node}" />
-            </p:treeNode>
-        </p:tree>
-    </h:form>
-
+            <h:form>
+                <p:tree value="#{catalogBean.root}" var="node">
+                    <p:treeNode>
+                        <h:outputText value="#{node}"/>
+                    </p:treeNode>
+                </p:tree>
+            </h:form>
+        </div>
+    </div>
 </h:body>
 </html>
