@@ -6,6 +6,10 @@ html, body {
     color: red;
 }
 
+.success-message {
+    color: green;
+}
+
 .top-menu {
     width: 100%;
 }

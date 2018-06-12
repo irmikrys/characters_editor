@@ -43,6 +43,10 @@
                 <h5><span class="label label-danger">Wood</span></h5>
                 <hr/>
 
+                <h:outputText value="#{categoryBean.successMessage}"
+                              styleClass="success-message"
+                />
+
                 <h:form id="category-form">
 
                     <div class="form-group form-div">
@@ -78,7 +82,9 @@
 
                     <h:commandButton id="submit-category"
                                      styleClass="btn btn-default"
-                                     value="Submit"/>
+                                     value="Submit"
+                                     action="#{categoryBean.submitCategory}"
+                    />
 
                 </h:form>
             </div>

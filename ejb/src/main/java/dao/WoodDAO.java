@@ -10,13 +10,13 @@ import java.util.List;
 
 @Stateless
 @SecurityDomain("soaEJBApplicationDomain")
-@RolesAllowed({ "User" })
+@RolesAllowed({"User"})
 public class WoodDAO extends AbstractDAO<Wood, Long> {
 
     public WoodDAO() {
         this.entityClass = Wood.class;
     }
-    
+
     public List<Wood> findAllWithElves() {
         TypedQuery<Wood> query = em.createQuery("SELECT w FROM Wood w JOIN FETCH w.elfByIdWood e", Wood.class);
         return query.getResultList();

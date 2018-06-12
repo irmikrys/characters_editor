@@ -5,38 +5,31 @@ import model.Elf;
 import model.Wood;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
+import util.EJBUtility;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 
 @Named(value = "catalogBean")
 @SessionScoped
 public class CatalogBean implements Serializable {
     private static final long serialVersionUID = -9217712787886869451L;
 
-    private CharactersServiceRemote bean;
+    private CharactersServiceRemote charactersServiceRemote;
     private TreeNode root;
 
     public CatalogBean() throws NamingException {
-        final Properties jndiProperties = new Properties();
-        jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
-        Context context = new InitialContext(jndiProperties);
 
-        bean = (CharactersServiceRemote) context.lookup(
-                "ejb:/web_main_war/CharactersService!boundary.CharactersServiceRemote"
-        );
-        List<Wood> woods = getWoods();
+        charactersServiceRemote = EJBUtility.lookupCharactersService();
+
         root = new DefaultTreeNode("Woods", null);
-        woods.forEach(wood -> addNode(root, wood.getName(), wood.getElfByIdWood()));
-        System.out.println("Catalog bean constructor end");
+        this.getWoods().forEach(wood -> addNode(root, wood.getName(), wood.getElfByIdWood()));
+        System.out.println("Catalog charactersServiceRemote constructor end");
     }
 
     private void addNode(TreeNode parentNode, String nodeName, Collection<Elf> children) {
@@ -54,6 +47,6 @@ public class CatalogBean implements Serializable {
     }
 
     private List<Wood> getWoods() {
-        return new LinkedList<>(bean.getAllWoods());
+        return new LinkedList<>(charactersServiceRemote.getAllWoods());
     }
 }
