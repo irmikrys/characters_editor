@@ -53,7 +53,7 @@ public class CatalogBean implements Serializable {
         return root;
     }
 
-    public List<Wood> getWoods() {
+    private List<Wood> getWoods() {
         return new LinkedList<>(bean.getAllWoods());
     }
 }
