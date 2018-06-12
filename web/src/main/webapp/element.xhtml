@@ -8,6 +8,7 @@
 
 <h:head>
     <title>Characters editor</title>
+    <link type = "text/css" rel = "stylesheet" href = "css/style.css" />
 </h:head>
 <h:body>
 
@@ -17,16 +18,19 @@
 
     <h:form id="category-form">
         <h:panelGrid columns="2">
+            <h:selectOneMenu/><br/>
+
             <h:inputText id="name"
-                         value="#{categoryBean.name}"
+                         value="#{elementBean.name}"
                          required="true"
                          requiredMessage="Name is required"
                          a:placeholder="name...">
                 <f:ajax/>
             </h:inputText>
             <h:message for="name" styleClass="error-message"/>
+
             <h:inputText id="quantity"
-                         value="#{categoryBean.value}"
+                         value="#{elementBean.quantity}"
                          required="true"
                          requiredMessage="Value is required"
                          converterMessage="You can enter digits only"
@@ -34,6 +38,27 @@
                 <f:ajax/>
             </h:inputText>
             <h:message for="quantity" styleClass="error-message"/>
+
+            <h:inputText id="propType"
+                         value="#{elementBean.propType}"
+                         required="true"
+                         requiredMessage="Value is required"
+                         converterMessage="You can enter digits only"
+                         a:placeholder="type...">
+                <f:ajax/>
+            </h:inputText>
+            <h:message for="propType" styleClass="error-message"/>
+
+            <h:inputText id="power"
+                         value="#{elementBean.power}"
+                         required="true"
+                         requiredMessage="Value is required"
+                         converterMessage="You can enter digits only"
+                         a:placeholder="power...">
+                <f:ajax/>
+            </h:inputText>
+            <h:message for="power" styleClass="error-message"/>
+
             <h:commandButton id="submit-category" value="Submit"/>
         </h:panelGrid>
     </h:form>
