@@ -15,85 +15,115 @@
 </h:head>
 <h:body>
 
-    <h:form id="element-form" styleClass="form">
+    <div class="jumbotron text-center">
+        <h2>Characters editor</h2>
+        <p>Add and edit your fantasy game elements!</p>
+    </div>
 
-        <h3>
-            <h:outputText value="#{elementBean.mode}"/>
-        </h3>
+    <div class="container-fluid">
+        <div class="row content">
 
-        <div class="form-group form-div">
-            <h:outputLabel id="category-lbl"
-                           for="category">
-                Category:
-            </h:outputLabel>
-            <h:selectOneMenu id="category"
-                             styleClass="form-control"
-            /><br/>
+            <div class="col-sm-3 sidenav">
+                <h4>Menu</h4>
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a href="index.xhtml">Home</a></li>
+                    <li><a href="category.xhtml">New category</a></li>
+                    <li><a href="element.xhtml">New element</a></li>
+                </ul>
+                <br/>
+            </div>
 
-            <h:outputLabel id="name-lbl"
-                           for="name">
-                Name:
-            </h:outputLabel>
-            <h:inputText id="name"
-                         styleClass="form-control"
-                         value="#{elementBean.name}"
-                         required="true"
-                         requiredMessage="Name is required"
-                         a:placeholder="name...">
-                <f:ajax/>
-            </h:inputText>
-            <h:message for="name" styleClass="error-message"/>
+            <div class="col-sm-9">
 
-            <h:outputLabel id="quantity-lbl"
-                           for="quantity">
-                Quantity:
-            </h:outputLabel>
-            <h:inputText id="quantity"
-                         styleClass="form-control"
-                         value="#{elementBean.quantity}"
-                         required="true"
-                         requiredMessage="Value is required"
-                         converterMessage="You can enter digits only"
-                         a:placeholder="quantity...">
-                <f:ajax/>
-            </h:inputText>
-            <h:message for="quantity" styleClass="error-message"/>
+                <h4>
+                    <h:outputText value="#{elementBean.mode.toUpperCase()}"
+                                  style="font-size: small;"
+                    />
+                </h4>
+                <h5><span class="label label-success">Elf</span></h5>
+                <hr/>
 
-            <h:outputLabel id="propType-lbl"
-                           for="propType">
-                Property type:
-            </h:outputLabel>
-            <h:inputText id="propType"
-                         styleClass="form-control"
-                         value="#{elementBean.propType}"
-                         required="true"
-                         requiredMessage="Value is required"
-                         converterMessage="You can enter digits only"
-                         a:placeholder="type...">
-                <f:ajax/>
-            </h:inputText>
-            <h:message for="propType" styleClass="error-message"/>
+                <h:form id="element-form">
 
-            <h:outputLabel id="power-lbl"
-                           for="power">
-                Power:
-            </h:outputLabel>
-            <h:inputText id="power"
-                         styleClass="form-control"
-                         value="#{elementBean.power}"
-                         required="true"
-                         requiredMessage="Value is required"
-                         converterMessage="You can enter digits only"
-                         a:placeholder="power...">
-                <f:ajax/>
-            </h:inputText>
-            <h:message for="power" styleClass="error-message"/>
+                    <div class="form-group form-div">
+                        <h:outputLabel id="category-lbl"
+                                       for="category">
+                            Category:
+                        </h:outputLabel>
+                        <h:selectOneMenu id="category"
+                                         styleClass="form-control"
+                                         style="height: 35px;"
+                        /><br/>
 
-            <h:commandButton id="submit-category"
-                             styleClass="btn btn-default"
-                             value="Submit"/>
+                        <h:outputLabel id="name-lbl"
+                                       for="name">
+                            Name:
+                        </h:outputLabel>
+                        <h:inputText id="name"
+                                     styleClass="form-control"
+                                     value="#{elementBean.name}"
+                                     required="true"
+                                     requiredMessage="Name is required"
+                                     a:placeholder="name...">
+                            <f:ajax/>
+                        </h:inputText>
+                        <h:message for="name" styleClass="error-message"/><br/>
+
+                        <h:outputLabel id="quantity-lbl"
+                                       for="quantity">
+                            Quantity:
+                        </h:outputLabel>
+                        <h:inputText id="quantity"
+                                     styleClass="form-control"
+                                     value="#{elementBean.quantity}"
+                                     required="true"
+                                     requiredMessage="Value is required"
+                                     converterMessage="You can enter digits only"
+                                     a:placeholder="quantity...">
+                            <f:ajax/>
+                        </h:inputText>
+                        <h:message for="quantity" styleClass="error-message"/><br/>
+
+                        <h:outputLabel id="propType-lbl"
+                                       for="propType">
+                            Property type:
+                        </h:outputLabel>
+                        <h:inputText id="propType"
+                                     styleClass="form-control"
+                                     value="#{elementBean.propType}"
+                                     required="true"
+                                     requiredMessage="Value is required"
+                                     converterMessage="You can enter digits only"
+                                     a:placeholder="type...">
+                            <f:ajax/>
+                        </h:inputText>
+                        <h:message for="propType" styleClass="error-message"/><br/>
+
+                        <h:outputLabel id="power-lbl"
+                                       for="power">
+                            Power:
+                        </h:outputLabel>
+                        <h:inputText id="power"
+                                     styleClass="form-control"
+                                     value="#{elementBean.power}"
+                                     required="true"
+                                     requiredMessage="Value is required"
+                                     converterMessage="You can enter digits only"
+                                     a:placeholder="power...">
+                            <f:ajax/>
+                        </h:inputText>
+                        <h:message for="power" styleClass="error-message"/><br/>
+
+                        <h:commandButton id="submit-category"
+                                         styleClass="btn btn-default"
+                                         value="Submit"/>
+                    </div>
+
+                </h:form>
+            </div>
         </div>
-    </h:form>
+    </div>
+    <div class="footer container-fluid">Some text in a footer</div>
 
 </h:body>
 </html>

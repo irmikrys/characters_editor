@@ -15,48 +15,77 @@
 </h:head>
 <h:body>
 
-    <h:form id="category-form" styleClass="form">
+    <div class="jumbotron text-center">
+        <h2>Characters editor</h2>
+        <p>Add and edit your fantasy game elements!</p>
+    </div>
 
-        <h3>
-            <h:outputText value="#{categoryBean.mode}"/>
-        </h3>
+    <div class="container-fluid">
+        <div class="row content">
 
-        <div class="form-group form-div">
-            <h:outputLabel id="name-lbl"
-                           for="name">
-                Name:
-            </h:outputLabel>
-            <h:inputText id="name"
-                         styleClass="form-control"
-                         value="#{categoryBean.name}"
-                         required="true"
-                         requiredMessage="Name is required"
-                         a:placeholder="name...">
-                <f:ajax/>
-            </h:inputText>
-            <h:message for="name" styleClass="error-message"/>
+            <div class="col-sm-3 sidenav">
+                <h4>Menu</h4>
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a href="index.xhtml">Home</a></li>
+                    <li><a href="category.xhtml">New category</a></li>
+                    <li><a href="element.xhtml">New element</a></li>
+                </ul>
+                <br/>
+            </div>
 
-            <h:outputLabel id="quantity-lbl"
-                           for="quantity">
-                Quantity:
-            </h:outputLabel>
-            <h:inputText id="quantity"
-                         styleClass="form-control"
-                         value="#{categoryBean.value}"
-                         required="true"
-                         requiredMessage="Value is required"
-                         converterMessage="You can enter digits only"
-                         a:placeholder="quantity...">
-                <f:ajax/>
-            </h:inputText>
-            <h:message for="quantity" styleClass="error-message"/>
+            <div class="col-sm-9">
+
+                <h4>
+                    <h:outputText value="#{categoryBean.mode.toUpperCase()}"
+                                  style="font-size: small;"
+                    />
+                </h4>
+                <h5><span class="label label-danger">Wood</span></h5>
+                <hr/>
+
+                <h:form id="category-form">
+
+                    <div class="form-group form-div">
+                        <h:outputLabel id="name-lbl"
+                                       for="name">
+                            Name:
+                        </h:outputLabel>
+                        <h:inputText id="name"
+                                     styleClass="form-control"
+                                     value="#{categoryBean.name}"
+                                     required="true"
+                                     requiredMessage="Name is required"
+                                     a:placeholder="name...">
+                            <f:ajax/>
+                        </h:inputText>
+                        <h:message for="name" styleClass="error-message"/><br/>
+
+                        <h:outputLabel id="quantity-lbl"
+                                       for="quantity">
+                            Quantity:
+                        </h:outputLabel>
+                        <h:inputText id="quantity"
+                                     styleClass="form-control"
+                                     value="#{categoryBean.value}"
+                                     required="true"
+                                     requiredMessage="Value is required"
+                                     converterMessage="You can enter digits only"
+                                     a:placeholder="quantity...">
+                            <f:ajax/>
+                        </h:inputText>
+                        <h:message for="quantity" styleClass="error-message"/>
+                    </div>
+
+                    <h:commandButton id="submit-category"
+                                     styleClass="btn btn-default"
+                                     value="Submit"/>
+
+                </h:form>
+            </div>
         </div>
+    </div>
 
-        <h:commandButton id="submit-category"
-                         styleClass="btn btn-default"
-                         value="Submit"/>
-
-    </h:form>
+    <div class="footer container-fluid">Some text in a footer</div>
 
 </h:body>
 </html>

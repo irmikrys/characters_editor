@@ -13,31 +13,49 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 </h:head>
 <h:body>
+
     <div class="jumbotron text-center">
         <h2>Characters editor</h2>
         <p>Add and edit your fantasy game elements!</p>
     </div>
-    <div class="main">
-        <div>
-            <h3>
-                <h:outputText value="#{helloBean.hello}"/>
-            </h3>
 
-            <h:panelGrid columns="3" styleClass="top-menu">
-                <h:outputLink value="category.xhtml">Add new category</h:outputLink>
-                <h:outputLink value="element.xhtml">Add new element</h:outputLink>
-            </h:panelGrid>
+    <div class="container-fluid">
+        <div class="row content">
+            <div class="col-sm-3 sidenav">
+                <h4>Menu</h4>
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a href="index.xhtml">Home</a></li>
+                    <li><a href="category.xhtml">New category</a></li>
+                    <li><a href="element.xhtml">New element</a></li>
+                </ul>
+                <br/>
+            </div>
 
-            <h1>Characters:</h1>
+            <div class="col-sm-9">
+                <h4>
+                    <span style="font-size: small;">INFORMATION</span>
+                </h4>
+                <hr/>
+                <h2>Current Characters</h2>
+                <h5><span class="label label-danger">Fantasy</span>
+                    <span class="label label-primary">Ipsum</span>
+                    <span class="label label-success">Lorem</span>
+                </h5><br/>
 
-            <h:form>
-                <p:tree value="#{catalogBean.root}" var="node">
-                    <p:treeNode>
-                        <h:outputText value="#{node}"/>
-                    </p:treeNode>
-                </p:tree>
-            </h:form>
+                <h:form>
+                    <p:tree value="#{catalogBean.root}" var="node">
+                        <p:treeNode>
+                            <h:outputText value="#{node}"/>
+                        </p:treeNode>
+                    </p:tree>
+                </h:form>
+
+                <hr/>
+            </div>
         </div>
     </div>
+
+    <div class="footer container-fluid">Some text in a footer</div>
+
 </h:body>
 </html>

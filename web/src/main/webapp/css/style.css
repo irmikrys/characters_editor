@@ -30,12 +30,43 @@ html, body {
     text-align: center;
 }
 
-.form-control {
-    max-width: 300px;
-    margin-bottom: 10px;
-}
-
 .btn {
     margin: 5px 0;
+}
+
+#login-btn {
     width: 100%;
+}
+
+/* main page styling */
+
+.row.content {
+    height: 100%;
+    min-height: 455px;
+}
+
+.sidenav {
+    background-color: #f1f1f1;
+    height: 100%;
+}
+
+.label {
+    font-size: small;
+}
+
+.footer {
+    background-color: #555;
+    color: white;
+    padding: 15px;
+}
+
+@media screen and (max-width: 767px) {
+    .sidenav {
+        height: auto;
+        padding: 15px;
+    }
+
+    .row.content {
+        height: auto;
+    }
 }
