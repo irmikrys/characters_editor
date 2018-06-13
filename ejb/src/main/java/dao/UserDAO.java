@@ -6,10 +6,11 @@ import util.PasswordEncoder;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 
 @Stateless
 @SecurityDomain("soaEJBApplicationDomain")
-@RolesAllowed({ "User" })
+@RolesAllowed({"User"})
 public class UserDAO extends AbstractDAO<User, Long> {
 
     public UserDAO() {
@@ -25,5 +26,21 @@ public class UserDAO extends AbstractDAO<User, Long> {
                 user.setPassword(PasswordEncoder.getEncodedPassword(password));
             em.getTransaction().commit();
         });
+    }
+
+    public boolean existsByUsername(String username) {
+        TypedQuery<Boolean> query = em.createQuery(
+                "SELECT (count(u) = 1) FROM User u WHERE u.username = :username",
+                Boolean.class);
+        query.setParameter("username", username);
+        return query.getSingleResult();
+    }
+
+    public User findByUsername(String username) {
+        TypedQuery<User> query = em.createQuery(
+                "SELECT u FROM User u WHERE u.username = :username",
+                User.class);
+        query.setParameter("username", username);
+        return query.getSingleResult();
     }
 }

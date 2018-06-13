@@ -7,7 +7,7 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import util.EJBUtility;
 
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.naming.NamingException;
 import java.io.Serializable;
@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Named(value = "catalogBean")
-@SessionScoped
+@ViewScoped
 public class CatalogBean implements Serializable {
     private static final long serialVersionUID = -9217712787886869451L;
 

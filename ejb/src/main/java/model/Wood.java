@@ -7,6 +7,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "woods", schema = "soa_game")
 public class Wood implements Serializable {
+
     private static final long serialVersionUID = 5793941245980666186L;
     private int idWood;
     private String name;
@@ -15,8 +16,15 @@ public class Wood implements Serializable {
     private User userByIdUser;
     
     public Wood() {
+
     }
-    
+
+    public Wood(String name, int treesNum, User userByIdUser) {
+        this.name = name;
+        this.treesNum = treesNum;
+        this.userByIdUser = userByIdUser;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idWood", nullable = false)

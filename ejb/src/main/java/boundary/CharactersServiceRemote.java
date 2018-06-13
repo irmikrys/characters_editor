@@ -14,4 +14,6 @@ public interface CharactersServiceRemote {
     LinkedList<Wood> getAllWoods();
 
     LinkedList<Wood> getAllWoodsWithElves();
+
+    void addWood(String name, Integer size);
 }

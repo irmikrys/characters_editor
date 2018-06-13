@@ -27,16 +27,12 @@ public abstract class AbstractDAO<T, ID> {
     }
 
     public void add(T entity) {
-        em.getTransaction().begin();
         em.persist(entity);
-        em.getTransaction().commit();
     }
 
     public void remove(ID id) {
         findById(id).ifPresent(e -> {
-            em.getTransaction().begin();
             em.remove(e);
-            em.getTransaction().commit();
         });
     }
 }
