@@ -68,6 +68,11 @@ public class CharactersService implements CharactersServiceRemote {
     }
 
     @Override
+    public void updateCategory(Integer idCategory, String name, Integer size) {
+        categoryDAO.update(idCategory, name, size);
+    }
+
+    @Override
     public void deleteCategory(Integer id) {
         categoryDAO.remove(id);
     }

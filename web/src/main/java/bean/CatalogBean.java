@@ -1,15 +1,15 @@
 package bean;
 
 import boundary.CharactersServiceRemote;
+import model.Category;
 import model.Element;
 import model.TreeNodeData;
-import model.Category;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import util.EJBUtility;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.naming.NamingException;
 import java.io.Serializable;
@@ -18,7 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Named(value = "catalogBean")
-@SessionScoped
+@ViewScoped
 public class CatalogBean implements Serializable {
 
     private static final long serialVersionUID = -9217712787886869451L;
@@ -72,7 +72,11 @@ public class CatalogBean implements Serializable {
         this.getCategories().forEach(
                 Category -> addNode(
                         root,
-                        new TreeNodeData(Category.getClass().getSimpleName(), Category.getIdCategory(), Category.getName()),
+                        new TreeNodeData(
+                                Category.getClass().getSimpleName(),
+                                Category.getIdCategory(),
+                                Category.getName()
+                        ),
                         Category.getElementByIdCategory()
                 ));
     }

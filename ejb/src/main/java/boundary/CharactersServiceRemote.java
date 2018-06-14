@@ -19,6 +19,8 @@ public interface CharactersServiceRemote {
 
     void addCategory(String name, Integer size);
 
+    void updateCategory(Integer idCategory, String name, Integer size);
+
     void deleteCategory(Integer id);
 
     void addElement(Category category, String name, Integer quantity, Integer propType, Integer power);

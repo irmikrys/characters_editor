@@ -1,9 +1,11 @@
 package bean;
 
 import boundary.CharactersServiceRemote;
+import model.Category;
 import util.EJBUtility;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.naming.NamingException;
@@ -19,6 +21,7 @@ public class CategoryBean implements Serializable {
     private String name;
     private String mode;
     private String successMessage;
+    private Category category;
 
     private CharactersServiceRemote charactersServiceRemote;
 
@@ -29,19 +32,43 @@ public class CategoryBean implements Serializable {
 
     @PostConstruct
     public void init() {
+
         successMessage = "";
         mode = "Add category";
+
+        String idParamString =
+                FacesContext.getCurrentInstance()
+                        .getExternalContext()
+                        .getRequestParameterMap()
+                        .get("id");
+
+        if (idParamString != null) {
+            mode = "Edit category";
+            category = charactersServiceRemote
+                    .getCategoryByIdCategory(Integer.parseInt(idParamString));
+            value = category.getSize();
+            name = category.getName();
+        }
     }
 
     public void submitCategory() {
-        if(name != null && value != null) {
-            System.out.format("Submitting category: name %s, quantity %d", name, value);
-            charactersServiceRemote.addCategory(name, value);
-            successMessage = "Category successfully submitted!";
-            name = null;
-            value = null;
+        System.out.format("Submitting category: name %s, size %d", name, value);
+        if (mode.equals("Add category")) {
+            addCategory();
+        } else {
+            updateCategory();
         }
-        System.out.println("Submitting ended.");
+        successMessage = "Category successfully submitted!";
+    }
+
+    private void addCategory() {
+        charactersServiceRemote.addCategory(name, value);
+        name = null;
+        value = null;
+    }
+
+    private void updateCategory() {
+        charactersServiceRemote.updateCategory(category.getIdCategory(), name, value);
     }
 
     public Integer getValue() {

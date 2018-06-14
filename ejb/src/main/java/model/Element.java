@@ -29,7 +29,7 @@ public class Element implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idElement", nullable = false)
+    @Column(name = "idElf", nullable = false)
     public int getIdElement() {
         return idElement;
     }
@@ -75,7 +75,7 @@ public class Element implements Serializable {
     }
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idCategory", referencedColumnName = "idCategory", nullable = false)
+    @JoinColumn(name = "idWood", referencedColumnName = "idWood", nullable = false)
     public Category getCategoryByIdCategory() {
         return categoryByIdCategory;
     }

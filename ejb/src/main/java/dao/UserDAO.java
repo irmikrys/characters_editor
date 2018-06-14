@@ -19,12 +19,10 @@ public class UserDAO extends AbstractDAO<User, Integer> {
 
     public void update(Integer idUser, String username, String password) {
         findById(idUser).ifPresent(user -> {
-            em.getTransaction().begin();
             if (username != null && !username.isEmpty())
                 user.setUsername(username);
             if (password != null && !password.isEmpty())
                 user.setPassword(PasswordEncoder.getEncodedPassword(password));
-            em.getTransaction().commit();
         });
     }
 

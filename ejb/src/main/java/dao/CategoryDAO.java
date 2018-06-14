@@ -22,4 +22,13 @@ public class CategoryDAO extends AbstractDAO<Category, Integer> {
         return query.getResultList();
     }
 
+    public void update(Integer id, String name, Integer size) {
+        findById(id).ifPresent(category -> {
+            if (name != null && !name.isEmpty())
+                category.setName(name);
+            if (size != null)
+                category.setSize(size);
+        });
+    }
+
 }

@@ -3,7 +3,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 
 <h:head>
@@ -49,18 +49,24 @@
                                              actionListener="#{catalogBean.deleteElement(node.type, node.id)}"
                                              update="catalogForm"
                             >
-                                <p:confirm header="Delete"
+                                <p:confirm icon="ui-icon-alert"
+                                           header="Delete"
                                            message="Are you sure you want to delete #{node.name}?"
-                                           icon="ui-icon-alert"
                                 />
                             </p:commandButton>
+                            <p:button outcome="#{node.type.toLowerCase()}"
+                                      icon="ui-icon-pencil">
+                                <f:param name="id" value="#{node.id}"/>
+                            </p:button>
                             <h:outputText value="#{node.name}"/>
                         </p:treeNode>
                     </p:tree>
 
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
-                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"
+                                         icon="ui-icon-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no"
+                                         icon="ui-icon-close"/>
                     </p:confirmDialog>
                 </h:form>
 

@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Categorys", schema = "soa_game")
+@Table(name = "woods", schema = "soa_game")
 public class Category implements Serializable {
 
     private static final long serialVersionUID = 5793941245980666186L;
@@ -28,7 +28,7 @@ public class Category implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idCategory", nullable = false)
+    @Column(name = "idWood", nullable = false)
     public int getIdCategory() {
         return idCategory;
     }
