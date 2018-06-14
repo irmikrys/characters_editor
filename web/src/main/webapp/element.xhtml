@@ -43,6 +43,10 @@
                 <h5><span class="label label-success">Elf</span></h5>
                 <hr/>
 
+                <h:outputText value="#{elementBean.successMessage}"
+                              styleClass="success-message"
+                />
+
                 <h:form id="element-form">
 
                     <div class="form-group form-div">
@@ -56,6 +60,8 @@
                                          style="height: 35px;"
                                          value="#{elementBean.selectedCategory}"
                                          converter="#{categoryConverter}"
+                                         required="true"
+                                         requiredMessage="Category is required"
                         >
                             <f:selectItems value="#{elementBean.categories}"
                                            var="category"
@@ -126,7 +132,7 @@
                         <h:commandButton id="submit-category"
                                          styleClass="btn btn-default"
                                          value="Submit"
-                                         action="#{elementBean.categorySelected}"
+                                         action="#{elementBean.submitElement}"
                         />
                     </div>
 

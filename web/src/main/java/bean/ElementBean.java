@@ -24,6 +24,7 @@ public class ElementBean implements Serializable {
     private String mode;
     private List<Wood> categories;
     private Wood selectedCategory;
+    private String successMessage;
 
     private CharactersServiceRemote charactersServiceRemote;
 
@@ -34,6 +35,9 @@ public class ElementBean implements Serializable {
 
     @PostConstruct
     public void init() {
+
+        clearFields();
+        successMessage = "";
         mode = "Add element";
         categories = charactersServiceRemote.getAllWoods();
         if(categories.size() != 0) {
@@ -41,9 +45,23 @@ public class ElementBean implements Serializable {
         }
     }
 
-    public void categorySelected() {
-        System.out.format("Selected category: %s, %d, %d \n", selectedCategory.getName(),
-                selectedCategory.getIdWood(), selectedCategory.getTreesNum());
+    public void submitElement() {
+        System.out.format("Selected category: %s, %d, %d \n",
+                selectedCategory.getName(),
+                selectedCategory.getIdWood(),
+                selectedCategory.getTreesNum()
+        );
+        charactersServiceRemote.addElf(selectedCategory, name, quantity, propType, power);
+        successMessage = "Element successfully submitted!";
+        clearFields();
+    }
+
+    private void clearFields() {
+        name = null;
+        quantity = null;
+        propType = null;
+        power = null;
+        selectedCategory = null;
     }
 
     public String getName() {
@@ -100,5 +118,13 @@ public class ElementBean implements Serializable {
 
     public void setSelectedCategory(Wood selectedCategory) {
         this.selectedCategory = selectedCategory;
+    }
+
+    public String getSuccessMessage() {
+        return successMessage;
+    }
+
+    public void setSuccessMessage(String successMessage) {
+        this.successMessage = successMessage;
     }
 }

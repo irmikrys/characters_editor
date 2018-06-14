@@ -18,4 +18,6 @@ public interface CharactersServiceRemote {
     Wood getWoodByIdWood(Integer idWood);
 
     void addWood(String name, Integer size);
+
+    void addElf(Wood wood, String name, Integer quantity, Integer propType, Integer power);
 }

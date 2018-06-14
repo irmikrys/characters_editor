@@ -1,7 +1,9 @@
 package boundary;
 
+import dao.ElfDAO;
 import dao.UserDAO;
 import dao.WoodDAO;
+import model.Elf;
 import model.User;
 import model.Wood;
 import org.jboss.ejb3.annotation.SecurityDomain;
@@ -27,6 +29,8 @@ public class CharactersService implements CharactersServiceRemote {
     private UserDAO userDAO;
     @EJB
     private WoodDAO woodDAO;
+    @EJB
+    private ElfDAO elfDAO;
 
     @Override
     public String getHello() {
@@ -62,5 +66,12 @@ public class CharactersService implements CharactersServiceRemote {
     @Override
     public Wood getWoodByIdWood(Integer idWood) {
         return woodDAO.findById(idWood).orElseThrow(NullPointerException::new);
+    }
+
+    // elements
+
+    @Override
+    public void addElf(Wood wood, String name, Integer quantity, Integer propType, Integer power) {
+        elfDAO.add(new Elf(wood, name, quantity, propType, power));
     }
 }

@@ -16,6 +16,15 @@ public class Elf implements Serializable {
     private Wood woodByIdWood;
     
     public Elf() {
+
+    }
+
+    public Elf(Wood wood, String name, int arrowsNum, int crossbow, int power) {
+        this.woodByIdWood = wood;
+        this.name = name;
+        this.arrowsNum = arrowsNum;
+        this.crossbow = crossbow;
+        this.power = power;
     }
     
     @Id
