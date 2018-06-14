@@ -52,9 +52,15 @@ public class CharactersService implements CharactersServiceRemote {
         return new LinkedList<>(woodDAO.findAllWithElves());
     }
 
+    @Override
     public void addWood(String name, Integer size) {
         User userFromSession = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName());
         woodDAO.add(new Wood(name, size, userFromSession));
         System.out.format("Adding wood in service: %s, %d, %s", name, size, userFromSession.getUsername());
+    }
+
+    @Override
+    public Wood getWoodByIdWood(long idWood) {
+        return woodDAO.findById(idWood).orElseThrow(NullPointerException::new);
     }
 }

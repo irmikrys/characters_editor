@@ -1,9 +1,15 @@
 package bean;
 
+import boundary.CharactersServiceRemote;
+import model.Wood;
+import util.EJBUtility;
+
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.naming.NamingException;
 import java.io.Serializable;
+import java.util.List;
 
 @Named(value = "elementBean")
 @ViewScoped
@@ -16,14 +22,23 @@ public class ElementBean implements Serializable {
     private Integer propType;
     private Integer power;
     private String mode;
+    private List<Wood> categories;
+    private Wood selectedCategory;
 
-    public ElementBean() {
+    private CharactersServiceRemote charactersServiceRemote;
+
+    public ElementBean() throws NamingException {
         System.out.println("Element bean constructor");
+        charactersServiceRemote = EJBUtility.lookupCharactersService();
     }
 
     @PostConstruct
     public void init() {
         mode = "Add element";
+        categories = charactersServiceRemote.getAllWoods();
+        if(categories.size() != 0) {
+            selectedCategory = categories.get(0);
+        }
     }
 
     public String getName() {
@@ -64,5 +79,21 @@ public class ElementBean implements Serializable {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public List<Wood> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Wood> categories) {
+        this.categories = categories;
+    }
+
+    public Wood getSelectedCategory() {
+        return selectedCategory;
+    }
+
+    public void setSelectedCategory(Wood selectedCategory) {
+        this.selectedCategory = selectedCategory;
     }
 }

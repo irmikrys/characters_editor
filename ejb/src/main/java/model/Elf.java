@@ -74,4 +74,27 @@ public class Elf implements Serializable {
     public void setWoodByIdWood(Wood woodByIdWood) {
         this.woodByIdWood = woodByIdWood;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Elf elf = (Elf) o;
+        return idElf == elf.idElf &&
+                arrowsNum == elf.arrowsNum &&
+                crossbow == elf.crossbow &&
+                power == elf.power &&
+                Objects.equals(name, elf.name);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idElf, name, arrowsNum, crossbow, power);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Elf[%d, %s, %d, %d]", idElf, name, crossbow, power);
+    }
 }

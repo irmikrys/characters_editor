@@ -46,6 +46,7 @@
                 <h:form id="element-form">
 
                     <div class="form-group form-div">
+
                         <h:outputLabel id="category-lbl"
                                        for="category">
                             Category:
@@ -53,7 +54,15 @@
                         <h:selectOneMenu id="category"
                                          styleClass="form-control"
                                          style="height: 35px;"
-                        /><br/>
+                                         value="#{elementBean.selectedCategory}"
+                                         converter="#{categoryConverter}"
+                        >
+                            <f:selectItems value="#{elementBean.categories}"
+                                           var="category"
+                                           itemValue="#{category}"
+                                           itemLabel="#{category.name}"
+                            />
+                        </h:selectOneMenu><br/>
 
                         <h:outputLabel id="name-lbl"
                                        for="name">

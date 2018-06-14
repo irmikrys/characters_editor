@@ -3,6 +3,7 @@ package model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "woods", schema = "soa_game")
@@ -72,5 +73,26 @@ public class Wood implements Serializable {
 
     public void setUserByIdUser(User userByIdUser) {
         this.userByIdUser = userByIdUser;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Wood wood = (Wood) o;
+        return idWood == wood.idWood &&
+                treesNum == wood.treesNum &&
+                Objects.equals(name, wood.name);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(idWood, name, treesNum);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Wood[%d, %s, %d]", idWood, name, treesNum);
     }
 }
