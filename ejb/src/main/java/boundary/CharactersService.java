@@ -57,15 +57,19 @@ public class CharactersService implements CharactersServiceRemote {
     }
 
     @Override
-    public void addWood(String name, Integer size) {
-        User userFromSession = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName());
-        woodDAO.add(new Wood(name, size, userFromSession));
-        System.out.format("Adding wood in service: %s, %d, %s", name, size, userFromSession.getUsername());
+    public Wood getWoodByIdWood(Integer idWood) {
+        return woodDAO.findById(idWood).orElseThrow(NullPointerException::new);
     }
 
     @Override
-    public Wood getWoodByIdWood(Integer idWood) {
-        return woodDAO.findById(idWood).orElseThrow(NullPointerException::new);
+    public void addWood(String name, Integer size) {
+        User userFromSession = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName());
+        woodDAO.add(new Wood(name, size, userFromSession));
+    }
+
+    @Override
+    public void deleteWood(Integer id) {
+        woodDAO.remove(id);
     }
 
     // elements
@@ -73,5 +77,10 @@ public class CharactersService implements CharactersServiceRemote {
     @Override
     public void addElf(Wood wood, String name, Integer quantity, Integer propType, Integer power) {
         elfDAO.add(new Elf(wood, name, quantity, propType, power));
+    }
+
+    @Override
+    public void deleteElf(Integer id) {
+        elfDAO.remove(id);
     }
 }

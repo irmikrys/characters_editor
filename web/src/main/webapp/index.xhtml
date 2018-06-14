@@ -42,12 +42,26 @@
                     <span class="label label-success">Lorem</span>
                 </h5><br/>
 
-                <h:form>
+                <h:form id="catalogForm">
                     <p:tree value="#{catalogBean.root}" var="node">
                         <p:treeNode>
-                            <span class="glyphicon glyphicon-trash"/> <h:outputText value="#{node}"/>
+                            <p:commandButton icon="ui-icon-trash"
+                                             actionListener="#{catalogBean.deleteElement(node.type, node.id)}"
+                                             update="catalogForm"
+                            >
+                                <p:confirm header="Delete"
+                                           message="Are you sure you want to delete #{node.name}?"
+                                           icon="ui-icon-alert"
+                                />
+                            </p:commandButton>
+                            <h:outputText value="#{node.name}"/>
                         </p:treeNode>
                     </p:tree>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                    </p:confirmDialog>
                 </h:form>
 
                 <hr/>

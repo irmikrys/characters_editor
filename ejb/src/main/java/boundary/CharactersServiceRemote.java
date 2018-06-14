@@ -19,5 +19,9 @@ public interface CharactersServiceRemote {
 
     void addWood(String name, Integer size);
 
+    void deleteWood(Integer id);
+
     void addElf(Wood wood, String name, Integer quantity, Integer propType, Integer power);
+
+    void deleteElf(Integer id);
 }
