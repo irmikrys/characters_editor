@@ -1,11 +1,11 @@
 package boundary;
 
-import dao.ElfDAO;
+import dao.ElementDAO;
 import dao.UserDAO;
-import dao.WoodDAO;
-import model.Elf;
+import dao.CategoryDAO;
+import model.Category;
+import model.Element;
 import model.User;
-import model.Wood;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.annotation.Resource;
@@ -28,9 +28,9 @@ public class CharactersService implements CharactersServiceRemote {
     @EJB
     private UserDAO userDAO;
     @EJB
-    private WoodDAO woodDAO;
+    private CategoryDAO categoryDAO;
     @EJB
-    private ElfDAO elfDAO;
+    private ElementDAO elementDAO;
 
     @Override
     public String getHello() {
@@ -47,40 +47,40 @@ public class CharactersService implements CharactersServiceRemote {
     }
 
     @Override
-    public LinkedList<Wood> getAllWoods() {
-        return new LinkedList<>(woodDAO.findAll());
+    public LinkedList<Category> getAllCategories() {
+        return new LinkedList<>(categoryDAO.findAll());
     }
 
     @Override
-    public LinkedList<Wood> getAllWoodsWithElves() {
-        return new LinkedList<>(woodDAO.findAllWithElves());
+    public LinkedList<Category> getAllCategoriesWithElements() {
+        return new LinkedList<>(categoryDAO.findAllWithElves());
     }
 
     @Override
-    public Wood getWoodByIdWood(Integer idWood) {
-        return woodDAO.findById(idWood).orElseThrow(NullPointerException::new);
+    public Category getCategoryByIdCategory(Integer idCategory) {
+        return categoryDAO.findById(idCategory).orElseThrow(NullPointerException::new);
     }
 
     @Override
-    public void addWood(String name, Integer size) {
+    public void addCategory(String name, Integer size) {
         User userFromSession = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName());
-        woodDAO.add(new Wood(name, size, userFromSession));
+        categoryDAO.add(new Category(name, size, userFromSession));
     }
 
     @Override
-    public void deleteWood(Integer id) {
-        woodDAO.remove(id);
+    public void deleteCategory(Integer id) {
+        categoryDAO.remove(id);
     }
 
     // elements
 
     @Override
-    public void addElf(Wood wood, String name, Integer quantity, Integer propType, Integer power) {
-        elfDAO.add(new Elf(wood, name, quantity, propType, power));
+    public void addElement(Category category, String name, Integer quantity, Integer propType, Integer power) {
+        elementDAO.add(new Element(category, name, quantity, propType, power));
     }
 
     @Override
-    public void deleteElf(Integer id) {
-        elfDAO.remove(id);
+    public void deleteElement(Integer id) {
+        elementDAO.remove(id);
     }
 }

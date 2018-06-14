@@ -6,35 +6,35 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "woods", schema = "soa_game")
-public class Wood implements Serializable {
+@Table(name = "Categorys", schema = "soa_game")
+public class Category implements Serializable {
 
     private static final long serialVersionUID = 5793941245980666186L;
-    private int idWood;
+    private int idCategory;
     private String name;
-    private int treesNum;
-    private Collection<Elf> elfByIdWood;
+    private int size;
+    private Collection<Element> elementByIdCategory;
     private User userByIdUser;
     
-    public Wood() {
+    public Category() {
 
     }
 
-    public Wood(String name, int treesNum, User userByIdUser) {
+    public Category(String name, int size, User userByIdUser) {
         this.name = name;
-        this.treesNum = treesNum;
+        this.size = size;
         this.userByIdUser = userByIdUser;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idWood", nullable = false)
-    public int getIdWood() {
-        return idWood;
+    @Column(name = "idCategory", nullable = false)
+    public int getIdCategory() {
+        return idCategory;
     }
 
-    public void setIdWood(int idWood) {
-        this.idWood = idWood;
+    public void setIdCategory(int idCategory) {
+        this.idCategory = idCategory;
     }
 
     @Column(name = "name", nullable = false)
@@ -47,22 +47,22 @@ public class Wood implements Serializable {
     }
 
     @Column(name = "treesNum", nullable = false)
-    public int getTreesNum() {
-        return treesNum;
+    public int getSize() {
+        return size;
     }
 
-    public void setTreesNum(int treesNum) {
-        this.treesNum = treesNum;
+    public void setSize(int treesNum) {
+        this.size = treesNum;
     }
     
     // TODO set to .LAZY
-    @OneToMany(mappedBy = "woodByIdWood", fetch = FetchType.EAGER)
-    public Collection<Elf> getElfByIdWood() {
-        return elfByIdWood;
+    @OneToMany(mappedBy = "categoryByIdCategory", fetch = FetchType.EAGER)
+    public Collection<Element> getElementByIdCategory() {
+        return elementByIdCategory;
     }
 
-    public void setElfByIdWood(Collection<Elf> elfByIdWood) {
-        this.elfByIdWood = elfByIdWood;
+    public void setElementByIdCategory(Collection<Element> elementByIdCategory) {
+        this.elementByIdCategory = elementByIdCategory;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -79,20 +79,20 @@ public class Wood implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Wood wood = (Wood) o;
-        return idWood == wood.idWood &&
-                treesNum == wood.treesNum &&
-                Objects.equals(name, wood.name);
+        Category category = (Category) o;
+        return idCategory == category.idCategory &&
+                size == category.size &&
+                Objects.equals(name, category.name);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(idWood, name, treesNum);
+        return Objects.hash(idCategory, name, size);
     }
 
     @Override
     public String toString() {
-        return String.format("Wood[%d, %s, %d]", idWood, name, treesNum);
+        return String.format("Category[%d, %s, %d]", idCategory, name, size);
     }
 }

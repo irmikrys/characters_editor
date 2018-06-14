@@ -1,7 +1,7 @@
 package bean.converter;
 
 import boundary.CharactersServiceRemote;
-import model.Wood;
+import model.Category;
 import util.EJBUtility;
 
 import javax.faces.application.FacesMessage;
@@ -13,7 +13,7 @@ import javax.faces.convert.FacesConverter;
 import javax.inject.Named;
 import javax.naming.NamingException;
 
-@FacesConverter(forClass = Wood.class)
+@FacesConverter(forClass = Category.class)
 @Named("categoryConverter")
 public class CategoryConverter implements Converter {
 
@@ -30,7 +30,7 @@ public class CategoryConverter implements Converter {
         }
 
         try {
-            return charactersServiceRemote.getWoodByIdWood(Integer.valueOf(submittedValue));
+            return charactersServiceRemote.getCategoryByIdCategory(Integer.valueOf(submittedValue));
         } catch (NumberFormatException e) {
             throw new ConverterException(new FacesMessage(String.format("%s is not a valid Category ID", submittedValue)), e);
         }
@@ -42,8 +42,8 @@ public class CategoryConverter implements Converter {
             return "";
         }
 
-        if (modelValue instanceof Wood) {
-            return String.valueOf(((Wood) modelValue).getIdWood());
+        if (modelValue instanceof Category) {
+            return String.valueOf(((Category) modelValue).getIdCategory());
         } else {
             throw new ConverterException(new FacesMessage(String.format("%s is not a valid Category", modelValue)));
         }

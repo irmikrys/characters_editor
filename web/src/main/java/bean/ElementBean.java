@@ -1,7 +1,7 @@
 package bean;
 
 import boundary.CharactersServiceRemote;
-import model.Wood;
+import model.Category;
 import util.EJBUtility;
 
 import javax.annotation.PostConstruct;
@@ -22,8 +22,8 @@ public class ElementBean implements Serializable {
     private Integer propType;
     private Integer power;
     private String mode;
-    private List<Wood> categories;
-    private Wood selectedCategory;
+    private List<Category> categories;
+    private Category selectedCategory;
     private String successMessage;
 
     private CharactersServiceRemote charactersServiceRemote;
@@ -39,7 +39,7 @@ public class ElementBean implements Serializable {
         clearFields();
         successMessage = "";
         mode = "Add element";
-        categories = charactersServiceRemote.getAllWoods();
+        categories = charactersServiceRemote.getAllCategories();
         if(categories.size() != 0) {
             selectedCategory = categories.get(0);
         }
@@ -48,10 +48,10 @@ public class ElementBean implements Serializable {
     public void submitElement() {
         System.out.format("Selected category: %s, %d, %d \n",
                 selectedCategory.getName(),
-                selectedCategory.getIdWood(),
-                selectedCategory.getTreesNum()
+                selectedCategory.getIdCategory(),
+                selectedCategory.getSize()
         );
-        charactersServiceRemote.addElf(selectedCategory, name, quantity, propType, power);
+        charactersServiceRemote.addElement(selectedCategory, name, quantity, propType, power);
         successMessage = "Element successfully submitted!";
         clearFields();
     }
@@ -104,19 +104,19 @@ public class ElementBean implements Serializable {
         this.mode = mode;
     }
 
-    public List<Wood> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Wood> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 
-    public Wood getSelectedCategory() {
+    public Category getSelectedCategory() {
         return selectedCategory;
     }
 
-    public void setSelectedCategory(Wood selectedCategory) {
+    public void setSelectedCategory(Category selectedCategory) {
         this.selectedCategory = selectedCategory;
     }
 

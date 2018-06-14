@@ -36,7 +36,7 @@ public class CategoryBean implements Serializable {
     public void submitCategory() {
         if(name != null && value != null) {
             System.out.format("Submitting category: name %s, quantity %d", name, value);
-            charactersServiceRemote.addWood(name, value);
+            charactersServiceRemote.addCategory(name, value);
             successMessage = "Category successfully submitted!";
             name = null;
             value = null;

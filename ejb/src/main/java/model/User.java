@@ -12,7 +12,7 @@ public class User implements Serializable {
     private int idUser;
     private String username;
     private String password;
-    private Collection<Wood> woodByIdUser;
+    private Collection<Category> categoryByIdUser;
     
     public User() {
     }
@@ -47,12 +47,12 @@ public class User implements Serializable {
     }
 
     @OneToMany(mappedBy = "userByIdUser")
-    public Collection<Wood> getWoodByIdUser() {
-        return woodByIdUser;
+    public Collection<Category> getCategoryByIdUser() {
+        return categoryByIdUser;
     }
 
-    public void setWoodByIdUser(Collection<Wood> woodByIdUser) {
-        this.woodByIdUser = woodByIdUser;
+    public void setCategoryByIdUser(Collection<Category> categoryByIdUser) {
+        this.categoryByIdUser = categoryByIdUser;
     }
 
     @Override

@@ -1,9 +1,9 @@
 package bean;
 
 import boundary.CharactersServiceRemote;
-import model.Elf;
+import model.Element;
 import model.TreeNodeData;
-import model.Wood;
+import model.Category;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import util.EJBUtility;
@@ -40,23 +40,23 @@ public class CatalogBean implements Serializable {
     public void deleteElement(String type, Integer id) {
 
         System.out.println("Deleting something...");
-        if(type.equals(Wood.class.getSimpleName())) {
-            charactersServiceRemote.deleteWood(id);
-        } else if(type.equals(Elf.class.getSimpleName())) {
-            charactersServiceRemote.deleteElf(id);
+        if(type.equals(Category.class.getSimpleName())) {
+            charactersServiceRemote.deleteCategory(id);
+        } else if(type.equals(Element.class.getSimpleName())) {
+            charactersServiceRemote.deleteElement(id);
         } else {
             System.out.println("Delete element: Unknown type");
         }
         initDataView();
     }
 
-    private void addNode(TreeNode parentNode, TreeNodeData data, Collection<Elf> elements) {
+    private void addNode(TreeNode parentNode, TreeNodeData data, Collection<Element> elements) {
         TreeNode node = new DefaultTreeNode(data, parentNode);
         node.setExpanded(true);
         if (elements != null) {
-            for (Elf e : elements) {
+            for (Element e : elements) {
                 addNode(node,
-                        new TreeNodeData(e.getClass().getSimpleName(), e.getIdElf(), e.getName()),
+                        new TreeNodeData(e.getClass().getSimpleName(), e.getIdElement(), e.getName()),
                         null
                 );
             }
@@ -69,15 +69,15 @@ public class CatalogBean implements Serializable {
 
     private void initDataView() {
         root = new DefaultTreeNode(new TreeNodeData(null, null, "Categories"), null);
-        this.getWoods().forEach(
-                wood -> addNode(
+        this.getCategories().forEach(
+                Category -> addNode(
                         root,
-                        new TreeNodeData(wood.getClass().getSimpleName(), wood.getIdWood(), wood.getName()),
-                        wood.getElfByIdWood()
+                        new TreeNodeData(Category.getClass().getSimpleName(), Category.getIdCategory(), Category.getName()),
+                        Category.getElementByIdCategory()
                 ));
     }
 
-    private List<Wood> getWoods() {
-        return new LinkedList<>(charactersServiceRemote.getAllWoods());
+    private List<Category> getCategories() {
+        return new LinkedList<>(charactersServiceRemote.getAllCategories());
     }
 }

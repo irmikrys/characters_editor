@@ -1,7 +1,7 @@
 package boundary;
 
+import model.Category;
 import model.User;
-import model.Wood;
 
 import java.util.LinkedList;
 
@@ -11,17 +11,17 @@ public interface CharactersServiceRemote {
 
     LinkedList<User> getAllUsers();
 
-    LinkedList<Wood> getAllWoods();
+    LinkedList<Category> getAllCategories();
 
-    LinkedList<Wood> getAllWoodsWithElves();
+    LinkedList<Category> getAllCategoriesWithElements();
 
-    Wood getWoodByIdWood(Integer idWood);
+    Category getCategoryByIdCategory(Integer idCategory);
 
-    void addWood(String name, Integer size);
+    void addCategory(String name, Integer size);
 
-    void deleteWood(Integer id);
+    void deleteCategory(Integer id);
 
-    void addElf(Wood wood, String name, Integer quantity, Integer propType, Integer power);
+    void addElement(Category category, String name, Integer quantity, Integer propType, Integer power);
 
-    void deleteElf(Integer id);
+    void deleteElement(Integer id);
 }

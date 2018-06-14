@@ -7,9 +7,9 @@
     <persistence-unit name="com.irmikrys.soa">
 
         <jta-data-source>java:jboss/datasources/soa-game-DS</jta-data-source>
-        <class>model.Elf</class>
+        <class>model.Element</class>
         <class>model.User</class>
-        <class>model.Wood</class>
+        <class>model.Category</class>
 
         <properties>
             <property name="hibernate.show_sql" value="true"/>

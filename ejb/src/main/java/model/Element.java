@@ -6,21 +6,21 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "elves", schema = "soa_game")
-public class Elf implements Serializable {
+public class Element implements Serializable {
     private static final long serialVersionUID = -5383214602565441079L;
-    private int idElf;
+    private int idElement;
     private String name;
     private int arrowsNum;
     private int crossbow;
     private int power;
-    private Wood woodByIdWood;
+    private Category categoryByIdCategory;
     
-    public Elf() {
+    public Element() {
 
     }
 
-    public Elf(Wood wood, String name, int arrowsNum, int crossbow, int power) {
-        this.woodByIdWood = wood;
+    public Element(Category category, String name, int arrowsNum, int crossbow, int power) {
+        this.categoryByIdCategory = category;
         this.name = name;
         this.arrowsNum = arrowsNum;
         this.crossbow = crossbow;
@@ -29,13 +29,13 @@ public class Elf implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idElf", nullable = false)
-    public int getIdElf() {
-        return idElf;
+    @Column(name = "idElement", nullable = false)
+    public int getIdElement() {
+        return idElement;
     }
 
-    public void setIdElf(int idElf) {
-        this.idElf = idElf;
+    public void setIdElement(int idElement) {
+        this.idElement = idElement;
     }
 
     @Column(name = "name", nullable = false)
@@ -75,35 +75,35 @@ public class Elf implements Serializable {
     }
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idWood", referencedColumnName = "idWood", nullable = false)
-    public Wood getWoodByIdWood() {
-        return woodByIdWood;
+    @JoinColumn(name = "idCategory", referencedColumnName = "idCategory", nullable = false)
+    public Category getCategoryByIdCategory() {
+        return categoryByIdCategory;
     }
 
-    public void setWoodByIdWood(Wood woodByIdWood) {
-        this.woodByIdWood = woodByIdWood;
+    public void setCategoryByIdCategory(Category CategoryByIdCategory) {
+        this.categoryByIdCategory = CategoryByIdCategory;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Elf elf = (Elf) o;
-        return idElf == elf.idElf &&
-                arrowsNum == elf.arrowsNum &&
-                crossbow == elf.crossbow &&
-                power == elf.power &&
-                Objects.equals(name, elf.name);
+        Element element = (Element) o;
+        return idElement == element.idElement &&
+                arrowsNum == element.arrowsNum &&
+                crossbow == element.crossbow &&
+                power == element.power &&
+                Objects.equals(name, element.name);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(idElf, name, arrowsNum, crossbow, power);
+        return Objects.hash(idElement, name, arrowsNum, crossbow, power);
     }
 
     @Override
     public String toString() {
-        return String.format("Elf[%d, %s, %d, %d]", idElf, name, crossbow, power);
+        return String.format("Element[%d, %s, %d, %d]", idElement, name, crossbow, power);
     }
 }

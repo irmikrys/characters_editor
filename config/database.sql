@@ -5,7 +5,7 @@ CREATE DATABASE soa_game
 
 USE soa_game;
 
-DROP TABLE IF EXISTS elves, woods;
+DROP TABLE IF EXISTS elves, Categorys;
 DROP TABLE IF EXISTS userroles, users, roles;
 
 -- users
@@ -33,24 +33,24 @@ CREATE TABLE userroles (
 
 -- characters
 
-CREATE TABLE woods (
-  idWood           INTEGER(30)    NOT NULL AUTO_INCREMENT,
+CREATE TABLE Categorys (
+  idCategory           INTEGER(30)    NOT NULL AUTO_INCREMENT,
   name             VARCHAR(255)   NOT NULL UNIQUE,
   treesNum         INTEGER(30)    NOT NULL,
   idUser           INTEGER(30)    NOT NULL,
-  PRIMARY KEY (idWood),
+  PRIMARY KEY (idCategory),
   FOREIGN KEY (idUser) references users (idUser)
 ) ENGINE = InnoDB;
 
 CREATE TABLE elves (
-  idElf            INTEGER(30)    NOT NULL AUTO_INCREMENT,
+  idElement            INTEGER(30)    NOT NULL AUTO_INCREMENT,
   name             VARCHAR(255)   NOT NULL,
   arrowsNum        INTEGER(30)    NOT NULL,
   crossbow         INTEGER(30)    NOT NULL,
   power            INTEGER(30)    NOT NULL,
-  idWood           INTEGER(30)    NOT NULL,
-  PRIMARY KEY (idElf),
-  FOREIGN KEY (idWood) references woods (idWood) ON DELETE CASCADE,
+  idCategory           INTEGER(30)    NOT NULL,
+  PRIMARY KEY (idElement),
+  FOREIGN KEY (idCategory) references Categorys (idCategory) ON DELETE CASCADE,
   CONSTRAINT CHK_crossbow CHECK (crossbow >= 1 AND crossbow <= 4),
   CONSTRAINT CHK_arrows CHECK (arrowsNum >= 0)
 ) ENGINE = InnoDB;
@@ -77,13 +77,13 @@ INSERT INTO userroles (idUser, idRole) VALUES
   (3, 1),
   (4, 1);
 
-INSERT INTO woods (name, treesNum, idUser) VALUES
-  ('Foreign Wood', 50, 2),
-  ('Black Wood', 71, 2),
-  ('Dark Wood', 30, 3),
-  ('Random Wood', 83, 4);
+INSERT INTO Categorys (name, treesNum, idUser) VALUES
+  ('Foreign Category', 50, 2),
+  ('Black Category', 71, 2),
+  ('Dark Category', 30, 3),
+  ('Random Category', 83, 4);
 
-INSERT INTO elves (name, arrowsNum, crossbow, power, idWood) VALUES
+INSERT INTO elves (name, arrowsNum, crossbow, power, idCategory) VALUES
   ('Cori',  5, 1, 30, 1),
   ('Cody',  7, 3, 12, 1),
   ('Bonn', 12, 3, 17, 1),
@@ -98,5 +98,5 @@ INSERT INTO elves (name, arrowsNum, crossbow, power, idWood) VALUES
   ('Mora',  9, 2, 69, 3),
   ('Kick', 20, 4, 80, 3),
 
-  ('Elf1',  5, 2, 69, 4),
-  ('Elf2', 10, 4, 90, 4);
+  ('Element1',  5, 2, 69, 4),
+  ('Element2', 10, 4, 90, 4);
