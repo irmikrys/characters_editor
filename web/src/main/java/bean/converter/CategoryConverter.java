@@ -30,7 +30,7 @@ public class CategoryConverter implements Converter {
         }
 
         try {
-            return charactersServiceRemote.getWoodByIdWood(Long.valueOf(submittedValue));
+            return charactersServiceRemote.getWoodByIdWood(Integer.valueOf(submittedValue));
         } catch (NumberFormatException e) {
             throw new ConverterException(new FacesMessage(String.format("%s is not a valid Category ID", submittedValue)), e);
         }

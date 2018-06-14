@@ -11,7 +11,7 @@ import java.util.List;
 @Stateless
 @SecurityDomain("soaEJBApplicationDomain")
 @RolesAllowed({"User"})
-public class WoodDAO extends AbstractDAO<Wood, Long> {
+public class WoodDAO extends AbstractDAO<Wood, Integer> {
 
     public WoodDAO() {
         this.entityClass = Wood.class;

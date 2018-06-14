@@ -41,6 +41,11 @@ public class ElementBean implements Serializable {
         }
     }
 
+    public void categorySelected() {
+        System.out.format("Selected category: %s, %d, %d \n", selectedCategory.getName(),
+                selectedCategory.getIdWood(), selectedCategory.getTreesNum());
+    }
+
     public String getName() {
         return name;
     }

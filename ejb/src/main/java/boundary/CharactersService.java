@@ -60,7 +60,7 @@ public class CharactersService implements CharactersServiceRemote {
     }
 
     @Override
-    public Wood getWoodByIdWood(long idWood) {
+    public Wood getWoodByIdWood(Integer idWood) {
         return woodDAO.findById(idWood).orElseThrow(NullPointerException::new);
     }
 }

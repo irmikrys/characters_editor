@@ -11,13 +11,13 @@ import javax.persistence.TypedQuery;
 @Stateless
 @SecurityDomain("soaEJBApplicationDomain")
 @RolesAllowed({"User"})
-public class UserDAO extends AbstractDAO<User, Long> {
+public class UserDAO extends AbstractDAO<User, Integer> {
 
     public UserDAO() {
         this.entityClass = User.class;
     }
 
-    public void update(Long idUser, String username, String password) {
+    public void update(Integer idUser, String username, String password) {
         findById(idUser).ifPresent(user -> {
             em.getTransaction().begin();
             if (username != null && !username.isEmpty())
