@@ -1,6 +1,7 @@
 package boundary;
 
 import model.Category;
+import model.Element;
 import model.User;
 
 import java.util.LinkedList;
@@ -23,7 +24,13 @@ public interface CharactersServiceRemote {
 
     void deleteCategory(Integer id);
 
+    Element getElementByIdElement(Integer idElement);
+
+    Element getElementWithCategoryByIdElement(Integer idElement);
+
     void addElement(Category category, String name, Integer quantity, Integer propType, Integer power);
+
+    void updateElement(Integer idElement, String name, Integer fortune, Integer propType, Integer power);
 
     void deleteElement(Integer id);
 }

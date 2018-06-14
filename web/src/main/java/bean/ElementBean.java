@@ -2,9 +2,11 @@ package bean;
 
 import boundary.CharactersServiceRemote;
 import model.Category;
+import model.Element;
 import util.EJBUtility;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.naming.NamingException;
@@ -26,6 +28,8 @@ public class ElementBean implements Serializable {
     private Category selectedCategory;
     private String successMessage;
 
+    private Element element;
+
     private CharactersServiceRemote charactersServiceRemote;
 
     public ElementBean() throws NamingException {
@@ -40,20 +44,49 @@ public class ElementBean implements Serializable {
         successMessage = "";
         mode = "Add element";
         categories = charactersServiceRemote.getAllCategories();
-        if(categories.size() != 0) {
+        if (categories.size() != 0) {
             selectedCategory = categories.get(0);
+        }
+
+        String idParamString =
+                FacesContext.getCurrentInstance()
+                        .getExternalContext()
+                        .getRequestParameterMap()
+                        .get("id");
+
+        if (idParamString != null) {
+            mode = "Edit element";
+            element = charactersServiceRemote
+                    .getElementWithCategoryByIdElement(Integer.parseInt(idParamString));
+            setParamsByElement(element);
         }
     }
 
     public void submitElement() {
-        System.out.format("Selected category: %s, %d, %d \n",
-                selectedCategory.getName(),
-                selectedCategory.getIdCategory(),
-                selectedCategory.getSize()
-        );
-        charactersServiceRemote.addElement(selectedCategory, name, quantity, propType, power);
+
+        if (mode.equals("Add element")) {
+            addElement();
+        } else {
+            updateElement();
+        }
         successMessage = "Element successfully submitted!";
+    }
+
+    private void addElement() {
+        charactersServiceRemote.addElement(selectedCategory, name, quantity, propType, power);
         clearFields();
+    }
+
+    private void updateElement() {
+        charactersServiceRemote.updateElement(element.getIdElement(), name, quantity, propType, power);
+    }
+
+    private void setParamsByElement(Element element) {
+        name = element.getName();
+        quantity = element.getArrowsNum();
+        propType = element.getCrossbow();
+        power = element.getPower();
+        selectedCategory = element.getCategoryByIdCategory();
     }
 
     private void clearFields() {

@@ -80,8 +80,23 @@ public class CharactersService implements CharactersServiceRemote {
     // elements
 
     @Override
+    public Element getElementByIdElement(Integer idElement) {
+        return elementDAO.findById(idElement).orElseThrow(NullPointerException::new);
+    }
+
+    @Override
+    public Element getElementWithCategoryByIdElement(Integer idElement) {
+        return elementDAO.findWithCategory(idElement);
+    }
+
+    @Override
     public void addElement(Category category, String name, Integer quantity, Integer propType, Integer power) {
         elementDAO.add(new Element(category, name, quantity, propType, power));
+    }
+
+    @Override
+    public void updateElement(Integer idElement, String name, Integer fortune, Integer propType, Integer power) {
+        elementDAO.update(idElement, name, fortune, propType, power);
     }
 
     @Override
