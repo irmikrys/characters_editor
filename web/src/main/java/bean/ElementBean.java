@@ -26,7 +26,9 @@ public class ElementBean implements Serializable {
     private String mode;
     private List<Category> categories;
     private Category selectedCategory;
+
     private String successMessage;
+    private String errorMessage;
 
     private Element element;
 
@@ -63,22 +65,32 @@ public class ElementBean implements Serializable {
     }
 
     public void submitElement() {
-
         if (mode.equals("Add element")) {
-            addElement();
+            try {
+                addElement();
+            } catch (Exception e) {
+                errorMessage = getErrorMessageFromException(e.getMessage());
+            }
         } else {
-            updateElement();
+            try {
+                updateElement();
+            } catch (Exception e) {
+                errorMessage = getErrorMessageFromException(e.getMessage());
+            }
         }
-        successMessage = "Element successfully submitted!";
     }
 
     private void addElement() {
         charactersServiceRemote.addElement(selectedCategory, name, quantity, propType, power);
         clearFields();
+        successMessage = "Element successfully added!";
+        errorMessage = null;
     }
 
     private void updateElement() {
         charactersServiceRemote.updateElement(element.getIdElement(), name, quantity, propType, power);
+        successMessage = "Element successfully updated!";
+        errorMessage = null;
     }
 
     private void setParamsByElement(Element element) {
@@ -95,6 +107,10 @@ public class ElementBean implements Serializable {
         propType = null;
         power = null;
         selectedCategory = null;
+    }
+
+    private String getErrorMessageFromException(String message) {
+        return message.substring(message.lastIndexOf(':') + 1);
     }
 
     public String getName() {
@@ -159,5 +175,13 @@ public class ElementBean implements Serializable {
 
     public void setSuccessMessage(String successMessage) {
         this.successMessage = successMessage;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

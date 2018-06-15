@@ -20,8 +20,10 @@ public class CategoryBean implements Serializable {
     private Integer value;
     private String name;
     private String mode;
-    private String successMessage;
     private Category category;
+
+    private String successMessage;
+    private String errorMessage;
 
     private CharactersServiceRemote charactersServiceRemote;
 
@@ -33,7 +35,8 @@ public class CategoryBean implements Serializable {
     @PostConstruct
     public void init() {
 
-        successMessage = "";
+        successMessage = null;
+        errorMessage = null;
         mode = "Add category";
 
         String idParamString =
@@ -52,23 +55,37 @@ public class CategoryBean implements Serializable {
     }
 
     public void submitCategory() {
-        System.out.format("Submitting category: name %s, size %d", name, value);
         if (mode.equals("Add category")) {
-            addCategory();
+            try {
+                addCategory();
+            } catch (Exception e) {
+                errorMessage = getErrorMessageFromException(e.getMessage());
+            }
         } else {
-            updateCategory();
+            try {
+                updateCategory();
+            } catch (Exception e) {
+                errorMessage = getErrorMessageFromException(e.getMessage());
+            }
         }
-        successMessage = "Category successfully submitted!";
     }
 
     private void addCategory() {
         charactersServiceRemote.addCategory(name, value);
         name = null;
         value = null;
+        successMessage = "Category successfully added!";
+        errorMessage = null;
     }
 
     private void updateCategory() {
         charactersServiceRemote.updateCategory(category.getIdCategory(), name, value);
+        successMessage = "Category successfully updated!";
+        errorMessage = null;
+    }
+
+    private String getErrorMessageFromException(String message) {
+        return message.substring(message.lastIndexOf(':') + 1);
     }
 
     public Integer getValue() {
@@ -101,5 +118,13 @@ public class CategoryBean implements Serializable {
 
     public void setSuccessMessage(String successMessage) {
         this.successMessage = successMessage;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

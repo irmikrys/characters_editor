@@ -45,6 +45,12 @@
 
                 <h:outputText value="#{categoryBean.successMessage}"
                               styleClass="success-message"
+                              rendered="#{categoryBean.errorMessage == null}"
+                />
+
+                <h:outputText value="#{categoryBean.errorMessage}"
+                              styleClass="error-message"
+                              rendered="#{categoryBean.errorMessage != null}"
                 />
 
                 <h:form id="category-form">
