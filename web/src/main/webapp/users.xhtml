@@ -32,6 +32,11 @@
                 <hr/>
 
                 <h:form id="usersTable">
+                    <p:commandButton actionListener="#{userBean.updateUsers}"
+                                     update="usersTable"
+                                     rendered="false"
+                    >
+                    </p:commandButton>
                     <p:dataTable value="#{userBean.users}"
                                  var="user"
                                  resizableColumns="true"

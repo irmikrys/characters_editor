@@ -3,6 +3,7 @@ package bean;
 import boundary.CharactersServiceRemote;
 import model.Category;
 import util.EJBUtility;
+import util.MessagesUtility;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -35,6 +36,7 @@ public class CategoryBean implements Serializable {
     @PostConstruct
     public void init() {
 
+        clearFields();
         successMessage = null;
         errorMessage = null;
         mode = "Add category";
@@ -59,21 +61,20 @@ public class CategoryBean implements Serializable {
             try {
                 addCategory();
             } catch (Exception e) {
-                errorMessage = getErrorMessageFromException(e.getMessage());
+                errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
             }
         } else {
             try {
                 updateCategory();
             } catch (Exception e) {
-                errorMessage = getErrorMessageFromException(e.getMessage());
+                errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
             }
         }
     }
 
     private void addCategory() {
         charactersServiceRemote.addCategory(name, value);
-        name = null;
-        value = null;
+        clearFields();
         successMessage = "Category successfully added!";
         errorMessage = null;
     }
@@ -84,8 +85,9 @@ public class CategoryBean implements Serializable {
         errorMessage = null;
     }
 
-    private String getErrorMessageFromException(String message) {
-        return message.substring(message.lastIndexOf(':') + 1);
+    private void clearFields() {
+        name = null;
+        value = null;
     }
 
     public Integer getValue() {

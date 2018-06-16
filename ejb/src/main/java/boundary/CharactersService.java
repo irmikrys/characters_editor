@@ -3,9 +3,7 @@ package boundary;
 import dao.CategoryDAO;
 import dao.ElementDAO;
 import dao.UserDAO;
-import exception.AccessDeniedException;
-import exception.CategoryNotFoundException;
-import exception.ElementNotFoundException;
+import exception.*;
 import model.Category;
 import model.Element;
 import model.User;
@@ -45,10 +43,39 @@ public class CharactersService implements CharactersServiceRemote {
         return "Hello from Characters service!";
     }
 
+    // users
+
     @Override
     public LinkedList<User> getAllUsers() {
         return new LinkedList<>(userDAO.findAll());
     }
+
+    @Override
+    public boolean userExists(String username) {
+        return userDAO.existsByUsername(username);
+    }
+
+    @Override
+    public void updatePassword(String username, String newPassword) {
+        if (hasModificationRights(username)) {
+            User userToUpdate = userDAO.findByUsername(username).orElseThrow(
+                    () -> new UserNotFoundException("User not found")
+            );
+            if (newPassword == null || newPassword.isEmpty()) {
+                throw new WrongFormatException("Wrong password format");
+            } else {
+                try {
+                    userDAO.update(userToUpdate.getIdUser(), username, newPassword);
+                } catch (PersistenceException e) {
+                    throw new PersistenceException("Cannot update password for user " + username);
+                }
+            }
+        } else {
+            throw new AccessDeniedException("You have no rights to change this password");
+        }
+    }
+
+    // categories
 
     @Override
     public LinkedList<Category> getAllCategories() {
@@ -69,7 +96,10 @@ public class CharactersService implements CharactersServiceRemote {
 
     @Override
     public void addCategory(String name, Integer size) {
-        User userFromSession = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName());
+        User userFromSession = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName())
+                .orElseThrow(
+                        () -> new UserNotFoundException("User logged in not found")
+                );
         try {
             categoryDAO.add(new Category(name, size, userFromSession));
         } catch (PersistenceException e) {
@@ -82,7 +112,7 @@ public class CharactersService implements CharactersServiceRemote {
         Category categoryToUpdate = categoryDAO.findById(idCategory).orElseThrow(
                 () -> new CategoryNotFoundException("Cannot find category to update by id " + idCategory)
         );
-        if(hasModificationRights(categoryToUpdate.getUserByIdUser().getUsername())) {
+        if (hasModificationRights(categoryToUpdate.getUserByIdUser().getUsername())) {
             try {
                 categoryDAO.update(idCategory, name, size);
             } catch (PersistenceException e) {
@@ -128,7 +158,7 @@ public class CharactersService implements CharactersServiceRemote {
         Element element = elementDAO.findWithCategory(idElement).orElseThrow(
                 () -> new ElementNotFoundException("Cannot find element to update by id " + idElement)
         );
-        if(hasModificationRights(element.getCategoryByIdCategory().getUserByIdUser().getUsername())) {
+        if (hasModificationRights(element.getCategoryByIdCategory().getUserByIdUser().getUsername())) {
             try {
                 elementDAO.update(idElement, name, fortune, propType, power);
             } catch (PersistenceException e) {
@@ -145,7 +175,8 @@ public class CharactersService implements CharactersServiceRemote {
     }
 
     private boolean hasModificationRights(String username) {
-        User loggedUser = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName());
+        User loggedUser = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName())
+                .orElseThrow(() -> new UserNotFoundException("User logged in not found"));
         return loggedUser.getUsername().equals(username) || sessionContext.isCallerInRole("Manager");
     }
 }

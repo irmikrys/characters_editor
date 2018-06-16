@@ -12,6 +12,10 @@ public interface CharactersServiceRemote {
 
     LinkedList<User> getAllUsers();
 
+    boolean userExists(String username);
+
+    void updatePassword(String username, String newPassword);
+
     LinkedList<Category> getAllCategories();
 
     LinkedList<Category> getAllCategoriesWithElements();

@@ -4,6 +4,7 @@ import boundary.CharactersServiceRemote;
 import model.Category;
 import model.Element;
 import util.EJBUtility;
+import util.MessagesUtility;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
@@ -43,7 +44,7 @@ public class ElementBean implements Serializable {
     public void init() {
 
         clearFields();
-        successMessage = "";
+        successMessage = null;
         mode = "Add element";
         categories = charactersServiceRemote.getAllCategories();
         if (categories.size() != 0) {
@@ -69,13 +70,13 @@ public class ElementBean implements Serializable {
             try {
                 addElement();
             } catch (Exception e) {
-                errorMessage = getErrorMessageFromException(e.getMessage());
+                errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
             }
         } else {
             try {
                 updateElement();
             } catch (Exception e) {
-                errorMessage = getErrorMessageFromException(e.getMessage());
+                errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
             }
         }
     }
@@ -107,10 +108,6 @@ public class ElementBean implements Serializable {
         propType = null;
         power = null;
         selectedCategory = null;
-    }
-
-    private String getErrorMessageFromException(String message) {
-        return message.substring(message.lastIndexOf(':') + 1);
     }
 
     public String getName() {

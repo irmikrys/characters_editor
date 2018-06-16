@@ -4,6 +4,7 @@ package bean;
 import boundary.CharactersServiceRemote;
 import model.User;
 import util.EJBUtility;
+import util.MessagesUtility;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -34,8 +35,28 @@ public class UserBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        users = charactersServiceRemote.getAllUsers();
+        updateUsers();
         clearFields();
+    }
+
+    public void submitPassword() {
+        try {
+            changePassword();
+            updateUsers();
+        } catch (Exception e) {
+            errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
+        }
+    }
+
+    public void updateUsers() {
+        users = charactersServiceRemote.getAllUsers();
+    }
+
+    private void changePassword() {
+        charactersServiceRemote.updatePassword(username, newPassword);
+        clearFields();
+        successMessage = "Password successfully submitted!";
+        errorMessage = null;
     }
 
     private void clearFields() {
@@ -43,12 +64,6 @@ public class UserBean implements Serializable {
         newPassword = null;
         successMessage = null;
         errorMessage = null;
-    }
-
-    public void submitPassword() {
-        System.out.format("User: %s, new password: %s\n", username, newPassword);
-        clearFields();
-        successMessage = "New password submitted!";
     }
 
     public List<User> getUsers() {

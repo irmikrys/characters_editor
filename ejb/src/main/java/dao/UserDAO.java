@@ -6,7 +6,9 @@ import util.PasswordEncoder;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
+import java.util.Optional;
 
 @Stateless
 @SecurityDomain("soaEJBApplicationDomain")
@@ -17,15 +19,6 @@ public class UserDAO extends AbstractDAO<User, Integer> {
         this.entityClass = User.class;
     }
 
-    public void update(Integer idUser, String username, String password) {
-        findById(idUser).ifPresent(user -> {
-            if (username != null && !username.isEmpty())
-                user.setUsername(username);
-            if (password != null && !password.isEmpty())
-                user.setPassword(PasswordEncoder.getEncodedPassword(password));
-        });
-    }
-
     public boolean existsByUsername(String username) {
         TypedQuery<Boolean> query = em.createQuery(
                 "SELECT (count(u) = 1) FROM User u WHERE u.username = :username",
@@ -34,11 +27,26 @@ public class UserDAO extends AbstractDAO<User, Integer> {
         return query.getSingleResult();
     }
 
-    public User findByUsername(String username) {
+    public Optional<User> findByUsername(String username) {
+        Optional<User> user;
         TypedQuery<User> query = em.createQuery(
                 "SELECT u FROM User u WHERE u.username = :username",
                 User.class);
         query.setParameter("username", username);
-        return query.getSingleResult();
+        try {
+            user = Optional.of(query.getSingleResult());
+        } catch (PersistenceException e) {
+            user = Optional.empty();
+        }
+        return user;
+    }
+
+    public void update(Integer idUser, String username, String password) {
+        findById(idUser).ifPresent(user -> {
+            if (username != null && !username.isEmpty())
+                user.setUsername(username);
+            if (password != null && !password.isEmpty())
+                user.setPassword(PasswordEncoder.getEncodedPassword(password));
+        });
     }
 }
