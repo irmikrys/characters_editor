@@ -1,5 +1,6 @@
 package dao;
 
+import model.Category;
 import model.Element;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
@@ -37,10 +38,10 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
     public Optional<Element> findFetchAllByIdElement(Integer id) {
         Optional<Element> element;
         TypedQuery<Element> query = em.createQuery(
-           "SELECT e FROM Element e " +
-                   "JOIN FETCH e.categoryByIdCategory c " +
-                   "JOIN FETCH c.userByIdUser u " +
-                   "WHERE e.idElement = :id", Element.class
+                "SELECT e FROM Element e " +
+                        "JOIN FETCH e.categoryByIdCategory c " +
+                        "JOIN FETCH c.userByIdUser u " +
+                        "WHERE e.idElement = :id", Element.class
         );
         query.setParameter("id", id);
         try {
@@ -51,8 +52,10 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
         return element;
     }
 
-    public void update(Integer id, String name, Integer fortune, Integer propType, Integer power) {
+    public void update(Category category, Integer id, String name, Integer fortune, Integer propType, Integer power) {
         findById(id).ifPresent(element -> {
+            if (category != null)
+                element.setCategoryByIdCategory(category);
             if (name != null && !name.isEmpty())
                 element.setName(name);
             if (fortune != null)

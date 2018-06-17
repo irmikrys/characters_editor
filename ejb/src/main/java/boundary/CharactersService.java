@@ -154,13 +154,16 @@ public class CharactersService implements CharactersServiceRemote {
     }
 
     @Override
-    public void updateElement(Integer idElement, String name, Integer fortune, Integer propType, Integer power) {
+    public void updateElement(Integer idCategory, Integer idElement, String name, Integer fortune, Integer propType, Integer power) {
         Element element = elementDAO.findWithCategory(idElement).orElseThrow(
                 () -> new ElementNotFoundException("Cannot find element to update by id " + idElement)
         );
         if (hasModificationRights(element.getCategoryByIdCategory().getUserByIdUser().getUsername())) {
             try {
-                elementDAO.update(idElement, name, fortune, propType, power);
+                Category category = categoryDAO.findById(idCategory).orElseThrow(
+                        () -> new CategoryNotFoundException("Cannot find element category by id " + idCategory)
+                );
+                elementDAO.update(category, idElement, name, fortune, propType, power);
             } catch (PersistenceException e) {
                 throw new PersistenceException("Cannot update element " + idElement);
             }

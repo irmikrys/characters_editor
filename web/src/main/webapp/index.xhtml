@@ -46,9 +46,9 @@
                                            message="Are you sure you want to delete #{node.name}?"
                                 />
                             </p:commandButton>
-                            <p:button outcome="#{node.type.toLowerCase()}"
+                            <p:button outcome="#{node.type.toLowerCase()}-part1"
                                       icon="ui-icon-pencil">
-                                <f:param name="id" value="#{node.id}"/>
+                                <f:param name="id#{node.type}" value="#{node.id}"/>
                             </p:button>
                             <h:outputText value="#{node.name}"/>
                         </p:treeNode>

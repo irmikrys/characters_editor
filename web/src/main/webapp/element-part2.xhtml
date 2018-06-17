@@ -47,25 +47,6 @@
 
                     <div class="form-group form-div">
 
-                        <h:outputLabel id="category-lbl"
-                                       for="category">
-                            Category:
-                        </h:outputLabel>
-                        <h:selectOneMenu id="category"
-                                         styleClass="form-control"
-                                         style="height: 35px;"
-                                         value="#{elementBean.selectedCategory}"
-                                         converter="#{categoryConverter}"
-                                         required="true"
-                                         requiredMessage="Category is required"
-                        >
-                            <f:selectItems value="#{elementBean.categories}"
-                                           var="category"
-                                           itemValue="#{category}"
-                                           itemLabel="#{category.name}"
-                            />
-                        </h:selectOneMenu><br/>
-
                         <h:outputLabel id="name-lbl"
                                        for="name">
                             Name:
@@ -125,7 +106,7 @@
                         </h:inputText>
                         <h:message for="power" styleClass="error-message"/><br/>
 
-                        <h:commandButton id="submit-category"
+                        <h:commandButton id="submit-element"
                                          styleClass="btn btn-default"
                                          value="Submit"
                                          action="#{elementBean.submitElement}"

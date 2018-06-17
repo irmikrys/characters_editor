@@ -5,7 +5,7 @@ CREATE DATABASE soa_game
 
 USE soa_game;
 
-DROP TABLE IF EXISTS elves, Categorys;
+DROP TABLE IF EXISTS elves, woods;
 DROP TABLE IF EXISTS userroles, users, roles;
 
 -- users

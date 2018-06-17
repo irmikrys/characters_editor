@@ -6,11 +6,12 @@ import util.EJBUtility;
 import util.MessagesUtility;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.naming.NamingException;
 import java.io.Serializable;
+
+import static util.MessagesUtility.getParamFromContext;
 
 @Named(value = "categoryBean")
 @ViewScoped
@@ -41,16 +42,12 @@ public class CategoryBean implements Serializable {
         errorMessage = null;
         mode = "Add category";
 
-        String idParamString =
-                FacesContext.getCurrentInstance()
-                        .getExternalContext()
-                        .getRequestParameterMap()
-                        .get("id");
+        String idCategoryString = getParamFromContext("idCategory");
 
-        if (idParamString != null) {
+        if (idCategoryString != null) {
             mode = "Edit category";
             category = charactersServiceRemote
-                    .getCategoryByIdCategory(Integer.parseInt(idParamString));
+                    .getCategoryByIdCategory(Integer.parseInt(idCategoryString));
             value = category.getSize();
             name = category.getName();
         }

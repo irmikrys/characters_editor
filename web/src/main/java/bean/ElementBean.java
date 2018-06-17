@@ -7,12 +7,14 @@ import util.EJBUtility;
 import util.MessagesUtility;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.naming.NamingException;
 import java.io.Serializable;
 import java.util.List;
+
+import static util.MessagesUtility.getParamFromContext;
 
 @Named(value = "elementBean")
 @ViewScoped
@@ -51,18 +53,24 @@ public class ElementBean implements Serializable {
             selectedCategory = categories.get(0);
         }
 
-        String idParamString =
-                FacesContext.getCurrentInstance()
-                        .getExternalContext()
-                        .getRequestParameterMap()
-                        .get("id");
+        String idElementString = getParamFromContext("idElement");
+        String idCategoryString = getParamFromContext("idCategory");
 
-        if (idParamString != null) {
+        if (idElementString != null && !idElementString.equals("0")) {
             mode = "Edit element";
             element = charactersServiceRemote
-                    .getElementWithCategoryByIdElement(Integer.parseInt(idParamString));
+                    .getElementWithCategoryByIdElement(Integer.parseInt(idElementString));
             setParamsByElement(element);
         }
+
+        if (idCategoryString != null) {
+            selectedCategory = charactersServiceRemote
+                    .getCategoryByIdCategory(Integer.parseInt(idCategoryString));
+        }
+    }
+
+    public void categoryChanged(AjaxBehaviorEvent e) {
+        System.out.println("Selected category: " + selectedCategory.getIdCategory());
     }
 
     public void submitElement() {
@@ -89,7 +97,11 @@ public class ElementBean implements Serializable {
     }
 
     private void updateElement() {
-        charactersServiceRemote.updateElement(element.getIdElement(), name, quantity, propType, power);
+        charactersServiceRemote.updateElement(
+                selectedCategory.getIdCategory(),
+                element.getIdElement(),
+                name, quantity, propType, power
+        );
         successMessage = "Element successfully updated!";
         errorMessage = null;
     }
@@ -103,11 +115,13 @@ public class ElementBean implements Serializable {
     }
 
     private void clearFields() {
+        System.out.println("Element bean: clearing fields...");
         name = null;
         quantity = null;
         propType = null;
         power = null;
         selectedCategory = null;
+        element = new Element();
     }
 
     public String getName() {
@@ -164,6 +178,14 @@ public class ElementBean implements Serializable {
 
     public void setSelectedCategory(Category selectedCategory) {
         this.selectedCategory = selectedCategory;
+    }
+
+    public Element getElement() {
+        return element;
+    }
+
+    public void setElement(Element element) {
+        this.element = element;
     }
 
     public String getSuccessMessage() {

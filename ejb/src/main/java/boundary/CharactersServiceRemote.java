@@ -34,7 +34,7 @@ public interface CharactersServiceRemote {
 
     void addElement(Category category, String name, Integer quantity, Integer propType, Integer power);
 
-    void updateElement(Integer idElement, String name, Integer fortune, Integer propType, Integer power);
+    void updateElement(Integer idCategory, Integer idElement, String name, Integer fortune, Integer propType, Integer power);
 
     void deleteElement(Integer id);
 }
