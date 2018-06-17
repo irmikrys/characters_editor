@@ -62,6 +62,20 @@
                     </p:confirmDialog>
                 </h:form>
 
+                <h2>Best armed Elves</h2>
+                <h5>
+                    <span class="label label-success">Elf</span>
+                </h5><br/>
+
+                <h:form>
+                    <p:dataList value="#{catalogBean.bestElements}" var="element" type="ordered">
+                        <f:facet name="header">
+                            Arrows number
+                        </f:facet>
+                        #{element.name}: #{element.arrowsNum}
+                    </p:dataList>
+                </h:form>
+
                 <hr/>
             </div>
         </div>

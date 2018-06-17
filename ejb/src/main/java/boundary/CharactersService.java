@@ -145,6 +145,11 @@ public class CharactersService implements CharactersServiceRemote {
     }
 
     @Override
+    public LinkedList<Element> getBestElementsByQuantity() {
+        return new LinkedList<>(elementDAO.findBestElementsByQuantity());
+    }
+
+    @Override
     public void addElement(Category category, String name, Integer quantity, Integer propType, Integer power) {
         try {
             elementDAO.add(new Element(category, name, quantity, propType, power));

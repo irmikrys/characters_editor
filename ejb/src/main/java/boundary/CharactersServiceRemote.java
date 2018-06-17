@@ -32,6 +32,8 @@ public interface CharactersServiceRemote {
 
     Element getElementWithCategoryByIdElement(Integer idElement);
 
+    LinkedList<Element> getBestElementsByQuantity();
+
     void addElement(Category category, String name, Integer quantity, Integer propType, Integer power);
 
     void updateElement(Integer idCategory, Integer idElement, String name, Integer fortune, Integer propType, Integer power);

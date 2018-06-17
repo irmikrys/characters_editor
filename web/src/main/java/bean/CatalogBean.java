@@ -25,6 +25,7 @@ public class CatalogBean implements Serializable {
 
     private CharactersServiceRemote charactersServiceRemote;
     private TreeNode root;
+    private List<Element> bestElements;
 
     public CatalogBean() throws NamingException {
 
@@ -35,11 +36,11 @@ public class CatalogBean implements Serializable {
     @PostConstruct
     public void init() {
         initDataView();
+        initBestElemsList();
     }
 
     public void deleteElement(String type, Integer id) {
 
-        System.out.println("Deleting something...");
         if(type.equals(Category.class.getSimpleName())) {
             charactersServiceRemote.deleteCategory(id);
         } else if(type.equals(Element.class.getSimpleName())) {
@@ -63,10 +64,6 @@ public class CatalogBean implements Serializable {
         }
     }
 
-    public TreeNode getRoot() {
-        return root;
-    }
-
     private void initDataView() {
         root = new DefaultTreeNode(new TreeNodeData(null, null, "Categories"), null);
         this.getCategories().forEach(
@@ -81,7 +78,23 @@ public class CatalogBean implements Serializable {
                 ));
     }
 
+    private void initBestElemsList() {
+        bestElements = charactersServiceRemote.getBestElementsByQuantity();
+    }
+
     private List<Category> getCategories() {
         return new LinkedList<>(charactersServiceRemote.getAllCategories());
+    }
+
+    public TreeNode getRoot() {
+        return root;
+    }
+
+    public List<Element> getBestElements() {
+        return bestElements;
+    }
+
+    public void setBestElements(List<Element> bestElements) {
+        this.bestElements = bestElements;
     }
 }

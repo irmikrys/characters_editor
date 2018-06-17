@@ -8,6 +8,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
+import java.util.List;
 import java.util.Optional;
 
 @Stateless
@@ -50,6 +51,14 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
             element = Optional.empty();
         }
         return element;
+    }
+
+    public List<Element> findBestElementsByQuantity() {
+        TypedQuery<Element> query = em.createQuery(
+                "SELECT e from Element e ORDER BY e.arrowsNum DESC ", Element.class
+        );
+        query.setMaxResults(5);
+        return query.getResultList();
     }
 
     public void update(Category category, Integer id, String name, Integer fortune, Integer propType, Integer power) {
