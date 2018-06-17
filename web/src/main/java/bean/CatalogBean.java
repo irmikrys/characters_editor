@@ -36,7 +36,7 @@ public class CatalogBean implements Serializable {
     @PostConstruct
     public void init() {
         initDataView();
-        initBestElemsList();
+        initBestElementsList();
     }
 
     public void deleteElement(String type, Integer id) {
@@ -78,7 +78,7 @@ public class CatalogBean implements Serializable {
                 ));
     }
 
-    private void initBestElemsList() {
+    private void initBestElementsList() {
         bestElements = charactersServiceRemote.getBestElementsByQuantity();
     }
 

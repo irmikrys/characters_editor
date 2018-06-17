@@ -1,5 +1,6 @@
 package boundary;
 
+import cdi.Reductional;
 import dao.CategoryDAO;
 import dao.ElementDAO;
 import dao.UserDAO;
@@ -149,6 +150,7 @@ public class CharactersService implements CharactersServiceRemote {
         return new LinkedList<>(elementDAO.findBestElementsByQuantity());
     }
 
+    @Reductional
     @Override
     public void addElement(Category category, String name, Integer quantity, Integer propType, Integer power) {
         try {
