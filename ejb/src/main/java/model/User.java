@@ -8,15 +8,17 @@ import java.util.Objects;
 @Entity
 @Table(name = "users", schema = "soa_game")
 public class User implements Serializable {
+
     private static final long serialVersionUID = 3599516230831373108L;
+
     private int idUser;
     private String username;
     private String password;
-    private Collection<Category> categoryByIdUser;
+    private Collection<Category> categoriesByIdUser;
     
     public User() {
     }
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idUser", nullable = false)
@@ -46,13 +48,13 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @OneToMany(mappedBy = "userByIdUser")
-    public Collection<Category> getCategoryByIdUser() {
-        return categoryByIdUser;
+    @OneToMany(mappedBy = "user")
+    public Collection<Category> getCategoriesByIdUser() {
+        return categoriesByIdUser;
     }
 
-    public void setCategoryByIdUser(Collection<Category> categoryByIdUser) {
-        this.categoryByIdUser = categoryByIdUser;
+    public void setCategoriesByIdUser(Collection<Category> categoryByIdUser) {
+        this.categoriesByIdUser = categoryByIdUser;
     }
 
     @Override

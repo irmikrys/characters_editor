@@ -24,8 +24,8 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
         Optional<Element> element;
         TypedQuery<Element> query = em.createQuery(
                 "SELECT e FROM Element e " +
-                        "JOIN FETCH e.categoryByIdCategory c " +
-                        "JOIN FETCH c.typeSetByIdTypeSet t " +
+                        "JOIN FETCH e.category c " +
+                        "JOIN FETCH c.typeSet t " +
                         "WHERE e.idElement = :id", Element.class
         );
         query.setParameter("id", id);
@@ -41,9 +41,9 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
         Optional<Element> element;
         TypedQuery<Element> query = em.createQuery(
                 "SELECT e FROM Element e " +
-                        "JOIN FETCH e.categoryByIdCategory c " +
-                        "JOIN FETCH c.userByIdUser u " +
-                        "JOIN FETCH c.typeSetByIdTypeSet t " +
+                        "JOIN FETCH e.category c " +
+                        "JOIN FETCH c.user u " +
+                        "JOIN FETCH c.typeSet t " +
                         "WHERE e.idElement = :id", Element.class
         );
         query.setParameter("id", id);
@@ -58,8 +58,8 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
     public List<Element> findAllByIdCategory(Integer idCategory) {
         TypedQuery<Element> query = em.createQuery(
                 "SELECT e from Element e " +
-                        "JOIN FETCH e.categoryByIdCategory c " +
-                        "JOIN FETCH c.typeSetByIdTypeSet t " +
+                        "JOIN FETCH e.category c " +
+                        "JOIN FETCH c.typeSet t " +
                         "WHERE c.idCategory = :idCategory", Element.class
         );
         query.setParameter("idCategory", idCategory);
@@ -69,8 +69,8 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
     public List<Element> findBestElementsByQuantity() {
         TypedQuery<Element> query = em.createQuery(
                 "SELECT e from Element e " +
-                        "JOIN FETCH e.categoryByIdCategory c " +
-                        "JOIN FETCH c.typeSetByIdTypeSet t " +
+                        "JOIN FETCH e.category c " +
+                        "JOIN FETCH c.typeSet t " +
                         "ORDER BY e.fortune DESC ", Element.class
         );
         query.setMaxResults(5);
@@ -80,7 +80,7 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
     public void update(Category category, Integer id, String name, Integer fortune, Integer propType, Integer power) {
         findById(id).ifPresent(element -> {
             if (category != null)
-                element.setCategoryByIdCategory(category);
+                element.setCategory(category);
             if (name != null && !name.isEmpty())
                 element.setName(name);
             if (fortune != null)

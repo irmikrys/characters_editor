@@ -7,20 +7,22 @@ import java.util.Objects;
 @Entity
 @Table(name = "elements", schema = "soa_game")
 public class Element implements Serializable {
+
     private static final long serialVersionUID = -5383214602565441079L;
+
     private int idElement;
     private String name;
     private int fortune;
     private int property;
     private int power;
-    private Category categoryByIdCategory;
+    private Category category;
     
     public Element() {
 
     }
 
     public Element(Category category, String name, int fortune, int property, int power) {
-        this.categoryByIdCategory = category;
+        this.category = category;
         this.name = name;
         this.fortune = fortune;
         this.property = property;
@@ -76,12 +78,12 @@ public class Element implements Serializable {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idCategory", referencedColumnName = "idCategory", nullable = false)
-    public Category getCategoryByIdCategory() {
-        return categoryByIdCategory;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryByIdCategory(Category CategoryByIdCategory) {
-        this.categoryByIdCategory = CategoryByIdCategory;
+    public void setCategory(Category CategoryByIdCategory) {
+        this.category = CategoryByIdCategory;
     }
 
     @Override

@@ -8,8 +8,6 @@ import java.util.LinkedList;
 
 public interface CharactersServiceRemote {
 
-    String getHello();
-
     LinkedList<User> getAllUsers();
 
     boolean userExists(String username);

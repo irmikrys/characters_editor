@@ -1,12 +1,12 @@
-DROP DATABASE IF EXISTS soa_game;
-CREATE DATABASE soa_game
-  CHARACTER SET utf8mb4
-  COLLATE utf8mb4_unicode_ci;
+-- DROP DATABASE IF EXISTS soa_game;
+-- CREATE DATABASE soa_game
+--   CHARACTER SET utf8mb4
+--   COLLATE utf8mb4_unicode_ci;
+--
+-- USE soa_game;
 
-USE soa_game;
-
-DROP TABLE IF EXISTS categories, typesSets, elements;
-DROP TABLE IF EXISTS users, roles, userroles;
+DROP TABLE IF EXISTS elements, categories, typesSets;
+DROP TABLE IF EXISTS userroles, users, roles;
 
 -- users
 
@@ -86,7 +86,6 @@ INSERT INTO userroles (idUser, idRole) VALUES
   (2, 1),
   (3, 1),
   (4, 1);
-
 
 INSERT INTO typesSets (categoryType, sizeType, elementType, elementFortune, elementProp) VALUES
   ('Wood', 'Number of trees', 'Elf', 'Number of arrows', 'Crossbow type');

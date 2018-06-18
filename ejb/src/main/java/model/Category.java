@@ -10,22 +10,23 @@ import java.util.Objects;
 public class Category implements Serializable {
 
     private static final long serialVersionUID = 5793941245980666186L;
+
     private int idCategory;
     private String name;
     private int size;
-    private Collection<Element> elementsByIdCategory;
-    private User userByIdUser;
-    private TypeSet typeSetByIdTypeSet;
+    private Collection<Element> elements;
+    private User user;
+    private TypeSet typeSet;
 
     public Category() {
 
     }
 
-    public Category(String name, int size, User userByIdUser, TypeSet typeSetByIdTypeSet) {
+    public Category(String name, int size, User user, TypeSet typeSet) {
         this.name = name;
         this.size = size;
-        this.userByIdUser = userByIdUser;
-        this.typeSetByIdTypeSet = typeSetByIdTypeSet;
+        this.user = user;
+        this.typeSet = typeSet;
     }
 
     @Id
@@ -57,33 +58,33 @@ public class Category implements Serializable {
         this.size = treesNum;
     }
 
-    @OneToMany(mappedBy = "categoryByIdCategory", fetch = FetchType.LAZY)
-    public Collection<Element> getElementsByIdCategory() {
-        return elementsByIdCategory;
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    public Collection<Element> getElements() {
+        return elements;
     }
 
-    public void setElementsByIdCategory(Collection<Element> elementByIdCategory) {
-        this.elementsByIdCategory = elementByIdCategory;
+    public void setElements(Collection<Element> elementByIdCategory) {
+        this.elements = elementByIdCategory;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idUser", referencedColumnName = "idUser", nullable = false)
-    public User getUserByIdUser() {
-        return userByIdUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserByIdUser(User userByIdUser) {
-        this.userByIdUser = userByIdUser;
+    public void setUser(User userByIdUser) {
+        this.user = userByIdUser;
     }
 
     @ManyToOne
     @JoinColumn(name = "idTypeSet", referencedColumnName = "idTypeSet", nullable = false)
-    public TypeSet getTypeSetByIdTypeSet() {
-        return typeSetByIdTypeSet;
+    public TypeSet getTypeSet() {
+        return typeSet;
     }
 
-    public void setTypeSetByIdTypeSet(TypeSet typeSetByIdTypeSet) {
-        this.typeSetByIdTypeSet = typeSetByIdTypeSet;
+    public void setTypeSet(TypeSet typeSetByIdTypeSet) {
+        this.typeSet = typeSetByIdTypeSet;
     }
 
     @Override
@@ -104,6 +105,6 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Category[%d, %s, %d, %d]", idCategory, name, size, typeSetByIdTypeSet.getIdTypeSet());
+        return String.format("Category[%d, %s, %d, %d]", idCategory, name, size, typeSet.getIdTypeSet());
     }
 }

@@ -39,15 +39,6 @@ public class CharactersService implements CharactersServiceRemote {
     @EJB
     private TypeSetDAO typeSetDAO;
 
-    @Override
-    public String getHello() {
-        System.out.println("EJB:");
-        System.out.println("    principal: " + sessionContext.getCallerPrincipal());
-        System.out.println("    user:      " + sessionContext.isCallerInRole("User"));
-        System.out.println("    manager:   " + sessionContext.isCallerInRole("Manager"));
-        return "Hello from Characters service!";
-    }
-
     // users
 
     @Override
@@ -120,7 +111,7 @@ public class CharactersService implements CharactersServiceRemote {
         Category categoryToUpdate = categoryDAO.findById(idCategory).orElseThrow(
                 () -> new CategoryNotFoundException("Cannot find category to update by id " + idCategory)
         );
-        if (hasModificationRights(categoryToUpdate.getUserByIdUser().getUsername())) {
+        if (hasModificationRights(categoryToUpdate.getUser().getUsername())) {
             try {
                 categoryDAO.update(idCategory, name, size);
             } catch (PersistenceException e) {
@@ -178,7 +169,7 @@ public class CharactersService implements CharactersServiceRemote {
         Element element = elementDAO.findWithCategory(idElement).orElseThrow(
                 () -> new ElementNotFoundException("Cannot find element to update by id " + idElement)
         );
-        if (hasModificationRights(element.getCategoryByIdCategory().getUserByIdUser().getUsername())) {
+        if (hasModificationRights(element.getCategory().getUser().getUsername())) {
             try {
                 Category category = categoryDAO.findById(idCategory).orElseThrow(
                         () -> new CategoryNotFoundException("Cannot find element category by id " + idCategory)

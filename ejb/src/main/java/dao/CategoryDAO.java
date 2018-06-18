@@ -22,8 +22,8 @@ public class CategoryDAO extends AbstractDAO<Category, Integer> {
     public List<Category> findAllWithElementsAndTypes() {
         TypedQuery<Category> query = em.createQuery(
                 "SELECT c FROM Category c " +
-                        "JOIN FETCH c.elementsByIdCategory e " +
-                        "JOIN FETCH c.typeSetByIdTypeSet t", Category.class);
+                        "JOIN FETCH c.elements e " +
+                        "JOIN FETCH c.typeSet t", Category.class);
         return query.getResultList();
     }
 
@@ -31,7 +31,7 @@ public class CategoryDAO extends AbstractDAO<Category, Integer> {
         Optional<Category> category;
         TypedQuery<Category> query = em.createQuery(
                 "SELECT c FROM Category c " +
-                        "JOIN FETCH c.typeSetByIdTypeSet t " +
+                        "JOIN FETCH c.typeSet t " +
                         "WHERE c.idCategory = :id", Category.class
         );
         query.setParameter("id", id);

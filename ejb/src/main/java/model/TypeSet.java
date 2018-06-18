@@ -9,6 +9,7 @@ import java.util.Objects;
 public class TypeSet implements Serializable {
 
     private static final long serialVersionUID = -4202787494386299974L;
+
     private int idTypeSet;
     private String categoryType;
     private String sizeType;
