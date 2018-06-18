@@ -9,11 +9,13 @@ public class TreeNodeData implements Serializable {
     private String type;
     private Integer id;
     private String name;
+    private Integer idTypeSet;
 
-    public TreeNodeData(String type, Integer id, String name) {
+    public TreeNodeData(String type, Integer id, String name, Integer idTypeSet) {
         this.type = type;
         this.id = id;
         this.name = name;
+        this.idTypeSet = idTypeSet;
     }
 
     public String getType() {
@@ -38,5 +40,13 @@ public class TreeNodeData implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getIdTypeSet() {
+        return idTypeSet;
+    }
+
+    public void setIdTypeSet(Integer idTypeSet) {
+        this.idTypeSet = idTypeSet;
     }
 }

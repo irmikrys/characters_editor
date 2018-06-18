@@ -30,14 +30,20 @@
                 <hr/>
                 <h2>Current Characters</h2>
                 <h5><span class="label label-danger">Fantasy</span>
-                </h5><br/>
+                </h5>
+
+                <h:outputText value="#{catalogBean.errorMessage}"
+                              styleClass="error-message"
+                              id="error-msg"
+                />
+                <br/>
 
                 <h:form id="catalogForm">
                     <p:tree value="#{catalogBean.root}" var="node">
                         <p:treeNode>
                             <p:commandButton icon="ui-icon-trash"
                                              actionListener="#{catalogBean.deleteElement(node.type, node.id)}"
-                                             update="catalogForm"
+                                             update="catalogForm error-msg"
                             >
                                 <p:confirm icon="ui-icon-alert"
                                            header="Delete"
@@ -64,7 +70,7 @@
                 <h2>Best equipped characters</h2>
 
                 <ui:repeat value="#{catalogBean.bestElements}" var="bestElems">
-                    <h:form>
+                    <h:form id="best-elems#{bestElems.get(0).category.user.typeSet.idTypeSet}">
                         <p:dataList value="#{bestElems}"
                                     var="element"
                                     type="ordered"
