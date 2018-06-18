@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +17,7 @@ public class TypeSet implements Serializable {
     private String elementType;
     private String elementFortune;
     private String elementProp;
+    private Collection<Category> categories;
 
     public TypeSet() {
 
@@ -81,6 +83,15 @@ public class TypeSet implements Serializable {
         this.elementProp = elementProp;
     }
 
+    @OneToMany(mappedBy = "typeSet")
+    public Collection<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Collection<Category> categories) {
+        this.categories = categories;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -105,5 +116,4 @@ public class TypeSet implements Serializable {
         return String.format("TypeSet[%d, %s, %s, %s, %s, %s]",
                 idTypeSet, categoryType, sizeType, elementType, elementFortune, elementProp);
     }
-
 }
