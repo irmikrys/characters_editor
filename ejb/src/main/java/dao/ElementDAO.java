@@ -25,6 +25,7 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
         TypedQuery<Element> query = em.createQuery(
                 "SELECT e FROM Element e " +
                         "JOIN FETCH e.categoryByIdCategory c " +
+                        "JOIN FETCH c.typeSetByIdTypeSet t " +
                         "WHERE e.idElement = :id", Element.class
         );
         query.setParameter("id", id);
@@ -42,6 +43,7 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
                 "SELECT e FROM Element e " +
                         "JOIN FETCH e.categoryByIdCategory c " +
                         "JOIN FETCH c.userByIdUser u " +
+                        "JOIN FETCH c.typeSetByIdTypeSet t " +
                         "WHERE e.idElement = :id", Element.class
         );
         query.setParameter("id", id);
@@ -57,6 +59,7 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
         TypedQuery<Element> query = em.createQuery(
                 "SELECT e from Element e " +
                         "JOIN FETCH e.categoryByIdCategory c " +
+                        "JOIN FETCH c.typeSetByIdTypeSet t " +
                         "WHERE c.idCategory = :idCategory", Element.class
         );
         query.setParameter("idCategory", idCategory);
@@ -65,7 +68,10 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
 
     public List<Element> findBestElementsByQuantity() {
         TypedQuery<Element> query = em.createQuery(
-                "SELECT e from Element e ORDER BY e.fortune DESC ", Element.class
+                "SELECT e from Element e " +
+                        "JOIN FETCH e.categoryByIdCategory c " +
+                        "JOIN FETCH c.typeSetByIdTypeSet t " +
+                        "ORDER BY e.fortune DESC ", Element.class
         );
         query.setMaxResults(5);
         return query.getResultList();

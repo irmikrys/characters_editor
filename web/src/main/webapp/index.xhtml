@@ -29,9 +29,7 @@
                 </h4>
                 <hr/>
                 <h2>Current Characters</h2>
-                <h5><span class="label label-danger">Fantasy</span>
-                    <span class="label label-primary">Ipsum</span>
-                    <span class="label label-success">Lorem</span>
+                <h5><span class="label label-primary">Fantasy</span>
                 </h5><br/>
 
                 <h:form id="catalogForm">
@@ -62,15 +60,16 @@
                     </p:confirmDialog>
                 </h:form>
 
-                <h2>Best armed Elves</h2>
-                <h5>
-                    <span class="label label-success">Elf</span>
-                </h5><br/>
+                <hr/>
+                <h2>Best equipped characters</h2>
 
                 <h:form>
                     <p:dataList value="#{catalogBean.bestElements}" var="element" type="ordered">
                         <f:facet name="header">
-                            Arrows number
+                            #{catalogBean.bestElements.get(0).categoryByIdCategory.typeSetByIdTypeSet.elementFortune}
+                            <span class="label label-success">
+                                #{catalogBean.bestElements.get(0).categoryByIdCategory.typeSetByIdTypeSet.elementType}
+                            </span>
                         </f:facet>
                         #{element.name}: #{element.fortune}
                     </p:dataList>
