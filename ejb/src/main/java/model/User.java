@@ -14,7 +14,8 @@ public class User implements Serializable {
     private int idUser;
     private String username;
     private String password;
-    private Collection<Category> categoriesByIdUser;
+    private TypeSet typeSet;
+    private Collection<Category> categories;
     
     public User() {
     }
@@ -48,14 +49,25 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @OneToMany(mappedBy = "user")
-    public Collection<Category> getCategoriesByIdUser() {
-        return categoriesByIdUser;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idTypeSet", referencedColumnName = "idTypeSet", nullable = false)
+    public TypeSet getTypeSet() {
+        return typeSet;
     }
 
-    public void setCategoriesByIdUser(Collection<Category> categoryByIdUser) {
-        this.categoriesByIdUser = categoryByIdUser;
+    public void setTypeSet(TypeSet typeSet) {
+        this.typeSet = typeSet;
     }
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    public Collection<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Collection<Category> categories) {
+        this.categories = categories;
+    }
+
 
     @Override
     public boolean equals(Object o) {

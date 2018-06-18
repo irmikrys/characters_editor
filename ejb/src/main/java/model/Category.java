@@ -16,17 +16,15 @@ public class Category implements Serializable {
     private int size;
     private Collection<Element> elements;
     private User user;
-    private TypeSet typeSet;
 
     public Category() {
 
     }
 
-    public Category(String name, int size, User user, TypeSet typeSet) {
+    public Category(String name, int size, User user) {
         this.name = name;
         this.size = size;
         this.user = user;
-        this.typeSet = typeSet;
     }
 
     @Id
@@ -58,13 +56,13 @@ public class Category implements Serializable {
         this.size = treesNum;
     }
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     public Collection<Element> getElements() {
         return elements;
     }
 
-    public void setElements(Collection<Element> elementByIdCategory) {
-        this.elements = elementByIdCategory;
+    public void setElements(Collection<Element> elements) {
+        this.elements = elements;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -75,16 +73,6 @@ public class Category implements Serializable {
 
     public void setUser(User userByIdUser) {
         this.user = userByIdUser;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "idTypeSet", referencedColumnName = "idTypeSet", nullable = false)
-    public TypeSet getTypeSet() {
-        return typeSet;
-    }
-
-    public void setTypeSet(TypeSet typeSetByIdTypeSet) {
-        this.typeSet = typeSetByIdTypeSet;
     }
 
     @Override
@@ -105,6 +93,6 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Category[%d, %s, %d, %d]", idCategory, name, size, typeSet.getIdTypeSet());
+        return String.format("Category[%d, %s, %d]", idCategory, name, size);
     }
 }

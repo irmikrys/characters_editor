@@ -29,7 +29,7 @@
                 </h4>
                 <hr/>
                 <h2>Current Characters</h2>
-                <h5><span class="label label-primary">Fantasy</span>
+                <h5><span class="label label-danger">Fantasy</span>
                 </h5><br/>
 
                 <h:form id="catalogForm">
@@ -63,21 +63,24 @@
                 <hr/>
                 <h2>Best equipped characters</h2>
 
-                <h:form>
-                    <p:dataList value="#{catalogBean.bestElements}"
-                                var="element"
-                                type="ordered"
-                                rendered="#{catalogBean.bestElements.size() > 0}"
-                    >
-                        <f:facet name="header">
-                            #{catalogBean.bestElements.get(0).category.typeSet.elementFortune}
-                            <span class="label label-success">
-                                #{catalogBean.bestElements.get(0).category.typeSet.elementType}
+                <ui:repeat value="#{catalogBean.bestElements}" var="bestElems">
+                    <h:form>
+                        <p:dataList value="#{bestElems}"
+                                    var="element"
+                                    type="ordered"
+                                    rendered="#{bestElems.size() > 0}"
+                        >
+                            <f:facet name="header">
+                                #{bestElems.get(0).category.user.typeSet.elementFortune}
+                                <span class="label label-success">
+                                #{bestElems.get(0).category.user.typeSet.elementType}
                             </span>
-                        </f:facet>
-                        #{element.name}: #{element.fortune}
-                    </p:dataList>
-                </h:form>
+                            </f:facet>
+                            #{element.name}: #{element.fortune}
+                        </p:dataList>
+                    </h:form>
+                    <br/>
+                </ui:repeat>
 
                 <hr/>
             </div>

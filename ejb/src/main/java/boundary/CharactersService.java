@@ -20,6 +20,7 @@ import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceException;
 import java.util.LinkedList;
+import java.util.List;
 
 @Stateless
 @SecurityDomain("soaEJBApplicationDomain")
@@ -47,6 +48,12 @@ public class CharactersService implements CharactersServiceRemote {
     }
 
     @Override
+    public User getUserFromSessionWithTypeSet() {
+        return userDAO.findByUsernameWithTypeSet(sessionContext.getCallerPrincipal().getName())
+                .orElseThrow(() -> new UserNotFoundException("User from session not found"));
+    }
+
+    @Override
     public boolean userExists(String username) {
         return userDAO.existsByUsername(username);
     }
@@ -71,13 +78,6 @@ public class CharactersService implements CharactersServiceRemote {
         }
     }
 
-    // type sets
-
-    @Override
-    public LinkedList<TypeSet> getAllTypeSets() {
-        return new LinkedList<>(typeSetDAO.findAllTypeSetsFetchAll());
-    }
-
     // categories
 
     @Override
@@ -87,12 +87,12 @@ public class CharactersService implements CharactersServiceRemote {
 
     @Override
     public LinkedList<Category> getAllCategoriesWithElements() {
-        return new LinkedList<>(categoryDAO.findAllWithElementsAndTypes());
+        return new LinkedList<>(categoryDAO.findAllWithElements());
     }
 
     @Override
     public Category getCategoryByIdCategory(Integer idCategory) {
-        return categoryDAO.findByIdWithTypeSet(idCategory).orElseThrow(
+        return categoryDAO.findById(idCategory).orElseThrow(
                 () -> new CategoryNotFoundException("Cannot get category by id " + idCategory)
         );
     }
@@ -103,11 +103,8 @@ public class CharactersService implements CharactersServiceRemote {
                 .orElseThrow(
                         () -> new UserNotFoundException("User logged in not found")
                 );
-        TypeSet typeSetById = typeSetDAO.findById(typeSetId).orElseThrow(
-                () -> new TypeSetNotFoundException("Type set not found for id " + typeSetId)
-        );
         try {
-            categoryDAO.add(new Category(name, size, userFromSession, typeSetById));
+            categoryDAO.add(new Category(name, size, userFromSession));
         } catch (PersistenceException e) {
             throw new PersistenceException("Cannot add category");
         }
@@ -131,11 +128,21 @@ public class CharactersService implements CharactersServiceRemote {
 
     @Override
     public void deleteCategory(Integer id) {
-        categoryDAO.remove(id);
+        Category category = categoryDAO.findByIdWithUser(id).orElseThrow(
+                () -> new CategoryNotFoundException("Cannot find category to remove by id " + id)
+        );
+        if (hasModificationRights(category.getUser().getUsername())) {
+            try {
+                categoryDAO.remove(id);
+            } catch (PersistenceException e) {
+                throw new PersistenceException("Cannot remove category " + id);
+            }
+        } else {
+            throw new AccessDeniedException("You have no rights to delete category");
+        }
     }
 
     // elements
-
 
     @Override
     public LinkedList<Element> getElementsByIdCategory(Integer idCategory) {
@@ -157,17 +164,29 @@ public class CharactersService implements CharactersServiceRemote {
     }
 
     @Override
-    public LinkedList<Element> getBestElementsByQuantity() {
-        return new LinkedList<>(elementDAO.findBestElementsByQuantity());
+    public LinkedList<LinkedList<Element>> getBestElementsForTypeSets() {
+        LinkedList<LinkedList<Element>> bestElements = new LinkedList<>();
+        List<TypeSet> typeSets = new LinkedList<>(typeSetDAO.findAll());
+        typeSets.forEach(typeSet -> bestElements.add(
+                new LinkedList<>(elementDAO.findBestElementsByTypeSet(typeSet.getIdTypeSet()))
+        ));
+        return bestElements;
     }
 
     @Reductional
     @Override
     public void addElement(Category category, String name, Integer quantity, Integer propType, Integer power) {
-        try {
-            elementDAO.add(new Element(category, name, quantity, propType, power));
-        } catch (PersistenceException e) {
-            throw new PersistenceException("Cannot add element");
+        User categoryUser = userDAO.findById(category.getUser().getIdUser()).orElseThrow(
+                () -> new UserNotFoundException("Category owner doesn't exist")
+        );
+        if (isUserLoggedInModifying(categoryUser.getUsername())) {
+            try {
+                elementDAO.add(new Element(category, name, quantity, propType, power));
+            } catch (PersistenceException e) {
+                throw new PersistenceException("Cannot add element");
+            }
+        } else {
+            throw new AccessDeniedException("You cannot add element to someone else's category");
         }
     }
 
@@ -192,12 +211,31 @@ public class CharactersService implements CharactersServiceRemote {
 
     @Override
     public void deleteElement(Integer id) {
-        elementDAO.remove(id);
+        Element element = elementDAO.findWithCategory(id).orElseThrow(
+                () -> new ElementNotFoundException("Cannot find element to remove by id " + id)
+        );
+        if (hasModificationRights(element.getCategory().getUser().getUsername())) {
+            try {
+                elementDAO.remove(id);
+            } catch (PersistenceException e) {
+                throw new PersistenceException("Cannot remove element " + id);
+            }
+        } else {
+            throw new AccessDeniedException("You have no rights to delete element");
+        }
     }
 
+    // util
+
     private boolean hasModificationRights(String username) {
+
+        return isUserLoggedInModifying(username) ||
+                sessionContext.isCallerInRole("Manager");
+    }
+
+    private boolean isUserLoggedInModifying(String username) {
         User loggedUser = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName())
                 .orElseThrow(() -> new UserNotFoundException("User logged in not found"));
-        return loggedUser.getUsername().equals(username) || sessionContext.isCallerInRole("Manager");
+        return loggedUser.getUsername().equals(username);
     }
 }

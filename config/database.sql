@@ -5,16 +5,33 @@
 --
 -- USE soa_game;
 
-DROP TABLE IF EXISTS elements, categories, typesSets;
-DROP TABLE IF EXISTS userroles, users, roles;
+DROP TABLE IF EXISTS elements, categories, properties, userroles, users, roles, typesSets;
 
--- users
+CREATE TABLE typesSets (
+  idTypeSet        INTEGER(30)    NOT NULL AUTO_INCREMENT,
+  categoryType     VARCHAR(191)   NOT NULL UNIQUE,
+  sizeType         VARCHAR(255)   NOT NULL,
+  elementType      VARCHAR(191)   NOT NULL UNIQUE,
+  elementFortune   VARCHAR(255)   NOT NULL,
+  elementProp      VARCHAR(255)   NOT NULL,
+  PRIMARY KEY (idTypeSet)
+) ENGINE = InnoDB;
+
+CREATE TABLE properties (
+  idProperty       INTEGER(30)    NOT NULL AUTO_INCREMENT,
+  propertyName     VARCHAR(191)   NOT NULL UNIQUE,
+  idTypeSet        INTEGER(30)    NOT NULL,
+  PRIMARY KEY (idProperty),
+  FOREIGN KEY (idTypeSet) REFERENCES typesSets (idTypeSet)
+) ENGINE = InnoDB;
 
 CREATE TABLE users (
   idUser           INTEGER(30)    NOT NULL AUTO_INCREMENT,
   username         VARCHAR(191)   NOT NULL UNIQUE,
   password         VARCHAR(255)   NOT NULL,
-  PRIMARY KEY (idUser)
+  idTypeSet        INTEGER(30)    NOT NULL,
+  PRIMARY KEY (idUser),
+  FOREIGN KEY (idTypeSet) REFERENCES typesSets (idTypeSet)
 ) ENGINE = InnoDB;
 
 CREATE TABLE roles (
@@ -31,27 +48,13 @@ CREATE TABLE userroles (
   FOREIGN KEY (idRole) REFERENCES roles (idRole) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
--- characters
-
-CREATE TABLE typesSets (
-  idTypeSet        INTEGER(30)    NOT NULL AUTO_INCREMENT,
-  categoryType     VARCHAR(191)   NOT NULL UNIQUE,
-  sizeType         VARCHAR(255)   NOT NULL,
-  elementType      VARCHAR(191)   NOT NULL UNIQUE,
-  elementFortune   VARCHAR(255)   NOT NULL,
-  elementProp      VARCHAR(255)   NOT NULL,
-  PRIMARY KEY (idTypeSet)
-) ENGINE = InnoDB;
-
 CREATE TABLE categories (
   idCategory       INTEGER(30)    NOT NULL AUTO_INCREMENT,
   name             VARCHAR(191)   NOT NULL UNIQUE,
   size             INTEGER(30)    NOT NULL,
   idUser           INTEGER(30)    NOT NULL,
-  idTypeSet        INTEGER(30)    NOT NULL,
   PRIMARY KEY (idCategory),
-  FOREIGN KEY (idUser) REFERENCES users (idUser),
-  FOREIGN KEY (idTypeSet) REFERENCES typesSets (idTypeSet)
+  FOREIGN KEY (idUser) REFERENCES users (idUser)
 ) ENGINE = InnoDB;
 
 CREATE TABLE elements (
@@ -68,13 +71,34 @@ CREATE TABLE elements (
 
 -- sample data
 
+INSERT INTO typesSets (categoryType, sizeType, elementType, elementFortune, elementProp) VALUES
+  ('Wood', 'Number of trees', 'Elf', 'Number of arrows', 'Crossbow type'),
+  ('Tower', 'Height', 'Wizard', 'Money', 'Element'),
+  ('Cave', 'Area', 'Dragon', 'Gold', 'Color');
+
+INSERT INTO properties (propertyName, idTypeSet) VALUES
+  ('Bow 1',  1),
+  ('Bow 2',  1),
+  ('Bow 3',  1),
+  ('Bow 4',  1),
+
+  ('Water',  2),
+  ('Fire',   2),
+  ('Earth',  2),
+  ('Air',    2),
+
+  ('Red',    3),
+  ('Green',  3),
+  ('Blue',   3),
+  ('Yellow', 3);
+
 -- 'admin' -> 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg='
 -- 'qwer' -> '9vLqj0XYoFfJVmoz+ZR02i5camYE1zYSFlDicwxvsKM='
-INSERT INTO users (idUser, username, password) VALUES
-  (1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg='),
-  (2, 'user1', '9vLqj0XYoFfJVmoz+ZR02i5camYE1zYSFlDicwxvsKM='),
-  (3, 'user2', '9vLqj0XYoFfJVmoz+ZR02i5camYE1zYSFlDicwxvsKM='),
-  (4, 'user3', '9vLqj0XYoFfJVmoz+ZR02i5camYE1zYSFlDicwxvsKM=');
+INSERT INTO users (idUser, username, password, idTypeSet) VALUES
+  (1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', 1),
+  (2, 'user1', '9vLqj0XYoFfJVmoz+ZR02i5camYE1zYSFlDicwxvsKM=', 2),
+  (3, 'user2', '9vLqj0XYoFfJVmoz+ZR02i5camYE1zYSFlDicwxvsKM=', 3),
+  (4, 'user3', '9vLqj0XYoFfJVmoz+ZR02i5camYE1zYSFlDicwxvsKM=', 2);
 
 INSERT INTO roles (idRole, rolename) VALUES
   (1, 'User'),
@@ -87,14 +111,11 @@ INSERT INTO userroles (idUser, idRole) VALUES
   (3, 1),
   (4, 1);
 
-INSERT INTO typesSets (categoryType, sizeType, elementType, elementFortune, elementProp) VALUES
-  ('Wood', 'Number of trees', 'Elf', 'Number of arrows', 'Crossbow type');
-
-INSERT INTO categories (name, size, idUser, idTypeSet) VALUES
-  ('Foreign Wood', 50, 2, 1),
-  ('Black Wood',   71, 2, 1),
-  ('Dark Wood',    30, 3, 1),
-  ('Random Wood',  83, 4, 1);
+INSERT INTO categories (name, size, idUser) VALUES
+  ('Foreign Wood',  50, 1),
+  ('Black Tower',   71, 2),
+  ('Dark Cave',     30, 3),
+  ('Random Tower',  83, 4);
 
 INSERT INTO elements (name, fortune, property, power, idCategory) VALUES
   ('Cori',  5, 1, 30, 1),
@@ -111,5 +132,5 @@ INSERT INTO elements (name, fortune, property, power, idCategory) VALUES
   ('Mora',  9, 2, 69, 3),
   ('Kick', 20, 4, 80, 3),
 
-  ('Elf1',  5, 2, 69, 4),
-  ('Elf2', 10, 4, 90, 4);
+  ('Wiz1',  5, 2, 69, 4),
+  ('Wiz2', 10, 4, 90, 4);

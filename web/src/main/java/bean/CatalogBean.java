@@ -25,7 +25,7 @@ public class CatalogBean implements Serializable {
 
     private CharactersServiceRemote charactersServiceRemote;
     private TreeNode root;
-    private List<Element> bestElements;
+    private LinkedList<LinkedList<Element>> bestElements;
 
     public CatalogBean() throws NamingException {
 
@@ -79,7 +79,7 @@ public class CatalogBean implements Serializable {
     }
 
     private void initBestElementsList() {
-        bestElements = charactersServiceRemote.getBestElementsByQuantity();
+        bestElements = charactersServiceRemote.getBestElementsForTypeSets();
     }
 
     private List<Category> getCategories() {
@@ -90,11 +90,11 @@ public class CatalogBean implements Serializable {
         return root;
     }
 
-    public List<Element> getBestElements() {
+    public LinkedList<LinkedList<Element>> getBestElements() {
         return bestElements;
     }
 
-    public void setBestElements(List<Element> bestElements) {
+    public void setBestElements(LinkedList<LinkedList<Element>> bestElements) {
         this.bestElements = bestElements;
     }
 }

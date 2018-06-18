@@ -19,19 +19,35 @@ public class CategoryDAO extends AbstractDAO<Category, Integer> {
         this.entityClass = Category.class;
     }
 
-    public List<Category> findAllWithElementsAndTypes() {
+    public List<Category> findAllWithElements() {
         TypedQuery<Category> query = em.createQuery(
                 "SELECT c FROM Category c " +
-                        "JOIN FETCH c.elements e " +
-                        "JOIN FETCH c.typeSet t", Category.class);
+                        "JOIN FETCH c.elements e ", Category.class);
         return query.getResultList();
     }
 
-    public Optional<Category> findByIdWithTypeSet(Integer id) {
+    public Optional<Category> findByIdWithUser(Integer id) {
         Optional<Category> category;
         TypedQuery<Category> query = em.createQuery(
                 "SELECT c FROM Category c " +
-                        "JOIN FETCH c.typeSet t " +
+                        "JOIN FETCH c.user u " +
+                        "WHERE c.idCategory = :id", Category.class
+        );
+        query.setParameter("id", id);
+        try {
+            category = Optional.of(query.getSingleResult());
+        } catch (PersistenceException e) {
+            category = Optional.empty();
+        }
+        return category;
+    }
+
+    public Optional<Category> findByIdWithUserAndElements(Integer id) {
+        Optional<Category> category;
+        TypedQuery<Category> query = em.createQuery(
+                "SELECT c FROM Category c " +
+                        "JOIN FETCH c.user u " +
+                        "JOIN FETCH c.elements e " +
                         "WHERE c.idCategory = :id", Category.class
         );
         query.setParameter("id", id);

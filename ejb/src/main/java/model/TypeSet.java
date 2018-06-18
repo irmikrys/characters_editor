@@ -17,7 +17,7 @@ public class TypeSet implements Serializable {
     private String elementType;
     private String elementFortune;
     private String elementProp;
-    private Collection<Category> categories;
+    private Collection<User> users;
 
     public TypeSet() {
 
@@ -83,14 +83,15 @@ public class TypeSet implements Serializable {
         this.elementProp = elementProp;
     }
 
-    @OneToMany(mappedBy = "typeSet")
-    public Collection<Category> getCategories() {
-        return categories;
+    @OneToMany(mappedBy = "typeSet", fetch = FetchType.EAGER)
+    public Collection<User> getUsers() {
+        return users;
     }
 
-    public void setCategories(Collection<Category> categories) {
-        this.categories = categories;
+    public void setUsers(Collection<User> users) {
+        this.users = users;
     }
+
 
     @Override
     public boolean equals(Object o) {

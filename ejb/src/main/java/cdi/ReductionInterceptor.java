@@ -1,5 +1,7 @@
 package cdi;
 
+import model.Category;
+
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
@@ -14,18 +16,34 @@ import java.util.Optional;
 public class ReductionInterceptor {
 
     @PersistenceContext(name = "com.irmikrys.soa")
-    private EntityManager entityManager;
+    private EntityManager em;
 
     @AroundInvoke
     public Object manageCreation(InvocationContext invocationContext) throws Exception {
 
-        TypedQuery<Integer> query = entityManager.createQuery(
-          "SELECT max(e.fortune) FROM Element e ", Integer.class
-        );
-
-        //category, name, propAmount, propType, power
+        //category, name, fortune, property, power
         Object[] contextParams = invocationContext.getParameters();
+        Category category = (Category) contextParams[0];
         System.out.println(Arrays.asList(contextParams));
+        System.out.println(category.getIdCategory());
+
+        TypedQuery<Category> categoryQuery = em.createQuery(
+                "SELECT c FROM Category c " +
+                        "JOIN FETCH c.user u " +
+                        "JOIN FETCH u.typeSet t " +
+                        "WHERE c.idCategory = :idCategory", Category.class
+        );
+        categoryQuery.setParameter("idCategory", category.getIdCategory());
+        Integer idTypeSet = categoryQuery.getSingleResult().getUser().getTypeSet().getIdTypeSet();
+
+        TypedQuery<Integer> query = em.createQuery(
+          "SELECT max(e.fortune) FROM TypeSet t " +
+                  "JOIN t.users u " +
+                  "JOIN u.categories c " +
+                  "JOIN c.elements e " +
+                  "WHERE t.idTypeSet = :idTypeSet", Integer.class
+        );
+        query.setParameter("idTypeSet", idTypeSet);
 
         Integer amountToCheck = Integer.valueOf(contextParams[2].toString());
         Optional<Integer> maxAmount = Optional.ofNullable(query.getSingleResult());

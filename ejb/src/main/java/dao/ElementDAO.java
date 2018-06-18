@@ -25,7 +25,6 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
         TypedQuery<Element> query = em.createQuery(
                 "SELECT e FROM Element e " +
                         "JOIN FETCH e.category c " +
-                        "JOIN FETCH c.typeSet t " +
                         "WHERE e.idElement = :id", Element.class
         );
         query.setParameter("id", id);
@@ -43,7 +42,6 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
                 "SELECT e FROM Element e " +
                         "JOIN FETCH e.category c " +
                         "JOIN FETCH c.user u " +
-                        "JOIN FETCH c.typeSet t " +
                         "WHERE e.idElement = :id", Element.class
         );
         query.setParameter("id", id);
@@ -59,20 +57,22 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
         TypedQuery<Element> query = em.createQuery(
                 "SELECT e from Element e " +
                         "JOIN FETCH e.category c " +
-                        "JOIN FETCH c.typeSet t " +
                         "WHERE c.idCategory = :idCategory", Element.class
         );
         query.setParameter("idCategory", idCategory);
         return query.getResultList();
     }
 
-    public List<Element> findBestElementsByQuantity() {
+    public List<Element> findBestElementsByTypeSet(Integer idTypeSet) {
         TypedQuery<Element> query = em.createQuery(
                 "SELECT e from Element e " +
                         "JOIN FETCH e.category c " +
-                        "JOIN FETCH c.typeSet t " +
+                        "JOIN FETCH c.user u " +
+                        "JOIN FETCH u.typeSet t " +
+                        "WHERE t.idTypeSet = :idTypeSet " +
                         "ORDER BY e.fortune DESC ", Element.class
         );
+        query.setParameter("idTypeSet", idTypeSet);
         query.setMaxResults(5);
         return query.getResultList();
     }

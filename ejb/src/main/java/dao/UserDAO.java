@@ -30,7 +30,24 @@ public class UserDAO extends AbstractDAO<User, Integer> {
     public Optional<User> findByUsername(String username) {
         Optional<User> user;
         TypedQuery<User> query = em.createQuery(
-                "SELECT u FROM User u WHERE u.username = :username",
+                "SELECT u FROM User u " +
+                        "WHERE u.username = :username",
+                User.class);
+        query.setParameter("username", username);
+        try {
+            user = Optional.of(query.getSingleResult());
+        } catch (PersistenceException e) {
+            user = Optional.empty();
+        }
+        return user;
+    }
+
+    public Optional<User> findByUsernameWithTypeSet(String username) {
+        Optional<User> user;
+        TypedQuery<User> query = em.createQuery(
+                "SELECT u FROM User u " +
+                        "JOIN FETCH u.typeSet t " +
+                        "WHERE u.username = :username",
                 User.class);
         query.setParameter("username", username);
         try {
