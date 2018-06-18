@@ -53,9 +53,19 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
         return element;
     }
 
+    public List<Element> findAllByIdCategory(Integer idCategory) {
+        TypedQuery<Element> query = em.createQuery(
+                "SELECT e from Element e " +
+                        "JOIN FETCH e.categoryByIdCategory c " +
+                        "WHERE c.idCategory = :idCategory", Element.class
+        );
+        query.setParameter("idCategory", idCategory);
+        return query.getResultList();
+    }
+
     public List<Element> findBestElementsByQuantity() {
         TypedQuery<Element> query = em.createQuery(
-                "SELECT e from Element e ORDER BY e.arrowsNum DESC ", Element.class
+                "SELECT e from Element e ORDER BY e.fortune DESC ", Element.class
         );
         query.setMaxResults(5);
         return query.getResultList();
@@ -68,9 +78,9 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
             if (name != null && !name.isEmpty())
                 element.setName(name);
             if (fortune != null)
-                element.setArrowsNum(fortune);
+                element.setFortune(fortune);
             if (propType != null)
-                element.setCrossbow(propType);
+                element.setProperty(propType);
             if (power != null)
                 element.setPower(power);
         });

@@ -5,8 +5,10 @@ import org.jboss.ejb3.annotation.SecurityDomain;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
 @Stateless
 @SecurityDomain("soaEJBApplicationDomain")
@@ -17,9 +19,28 @@ public class CategoryDAO extends AbstractDAO<Category, Integer> {
         this.entityClass = Category.class;
     }
 
-    public List<Category> findAllWithElves() {
-        TypedQuery<Category> query = em.createQuery("SELECT w FROM Category w JOIN FETCH w.elementByIdCategory e", Category.class);
+    public List<Category> findAllWithElementsAndTypes() {
+        TypedQuery<Category> query = em.createQuery(
+                "SELECT c FROM Category c " +
+                        "JOIN FETCH c.elementsByIdCategory e " +
+                        "JOIN FETCH c.typeSetByIdTypeSet t", Category.class);
         return query.getResultList();
+    }
+
+    public Optional<Category> findByIdWithTypeSet(Integer id) {
+        Optional<Category> category;
+        TypedQuery<Category> query = em.createQuery(
+                "SELECT c FROM Category c " +
+                        "JOIN FETCH c.typeSetByIdTypeSet t " +
+                        "WHERE c.idCategory = :id", Category.class
+        );
+        query.setParameter("id", id);
+        try {
+            category = Optional.of(query.getSingleResult());
+        } catch (PersistenceException e) {
+            category = Optional.empty();
+        }
+        return category;
     }
 
     public void update(Integer id, String name, Integer size) {

@@ -23,6 +23,7 @@ public class CategoryBean implements Serializable {
     private String name;
     private String mode;
     private Category category;
+    private Integer typeSetId = 1;
 
     private String successMessage;
     private String errorMessage;
@@ -70,7 +71,7 @@ public class CategoryBean implements Serializable {
     }
 
     private void addCategory() {
-        charactersServiceRemote.addCategory(name, value);
+        charactersServiceRemote.addCategory(name, value, typeSetId);
         clearFields();
         successMessage = "Category successfully added!";
         errorMessage = null;

@@ -20,7 +20,7 @@ public class ReductionInterceptor {
     public Object manageCreation(InvocationContext invocationContext) throws Exception {
 
         TypedQuery<Integer> query = entityManager.createQuery(
-          "SELECT max(e.arrowsNum) FROM Element e ", Integer.class
+          "SELECT max(e.fortune) FROM Element e ", Integer.class
         );
 
         //category, name, propAmount, propType, power

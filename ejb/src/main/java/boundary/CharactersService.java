@@ -3,10 +3,12 @@ package boundary;
 import cdi.Reductional;
 import dao.CategoryDAO;
 import dao.ElementDAO;
+import dao.TypeSetDAO;
 import dao.UserDAO;
 import exception.*;
 import model.Category;
 import model.Element;
+import model.TypeSet;
 import model.User;
 import org.jboss.ejb3.annotation.SecurityDomain;
 
@@ -34,6 +36,8 @@ public class CharactersService implements CharactersServiceRemote {
     private CategoryDAO categoryDAO;
     @EJB
     private ElementDAO elementDAO;
+    @EJB
+    private TypeSetDAO typeSetDAO;
 
     @Override
     public String getHello() {
@@ -85,24 +89,27 @@ public class CharactersService implements CharactersServiceRemote {
 
     @Override
     public LinkedList<Category> getAllCategoriesWithElements() {
-        return new LinkedList<>(categoryDAO.findAllWithElves());
+        return new LinkedList<>(categoryDAO.findAllWithElementsAndTypes());
     }
 
     @Override
     public Category getCategoryByIdCategory(Integer idCategory) {
-        return categoryDAO.findById(idCategory).orElseThrow(
+        return categoryDAO.findByIdWithTypeSet(idCategory).orElseThrow(
                 () -> new CategoryNotFoundException("Cannot get category by id " + idCategory)
         );
     }
 
     @Override
-    public void addCategory(String name, Integer size) {
+    public void addCategory(String name, Integer size, Integer typeSetId) {
         User userFromSession = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName())
                 .orElseThrow(
                         () -> new UserNotFoundException("User logged in not found")
                 );
+        TypeSet typeSetById = typeSetDAO.findById(typeSetId).orElseThrow(
+                () -> new TypeSetNotFoundException("Type set not found for id " + typeSetId)
+        );
         try {
-            categoryDAO.add(new Category(name, size, userFromSession));
+            categoryDAO.add(new Category(name, size, userFromSession, typeSetById));
         } catch (PersistenceException e) {
             throw new PersistenceException("Cannot add category");
         }
@@ -130,6 +137,12 @@ public class CharactersService implements CharactersServiceRemote {
     }
 
     // elements
+
+
+    @Override
+    public LinkedList<Element> getElementsByIdCategory(Integer idCategory) {
+        return new LinkedList<>(elementDAO.findAllByIdCategory(idCategory));
+    }
 
     @Override
     public Element getElementByIdElement(Integer idElement) {

@@ -5,8 +5,8 @@ CREATE DATABASE soa_game
 
 USE soa_game;
 
-DROP TABLE IF EXISTS elves, woods;
-DROP TABLE IF EXISTS userroles, users, roles;
+DROP TABLE IF EXISTS categories, typesSets, elements;
+DROP TABLE IF EXISTS users, roles, userroles;
 
 -- users
 
@@ -27,32 +27,42 @@ CREATE TABLE userroles (
   idUser           INTEGER(30)    NOT NULL,
   idRole           INTEGER(30)    NOT NULL,
   PRIMARY KEY (idUser, idRole),
-  FOREIGN KEY (idUser) references users (idUser) ON DELETE CASCADE,
-  FOREIGN KEY (idRole) references roles (idRole) ON DELETE CASCADE
+  FOREIGN KEY (idUser) REFERENCES users (idUser) ON DELETE CASCADE,
+  FOREIGN KEY (idRole) REFERENCES roles (idRole) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 -- characters
 
-CREATE TABLE Categorys (
-  idCategory           INTEGER(30)    NOT NULL AUTO_INCREMENT,
-  name             VARCHAR(255)   NOT NULL UNIQUE,
-  treesNum         INTEGER(30)    NOT NULL,
-  idUser           INTEGER(30)    NOT NULL,
-  PRIMARY KEY (idCategory),
-  FOREIGN KEY (idUser) references users (idUser)
+CREATE TABLE typesSets (
+  idTypeSet        INTEGER(30)    NOT NULL AUTO_INCREMENT,
+  categoryType     VARCHAR(191)   NOT NULL UNIQUE,
+  sizeType         VARCHAR(255)   NOT NULL,
+  elementType      VARCHAR(191)   NOT NULL UNIQUE,
+  elementFortune   VARCHAR(255)   NOT NULL,
+  elementProp      VARCHAR(255)   NOT NULL,
+  PRIMARY KEY (idTypeSet)
 ) ENGINE = InnoDB;
 
-CREATE TABLE elves (
-  idElement            INTEGER(30)    NOT NULL AUTO_INCREMENT,
+CREATE TABLE categories (
+  idCategory       INTEGER(30)    NOT NULL AUTO_INCREMENT,
+  name             VARCHAR(191)   NOT NULL UNIQUE,
+  size             INTEGER(30)    NOT NULL,
+  idUser           INTEGER(30)    NOT NULL,
+  idTypeSet        INTEGER(30)    NOT NULL,
+  PRIMARY KEY (idCategory),
+  FOREIGN KEY (idUser) REFERENCES users (idUser),
+  FOREIGN KEY (idTypeSet) REFERENCES typesSets (idTypeSet)
+) ENGINE = InnoDB;
+
+CREATE TABLE elements (
+  idElement        INTEGER(30)    NOT NULL AUTO_INCREMENT,
   name             VARCHAR(255)   NOT NULL,
-  arrowsNum        INTEGER(30)    NOT NULL,
-  crossbow         INTEGER(30)    NOT NULL,
+  fortune          INTEGER(30)    NOT NULL,
+  property         INTEGER(30)    NOT NULL,
   power            INTEGER(30)    NOT NULL,
-  idCategory           INTEGER(30)    NOT NULL,
+  idCategory       INTEGER(30)    NOT NULL,
   PRIMARY KEY (idElement),
-  FOREIGN KEY (idCategory) references Categorys (idCategory) ON DELETE CASCADE,
-  CONSTRAINT CHK_crossbow CHECK (crossbow >= 1 AND crossbow <= 4),
-  CONSTRAINT CHK_arrows CHECK (arrowsNum >= 0)
+  FOREIGN KEY (idCategory) REFERENCES categories (idCategory) ON DELETE CASCADE
 ) ENGINE = InnoDB;
 
 
@@ -77,13 +87,17 @@ INSERT INTO userroles (idUser, idRole) VALUES
   (3, 1),
   (4, 1);
 
-INSERT INTO Categorys (name, treesNum, idUser) VALUES
-  ('Foreign Category', 50, 2),
-  ('Black Category', 71, 2),
-  ('Dark Category', 30, 3),
-  ('Random Category', 83, 4);
 
-INSERT INTO elves (name, arrowsNum, crossbow, power, idCategory) VALUES
+INSERT INTO typesSets (categoryType, sizeType, elementType, elementFortune, elementProp) VALUES
+  ('Wood', 'Number of trees', 'Elf', 'Number of arrows', 'Crossbow type');
+
+INSERT INTO categories (name, size, idUser, idTypeSet) VALUES
+  ('Foreign Wood', 50, 2, 1),
+  ('Black Wood',   71, 2, 1),
+  ('Dark Wood',    30, 3, 1),
+  ('Random Wood',  83, 4, 1);
+
+INSERT INTO elements (name, fortune, property, power, idCategory) VALUES
   ('Cori',  5, 1, 30, 1),
   ('Cody',  7, 3, 12, 1),
   ('Bonn', 12, 3, 17, 1),
@@ -98,5 +112,5 @@ INSERT INTO elves (name, arrowsNum, crossbow, power, idCategory) VALUES
   ('Mora',  9, 2, 69, 3),
   ('Kick', 20, 4, 80, 3),
 
-  ('Element1',  5, 2, 69, 4),
-  ('Element2', 10, 4, 90, 4);
+  ('Elf1',  5, 2, 69, 4),
+  ('Elf2', 10, 4, 90, 4);

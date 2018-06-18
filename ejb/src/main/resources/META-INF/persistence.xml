@@ -10,6 +10,7 @@
         <class>model.Element</class>
         <class>model.User</class>
         <class>model.Category</class>
+        <class>model.TypeSet</class>
 
         <properties>
             <property name="hibernate.show_sql" value="true"/>

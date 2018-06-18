@@ -108,8 +108,8 @@ public class ElementBean implements Serializable {
 
     private void setParamsByElement(Element element) {
         name = element.getName();
-        quantity = element.getArrowsNum();
-        propType = element.getCrossbow();
+        quantity = element.getFortune();
+        propType = element.getProperty();
         power = element.getPower();
         selectedCategory = element.getCategoryByIdCategory();
     }

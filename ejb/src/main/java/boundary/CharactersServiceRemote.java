@@ -22,7 +22,7 @@ public interface CharactersServiceRemote {
 
     Category getCategoryByIdCategory(Integer idCategory);
 
-    void addCategory(String name, Integer size);
+    void addCategory(String name, Integer size, Integer typeSetId);
 
     void updateCategory(Integer idCategory, String name, Integer size);
 
@@ -31,6 +31,8 @@ public interface CharactersServiceRemote {
     Element getElementByIdElement(Integer idElement);
 
     Element getElementWithCategoryByIdElement(Integer idElement);
+
+    LinkedList<Element> getElementsByIdCategory(Integer idCategory);
 
     LinkedList<Element> getBestElementsByQuantity();
 

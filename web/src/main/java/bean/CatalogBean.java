@@ -74,7 +74,7 @@ public class CatalogBean implements Serializable {
                                 Category.getIdCategory(),
                                 Category.getName()
                         ),
-                        Category.getElementByIdCategory()
+                        charactersServiceRemote.getElementsByIdCategory(Category.getIdCategory())
                 ));
     }
 
