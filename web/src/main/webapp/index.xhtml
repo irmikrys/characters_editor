@@ -67,7 +67,7 @@
                     <p:dataList value="#{catalogBean.bestElements}"
                                 var="element"
                                 type="ordered"
-                                rendered="#{catalogBean.bestElements.size > 0}"
+                                rendered="#{catalogBean.bestElements.size() > 0}"
                     >
                         <f:facet name="header">
                             #{catalogBean.bestElements.get(0).category.typeSet.elementFortune}
