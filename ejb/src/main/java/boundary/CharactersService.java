@@ -71,6 +71,13 @@ public class CharactersService implements CharactersServiceRemote {
         }
     }
 
+    // type sets
+
+    @Override
+    public LinkedList<TypeSet> getAllTypeSets() {
+        return new LinkedList<>(typeSetDAO.findAllTypeSetsFetchAll());
+    }
+
     // categories
 
     @Override

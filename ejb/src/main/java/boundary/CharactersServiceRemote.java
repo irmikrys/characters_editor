@@ -2,6 +2,7 @@ package boundary;
 
 import model.Category;
 import model.Element;
+import model.TypeSet;
 import model.User;
 
 import java.util.LinkedList;
@@ -13,6 +14,8 @@ public interface CharactersServiceRemote {
     boolean userExists(String username);
 
     void updatePassword(String username, String newPassword);
+
+    LinkedList<TypeSet> getAllTypeSets();
 
     LinkedList<Category> getAllCategories();
 

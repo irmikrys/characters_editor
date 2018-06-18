@@ -111,7 +111,7 @@ public class ElementBean implements Serializable {
         quantity = element.getFortune();
         propType = element.getProperty();
         power = element.getPower();
-        selectedCategory = element.getCategoryByIdCategory();
+        selectedCategory = element.getCategory();
     }
 
     private void clearFields() {

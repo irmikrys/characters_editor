@@ -64,11 +64,15 @@
                 <h2>Best equipped characters</h2>
 
                 <h:form>
-                    <p:dataList value="#{catalogBean.bestElements}" var="element" type="ordered">
+                    <p:dataList value="#{catalogBean.bestElements}"
+                                var="element"
+                                type="ordered"
+                                rendered="#{catalogBean.bestElements.size > 0}"
+                    >
                         <f:facet name="header">
-                            #{catalogBean.bestElements.get(0).categoryByIdCategory.typeSetByIdTypeSet.elementFortune}
+                            #{catalogBean.bestElements.get(0).category.typeSet.elementFortune}
                             <span class="label label-success">
-                                #{catalogBean.bestElements.get(0).categoryByIdCategory.typeSetByIdTypeSet.elementType}
+                                #{catalogBean.bestElements.get(0).category.typeSet.elementType}
                             </span>
                         </f:facet>
                         #{element.name}: #{element.fortune}
