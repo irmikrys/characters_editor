@@ -69,8 +69,10 @@ public class ElementBean implements Serializable {
                 selectedCategory = charactersServiceRemote
                         .getCategoryByIdCategory(Integer.parseInt(idCategoryString));
             }
-        } catch (NumberFormatException e) {
-            errorMessage = "Wrong id format " + MessagesUtility.getSimpleMessageFromException(e.getMessage());
+        } catch (Exception e) {
+            errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
+            if(e instanceof NumberFormatException)
+                errorMessage = "Wrong id format " + MessagesUtility.getSimpleMessageFromException(e.getMessage());
         }
     }
 
