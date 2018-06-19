@@ -17,6 +17,8 @@ dependencies {
     compile group: 'org.wildfly.security', name: 'wildfly-elytron', version:'1.2.4.Final'
     compile group: 'javax.enterprise', name: 'cdi-api', version: '2.0'
 
+    compile group: 'org.jboss.spec.javax.jms', name: 'jboss-jms-api_2.0_spec', version: '1.0.2.Final'
+
     compile group: 'com.sun.faces', name: 'jsf-api', version: '2.2.17'
     compile group: 'com.sun.faces', name: 'jsf-impl', version: '2.2.17'
 
