@@ -30,7 +30,11 @@
                                   style="font-size: small;"
                     />
                 </h4>
-                <h5><span class="label label-success">Elf</span></h5>
+                <h5>
+                    <span class="label label-success">
+                        #{sessionBean.userFromSession.typeSet.elementType}
+                    </span>
+                </h5>
                 <hr/>
 
                 <h:outputText value="#{elementBean.successMessage}"
@@ -63,7 +67,7 @@
 
                         <h:outputLabel id="quantity-lbl"
                                        for="quantity">
-                            Quantity:
+                            #{sessionBean.userFromSession.typeSet.elementFortune}
                         </h:outputLabel>
                         <h:inputText id="quantity"
                                      styleClass="form-control"
@@ -71,14 +75,14 @@
                                      required="true"
                                      requiredMessage="Value is required"
                                      converterMessage="You can enter digits only"
-                                     a:placeholder="quantity...">
+                                     a:placeholder="#{sessionBean.userFromSession.typeSet.elementFortune.toLowerCase()}...">
                             <f:ajax/>
                         </h:inputText>
                         <h:message for="quantity" styleClass="error-message"/><br/>
 
                         <h:outputLabel id="propType-lbl"
                                        for="propType">
-                            Property type:
+                            #{sessionBean.userFromSession.typeSet.elementProp}
                         </h:outputLabel>
                         <h:inputText id="propType"
                                      styleClass="form-control"
@@ -86,7 +90,7 @@
                                      required="true"
                                      requiredMessage="Value is required"
                                      converterMessage="You can enter digits only"
-                                     a:placeholder="type...">
+                                     a:placeholder="#{sessionBean.userFromSession.typeSet.elementProp.toLowerCase()}...">
                             <f:ajax/>
                         </h:inputText>
                         <h:message for="propType" styleClass="error-message"/><br/>
@@ -117,7 +121,8 @@
             </div>
         </div>
     </div>
-    <div class="footer container-fluid">Some text in a footer</div>
+
+    <ui:include src="templates/footer.xhtml"/>
 
 </h:body>
 </html>

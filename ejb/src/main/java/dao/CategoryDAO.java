@@ -33,6 +33,15 @@ public class CategoryDAO extends AbstractDAO<Category, Integer> {
         return query.getResultList();
     }
 
+    public List<Category> findAllByUser(Integer idUser) {
+        TypedQuery<Category> query = em.createQuery(
+                "SELECT c FROM User u " +
+                        "JOIN u.categories c " +
+                        "WHERE u.idUser = :idUser ", Category.class);
+        query.setParameter("idUser", idUser);
+        return query.getResultList();
+    }
+
     public Optional<Category> findByIdWithUser(Integer id) {
         Optional<Category> category;
         TypedQuery<Category> query = em.createQuery(

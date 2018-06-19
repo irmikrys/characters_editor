@@ -16,6 +16,7 @@ import java.util.List;
 
 import static util.MessagesUtility.getParamFromContext;
 
+//todo when editing element, labels apply to this element
 @Named(value = "elementBean")
 @ViewScoped
 public class ElementBean implements Serializable {
@@ -48,7 +49,7 @@ public class ElementBean implements Serializable {
         clearFields();
         successMessage = null;
         mode = "Add element";
-        categories = charactersServiceRemote.getAllCategories();
+        categories = charactersServiceRemote.getCategoriesBySessionUser();
         if (categories.size() != 0) {
             selectedCategory = categories.get(0);
         }
@@ -56,16 +57,20 @@ public class ElementBean implements Serializable {
         String idElementString = getParamFromContext("idElement");
         String idCategoryString = getParamFromContext("idCategory");
 
-        if (idElementString != null && !idElementString.equals("0")) {
-            mode = "Edit element";
-            element = charactersServiceRemote
-                    .getElementWithCategoryByIdElement(Integer.parseInt(idElementString));
-            setParamsByElement(element);
-        }
+        try {
+            if (idElementString != null && !idElementString.equals("0")) {
+                element = charactersServiceRemote
+                        .getElementWithCategoryByIdElement(Integer.parseInt(idElementString));
+                setParamsByElement(element);
+                mode = "Edit element";
+            }
 
-        if (idCategoryString != null) {
-            selectedCategory = charactersServiceRemote
-                    .getCategoryByIdCategory(Integer.parseInt(idCategoryString));
+            if (idCategoryString != null) {
+                selectedCategory = charactersServiceRemote
+                        .getCategoryByIdCategory(Integer.parseInt(idCategoryString));
+            }
+        } catch (NumberFormatException e) {
+            errorMessage = "Wrong id format " + MessagesUtility.getSimpleMessageFromException(e.getMessage());
         }
     }
 
@@ -90,7 +95,10 @@ public class ElementBean implements Serializable {
     }
 
     private void addElement() {
-        charactersServiceRemote.addElement(selectedCategory, name, quantity, propType, power);
+        charactersServiceRemote.addElement(
+                selectedCategory.getIdCategory(),
+                name, quantity, propType, power
+        );
         clearFields();
         successMessage = "Element successfully added!";
         errorMessage = null;

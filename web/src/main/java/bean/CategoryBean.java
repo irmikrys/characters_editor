@@ -46,11 +46,11 @@ public class CategoryBean implements Serializable {
         String idCategoryString = getParamFromContext("idCategory");
 
         if (idCategoryString != null) {
-            mode = "Edit category";
             category = charactersServiceRemote
                     .getCategoryByIdCategory(Integer.parseInt(idCategoryString));
             value = category.getSize();
             name = category.getName();
+            mode = "Edit category";
         }
     }
 

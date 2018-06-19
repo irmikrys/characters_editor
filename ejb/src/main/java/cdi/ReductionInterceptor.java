@@ -21,11 +21,10 @@ public class ReductionInterceptor {
     @AroundInvoke
     public Object manageCreation(InvocationContext invocationContext) throws Exception {
 
-        //category, name, fortune, property, power
+        //idCategory, name, fortune, property, power
         Object[] contextParams = invocationContext.getParameters();
-        Category category = (Category) contextParams[0];
+        Integer idCategory = (Integer) contextParams[0];
         System.out.println(Arrays.asList(contextParams));
-        System.out.println(category.getIdCategory());
 
         TypedQuery<Category> categoryQuery = em.createQuery(
                 "SELECT c FROM Category c " +
@@ -33,7 +32,7 @@ public class ReductionInterceptor {
                         "JOIN FETCH u.typeSet t " +
                         "WHERE c.idCategory = :idCategory", Category.class
         );
-        categoryQuery.setParameter("idCategory", category.getIdCategory());
+        categoryQuery.setParameter("idCategory", idCategory);
         Integer idTypeSet = categoryQuery.getSingleResult().getUser().getTypeSet().getIdTypeSet();
 
         TypedQuery<Integer> query = em.createQuery(

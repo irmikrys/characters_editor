@@ -30,7 +30,11 @@
                                   style="font-size: small;"
                     />
                 </h4>
-                <h5><span class="label label-danger">Wood</span></h5>
+                <h5>
+                    <span class="label label-danger">
+                        #{sessionBean.userFromSession.typeSet.categoryType}
+                    </span>
+                </h5>
                 <hr/>
 
                 <h:outputText value="#{categoryBean.successMessage}"
@@ -62,7 +66,7 @@
 
                         <h:outputLabel id="quantity-lbl"
                                        for="quantity">
-                            Quantity:
+                            #{sessionBean.userFromSession.typeSet.sizeType}
                         </h:outputLabel>
                         <h:inputText id="quantity"
                                      styleClass="form-control"
@@ -70,7 +74,7 @@
                                      required="true"
                                      requiredMessage="Value is required"
                                      converterMessage="You can enter digits only"
-                                     a:placeholder="quantity...">
+                                     a:placeholder="#{sessionBean.userFromSession.typeSet.sizeType.toLowerCase()}...">
                             <f:ajax/>
                         </h:inputText>
                         <h:message for="quantity" styleClass="error-message"/>
@@ -87,7 +91,7 @@
         </div>
     </div>
 
-    <div class="footer container-fluid">Some text in a footer</div>
+    <ui:include src="templates/footer.xhtml"/>
 
 </h:body>
 </html>

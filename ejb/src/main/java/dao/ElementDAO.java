@@ -36,7 +36,7 @@ public class ElementDAO extends AbstractDAO<Element, Integer> {
         return element;
     }
 
-    public Optional<Element> findFetchAllByIdElement(Integer id) {
+    public Optional<Element> findWithCategoryAndUser(Integer id) {
         Optional<Element> element;
         TypedQuery<Element> query = em.createQuery(
                 "SELECT e FROM Element e " +

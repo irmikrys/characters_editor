@@ -78,6 +78,12 @@ public class CharactersService implements CharactersServiceRemote {
         }
     }
 
+    public LinkedList<Category> getCategoriesBySessionUser() {
+        User user = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName())
+                .orElseThrow(() -> new UserNotFoundException("User logged in not found"));
+        return new LinkedList<>(categoryDAO.findAllByUser(user.getIdUser()));
+    }
+
     // categories
 
     @Override
@@ -175,12 +181,21 @@ public class CharactersService implements CharactersServiceRemote {
 
     @Reductional
     @Override
-    public void addElement(Category category, String name, Integer quantity, Integer propType, Integer power) {
+    public void addElement(Integer idCategory, String name, Integer quantity, Integer propType, Integer power) {
+        Category category = categoryDAO.findByIdWithUser(idCategory).orElseThrow(
+                () -> new CategoryNotFoundException("Category not found by id " + idCategory)
+        );
         User categoryUser = userDAO.findById(category.getUser().getIdUser()).orElseThrow(
                 () -> new UserNotFoundException("Category owner doesn't exist")
         );
-        if (isUserLoggedInModifying(categoryUser.getUsername())) {
+        if (isUserLoggedInModifying(categoryUser.getUsername())) { //hasModificationRights(...) -> then also admin could
             try {
+                Category categoryChecked = categoryDAO.findByIdWithUser(category.getIdCategory()).orElseThrow(
+                        () -> new CategoryNotFoundException("Cannot find element category  " + category)
+                );
+                if (!category.getUser().getUsername().equals(categoryChecked.getUser().getUsername())) {
+                    throw new AccessDeniedException("You cannot add element to someone else's category");
+                }
                 elementDAO.add(new Element(category, name, quantity, propType, power));
             } catch (PersistenceException e) {
                 throw new PersistenceException("Cannot add element");
@@ -192,14 +207,21 @@ public class CharactersService implements CharactersServiceRemote {
 
     @Override
     public void updateElement(Integer idCategory, Integer idElement, String name, Integer fortune, Integer propType, Integer power) {
-        Element element = elementDAO.findWithCategory(idElement).orElseThrow(
+        Element element = elementDAO.findWithCategoryAndUser(idElement).orElseThrow(
                 () -> new ElementNotFoundException("Cannot find element to update by id " + idElement)
         );
         if (hasModificationRights(element.getCategory().getUser().getUsername())) {
             try {
-                Category category = categoryDAO.findById(idCategory).orElseThrow(
+                Category category = categoryDAO.findByIdWithUser(idCategory).orElseThrow(
                         () -> new CategoryNotFoundException("Cannot find element category by id " + idCategory)
                 );
+                User loggedUser = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName())
+                        .orElseThrow(
+                                () -> new UserNotFoundException("User logged in not found")
+                        );
+                if (!loggedUser.getUsername().equals(category.getUser().getUsername())) {
+                    throw new AccessDeniedException("You cannot move element to someone else's category");
+                }
                 elementDAO.update(category, idElement, name, fortune, propType, power);
             } catch (PersistenceException e) {
                 throw new PersistenceException("Cannot update element " + idElement);

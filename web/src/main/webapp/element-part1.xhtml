@@ -30,7 +30,11 @@
                                   style="font-size: small;"
                     />
                 </h4>
-                <h5><span class="label label-success">Elf</span></h5>
+                <h5>
+                    <span class="label label-success">
+                        #{sessionBean.userFromSession.typeSet.elementType}
+                    </span>
+                </h5>
                 <hr/>
 
                 <h:form id="element-form">
@@ -71,7 +75,8 @@
             </div>
         </div>
     </div>
-    <div class="footer container-fluid">Some text in a footer</div>
+
+    <ui:include src="templates/footer.xhtml"/>
 
 </h:body>
 </html>

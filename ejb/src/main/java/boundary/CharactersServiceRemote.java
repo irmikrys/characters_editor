@@ -16,6 +16,8 @@ public interface CharactersServiceRemote {
 
     void updatePassword(String username, String newPassword);
 
+    LinkedList<Category> getCategoriesBySessionUser();
+
     LinkedList<Category> getAllCategories();
 
     LinkedList<Category> getAllCategoriesWithElements();
@@ -36,7 +38,7 @@ public interface CharactersServiceRemote {
 
     LinkedList<LinkedList<Element>> getBestElementsForTypeSets();
 
-    void addElement(Category category, String name, Integer quantity, Integer propType, Integer power);
+    void addElement(Integer idCategory, String name, Integer quantity, Integer propType, Integer power);
 
     void updateElement(Integer idCategory, Integer idElement, String name, Integer fortune, Integer propType, Integer power);
 
