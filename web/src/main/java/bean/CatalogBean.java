@@ -10,7 +10,10 @@ import util.EJBUtility;
 import util.MessagesUtility;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.naming.NamingException;
 import java.io.Serializable;
@@ -19,7 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Named(value = "catalogBean")
-@ViewScoped
+@SessionScoped
 public class CatalogBean implements Serializable {
 
     private static final long serialVersionUID = -9217712787886869451L;
@@ -54,22 +57,20 @@ public class CatalogBean implements Serializable {
             } else {
                 System.out.println("Delete element: Unknown type");
             }
-            initDataView();
-            initBestElementsList();
         } catch (Exception e) {
             errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
             initBestElementsList();
         }
     }
 
-    private void initBestElementsList() {
+    public void initBestElementsList() {
         System.out.println("Initialization of best elements...");
         bestElements = new LinkedList<>();
         bestElements = charactersServiceRemote.getBestElementsForTypeSets();
         bestElements.forEach(list -> list.forEach(System.out::println));
     }
 
-    private void initDataView() {
+    public void initDataView() {
         root = new DefaultTreeNode(new TreeNodeData(null, null, "Categories", null), null);
         this.getCategories().forEach(
                 category -> addNode(
@@ -83,6 +84,18 @@ public class CatalogBean implements Serializable {
                         charactersServiceRemote.getElementsByIdCategory(category.getIdCategory()),
                         category.getUser().getTypeSet().getIdTypeSet()
                 ));
+    }
+
+    public void updateGrowlAction(ActionEvent actionEvent) {
+        if(errorMessage != null && !errorMessage.isEmpty()) {
+            addMessage(errorMessage);
+            System.out.println(errorMessage);
+        }
+    }
+
+    private void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     private void addNode(TreeNode parentNode, TreeNodeData data, Collection<Element> elements, Integer typeSetId) {

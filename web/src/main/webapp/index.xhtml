@@ -32,19 +32,21 @@
                 <h5><span class="label label-danger">Fantasy</span>
                 </h5>
 
-                <h:outputText value="#{catalogBean.errorMessage}"
-                              styleClass="error-message"
-                              id="error-msg"
-                />
                 <br/>
 
+                <p:growl id="error-msg" life="3000" />
                 <h:form id="catalogForm">
                     <p:tree value="#{catalogBean.root}" var="node">
                         <p:treeNode>
                             <p:commandButton icon="ui-icon-trash"
-                                             actionListener="#{catalogBean.deleteElement(node.type, node.id)}"
                                              update="catalogForm error-msg"
                             >
+
+                                <f:actionListener binding="#{catalogBean.deleteElement(node.type, node.id)}"/>
+                                <f:actionListener binding="#{catalogBean.updateGrowlAction(null)}"/>
+                                <f:actionListener binding="#{catalogBean.initDataView()}"/>
+                                <f:actionListener binding="#{catalogBean.initBestElementsList()}"/>
+
                                 <p:confirm icon="ui-icon-alert"
                                            header="Delete"
                                            message="Are you sure you want to delete #{node.name}?"
