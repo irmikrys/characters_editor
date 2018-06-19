@@ -16,7 +16,6 @@ import java.util.List;
 
 import static util.MessagesUtility.getParamFromContext;
 
-//todo when editing element, labels apply to this element
 @Named(value = "elementBean")
 @ViewScoped
 public class ElementBean implements Serializable {
