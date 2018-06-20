@@ -35,4 +35,22 @@ public class TypeSetDAO extends AbstractDAO<TypeSet, Integer> {
         return typeSet;
     }
 
+    public Optional<TypeSet> findTypeSetByElementId(Integer idElement) {
+        Optional<TypeSet> typeSet;
+        TypedQuery<TypeSet> query = em.createQuery(
+                "SELECT t FROM TypeSet t " +
+                        "JOIN t.users u " +
+                        "JOIN u.categories c " +
+                        "JOIN c.elements e " +
+                        "WHERE e.idElement = :idElement", TypeSet.class
+        );
+        query.setParameter("idElement", idElement);
+        try {
+            typeSet = Optional.of(query.getSingleResult());
+        } catch (PersistenceException e) {
+            typeSet = Optional.empty();
+        }
+        return typeSet;
+    }
+
 }

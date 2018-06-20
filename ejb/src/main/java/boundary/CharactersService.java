@@ -95,6 +95,14 @@ public class CharactersService implements CharactersServiceRemote {
     }
 
     @Override
+    public LinkedList<Category> getAllCategoriesForElement(Integer idElement) {
+        TypeSet typeSet = typeSetDAO.findTypeSetByElementId(idElement).orElseThrow(
+                () -> new TypeSetNotFoundException("Cannot get typeset for element by id " + idElement)
+        );
+        return new LinkedList<>(categoryDAO.findAllForElementByIdTypeSet(typeSet.getIdTypeSet()));
+    }
+
+    @Override
     public LinkedList<Category> getAllCategoriesWithElements() {
         return new LinkedList<>(categoryDAO.findAllWithElements());
     }
@@ -104,6 +112,7 @@ public class CharactersService implements CharactersServiceRemote {
         User user = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName())
                 .orElseThrow(() -> new UserNotFoundException("User logged in not found"));
         if (sessionContext.isCallerInRole("Manager")) {
+            System.err.println("Finding all categories for user " + user.getUsername());
             return new LinkedList<>(categoryDAO.findAll());
         }
         return new LinkedList<>(categoryDAO.findAllByUser(user.getIdUser()));

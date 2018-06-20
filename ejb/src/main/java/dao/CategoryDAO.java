@@ -19,6 +19,15 @@ public class CategoryDAO extends AbstractDAO<Category, Integer> {
         this.entityClass = Category.class;
     }
 
+    public List<Category> findAllForElementByIdTypeSet(Integer idTypeSet) {
+        TypedQuery<Category> query = em.createQuery(
+          "SELECT c FROM Category c " +
+                  "WHERE c.user.typeSet.idTypeSet = :idTypeSet", Category.class
+        );
+        query.setParameter("idTypeSet", idTypeSet);
+        return query.getResultList();
+    }
+
     public List<Category> findAllWithElements() {
         TypedQuery<Category> query = em.createQuery(
                 "SELECT c FROM Category c " +

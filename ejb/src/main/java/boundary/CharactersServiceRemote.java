@@ -19,9 +19,11 @@ public interface CharactersServiceRemote {
 
     void updatePassword(String username, String newPassword);
 
+    LinkedList<Category> getAllCategories();
+
     LinkedList<Category> getCategoriesBySessionUser();
 
-    LinkedList<Category> getAllCategories();
+    LinkedList<Category> getAllCategoriesForElement(Integer idElement);
 
     LinkedList<Category> getAllCategoriesWithElements();
 

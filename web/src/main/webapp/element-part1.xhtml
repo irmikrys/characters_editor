@@ -37,6 +37,16 @@
                 </h5>
                 <hr/>
 
+                <h:outputText value="#{elementBean.successMessage}"
+                              styleClass="success-message"
+                              rendered="#{elementBean.errorMessage == null}"
+                />
+
+                <h:outputText value="#{elementBean.errorMessage}"
+                              styleClass="error-message"
+                              rendered="#{elementBean.errorMessage != null}"
+                />
+
                 <h:form id="element-form">
 
                     <div class="form-group form-div">

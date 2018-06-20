@@ -1,7 +1,6 @@
 package bean;
 
 import boundary.CharactersServiceRemote;
-import exception.TypeSetNotFoundException;
 import model.Category;
 import model.Element;
 import model.TypeSet;
@@ -51,46 +50,46 @@ public class ElementBean implements Serializable {
         clearFields();
         successMessage = null;
         mode = "Add element";
-        categories = charactersServiceRemote.getCategoriesBySessionUser();
-        if (categories.size() != 0) {
-            selectedCategory = categories.get(0);
-            try {
-                categoryTypeSet = charactersServiceRemote.getTypeSetByIdCategory(selectedCategory.getIdCategory());
-            } catch (Exception e) {
-                errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
-            }
-        }
 
         String idElementString = getParamFromContext("idElement");
         String idCategoryString = getParamFromContext("idCategory");
 
         try {
+            categories = charactersServiceRemote.getCategoriesBySessionUser();
+            setSelectedCategoryWithTypeSet();
+
             if (idElementString != null && !idElementString.equals("0")) {
                 element = charactersServiceRemote
                         .getElementWithCategoryByIdElement(Integer.parseInt(idElementString));
                 setParamsByElement(element);
                 mode = "Edit element";
+                if (element != null && element.getIdElement() > 0) {
+                    try {
+                        categories = charactersServiceRemote.getAllCategoriesForElement(element.getIdElement());
+                        selectedCategory = element.getCategory();
+                        setCategoryTypeSet();
+                    } catch (Exception e) {
+                        errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
+                    }
+                }
             }
 
             if (idCategoryString != null) {
                 selectedCategory = charactersServiceRemote
                         .getCategoryByIdCategory(Integer.parseInt(idCategoryString));
-                categoryTypeSet = charactersServiceRemote.getTypeSetByIdCategory(selectedCategory.getIdCategory());
+                setCategoryTypeSet();
             }
         } catch (Exception e) {
             errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
-            if(e instanceof NumberFormatException)
+            if (e instanceof NumberFormatException)
                 errorMessage = "Wrong id format " + MessagesUtility.getSimpleMessageFromException(e.getMessage());
         }
+
     }
 
     public void categoryChanged(AjaxBehaviorEvent event) {
         System.out.println("Selected category: " + selectedCategory.getIdCategory());
-        try {
-            categoryTypeSet = charactersServiceRemote.getTypeSetByIdCategory(selectedCategory.getIdCategory());
-        } catch (TypeSetNotFoundException e) {
-            errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
-        }
+        setCategoryTypeSet();
     }
 
     public void submitElement() {
@@ -106,6 +105,21 @@ public class ElementBean implements Serializable {
             } catch (Exception e) {
                 errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
             }
+        }
+    }
+
+    private void setSelectedCategoryWithTypeSet() {
+        if (categories.size() != 0) {
+            selectedCategory = categories.get(0);
+            setCategoryTypeSet();
+        }
+    }
+
+    private void setCategoryTypeSet() {
+        try {
+            categoryTypeSet = charactersServiceRemote.getTypeSetByIdCategory(selectedCategory.getIdCategory());
+        } catch (Exception e) {
+            errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
         }
     }
 
