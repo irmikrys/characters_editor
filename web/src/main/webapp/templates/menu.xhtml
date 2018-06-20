@@ -13,7 +13,7 @@
             <li><a>
                 <p:commandButton value="Logout (#{sessionBean.userFromSession.username})"
                                  icon="fa fa-sign-out"
-                                 actionListener="#{sessionBean.logout}"
+                                 actionListener="#{sessionBean.logout(false)}"
                                  style= "   width: 100%;
                                             background-color: transparent;
                                             border: none;

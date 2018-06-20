@@ -8,6 +8,7 @@ import util.EJBUtility;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -40,6 +41,7 @@ public class SessionBean implements Serializable {
         userFromSession = charactersServiceRemote.getUserFromSessionWithTypeSet();
         String sessionMessage = sessionManager.getSessionMessage(userFromSession.getUsername());
         System.out.println("Initialization of session bean: " + sessionMessage);
+        if(sessionMessage.equals("Another session")) logout(true);
     }
 
     @PreDestroy
@@ -56,18 +58,30 @@ public class SessionBean implements Serializable {
         this.userFromSession = userFromSession;
     }
 
-    public void logout() {
+    public void logout(boolean hasSession) {
         HttpServletRequest req = (HttpServletRequest) (FacesContext.getCurrentInstance().getExternalContext().getRequest());
         sessionManager.logoutUser(req.getRemoteUser());
-
         FacesContext facesContext = FacesContext.getCurrentInstance();
+
+        if(hasSession) {
+            facesContext.addMessage(
+                    null, new FacesMessage("You already have a session")
+            );
+        }
+
         ExternalContext externalContext = facesContext.getExternalContext();
-        externalContext.invalidateSession();
+        externalContext.getFlash().setKeepMessages(true);
 
         try {
             externalContext.redirect("index.xhtml");
+            facesContext.getMessageList().forEach(
+                    facesMessage -> System.out.println(facesMessage.getSummary())
+            );
         } catch (IOException e) {
             System.err.println("Redirect error");
         }
+
+        externalContext.invalidateSession();
+
     }
 }
