@@ -30,8 +30,8 @@ public class SessionManagerBean implements Serializable {
         String sessionMessage;
 
         if (loggedInUsers.contains(username)) {
-            System.out.println("User '" + username + "' already have session");
-            sessionMessage = loggedInUsers.get(loggedInUsers.indexOf(username));
+            System.out.println("User '" + username + "' already has got session");
+            sessionMessage = "Another session";
         } else {
             System.out.println("User '" + username + "' started new session");
             sessionMessage = "New session";
