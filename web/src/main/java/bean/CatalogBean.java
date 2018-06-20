@@ -59,7 +59,6 @@ public class CatalogBean implements Serializable {
             }
         } catch (Exception e) {
             errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
-            initBestElementsList();
         }
     }
 
@@ -67,7 +66,6 @@ public class CatalogBean implements Serializable {
         System.out.println("Initialization of best elements...");
         bestElements = new LinkedList<>();
         bestElements = charactersServiceRemote.getBestElementsForTypeSets();
-        bestElements.forEach(list -> list.forEach(System.out::println));
     }
 
     public void initDataView() {

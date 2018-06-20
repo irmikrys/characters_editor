@@ -39,7 +39,7 @@
                     <p:tree value="#{catalogBean.root}" var="node">
                         <p:treeNode>
                             <p:commandButton icon="ui-icon-trash"
-                                             update="catalogForm error-msg"
+                                             update="catalogForm error-msg best-elems"
                             >
 
                                 <f:actionListener binding="#{catalogBean.deleteElement(node.type, node.id)}"/>
@@ -74,6 +74,7 @@
                 <h:dataTable value="#{catalogBean.bestElements}"
                              var="bestElems"
                              style="width: 100%;"
+                             id="best-elems"
                 >
                     <h:column>
                         <h:form>
