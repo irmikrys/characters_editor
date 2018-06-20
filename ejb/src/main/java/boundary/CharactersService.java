@@ -91,7 +91,7 @@ public class CharactersService implements CharactersServiceRemote {
 
     @Override
     public LinkedList<Category> getAllCategories() {
-        return new LinkedList<>(categoryDAO.findAllWithUser());
+        return new LinkedList<>(categoryDAO.findAllWithUserAndTypeSet());
     }
 
     @Override

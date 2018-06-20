@@ -8,30 +8,30 @@
 DROP TABLE IF EXISTS elements, categories, properties, userroles, users, roles, typesSets;
 
 CREATE TABLE typesSets (
-  idTypeSet        INTEGER(30)    NOT NULL AUTO_INCREMENT,
+  idtypeSet        INTEGER(30)    NOT NULL AUTO_INCREMENT,
   categoryType     VARCHAR(191)   NOT NULL UNIQUE,
   sizeType         VARCHAR(255)   NOT NULL,
   elementType      VARCHAR(191)   NOT NULL UNIQUE,
   elementFortune   VARCHAR(255)   NOT NULL,
   elementProp      VARCHAR(255)   NOT NULL,
-  PRIMARY KEY (idTypeSet)
+  PRIMARY KEY (idtypeSet)
 ) ENGINE = InnoDB;
 
 CREATE TABLE properties (
   idProperty       INTEGER(30)    NOT NULL AUTO_INCREMENT,
   propertyName     VARCHAR(191)   NOT NULL UNIQUE,
-  idTypeSet        INTEGER(30)    NOT NULL,
+  idtypeSet        INTEGER(30)    NOT NULL,
   PRIMARY KEY (idProperty),
-  FOREIGN KEY (idTypeSet) REFERENCES typesSets (idTypeSet)
+  FOREIGN KEY (idtypeSet) REFERENCES typesSets (idtypeSet)
 ) ENGINE = InnoDB;
 
 CREATE TABLE users (
   idUser           INTEGER(30)    NOT NULL AUTO_INCREMENT,
   username         VARCHAR(191)   NOT NULL UNIQUE,
   password         VARCHAR(255)   NOT NULL,
-  idTypeSet        INTEGER(30)    NOT NULL,
+  idtypeSet        INTEGER(30)    NOT NULL,
   PRIMARY KEY (idUser),
-  FOREIGN KEY (idTypeSet) REFERENCES typesSets (idTypeSet)
+  FOREIGN KEY (idtypeSet) REFERENCES typesSets (idtypeSet)
 ) ENGINE = InnoDB;
 
 CREATE TABLE roles (
@@ -76,7 +76,7 @@ INSERT INTO typesSets (categoryType, sizeType, elementType, elementFortune, elem
   ('Tower', 'Height', 'Wizard', 'Money', 'Element'),
   ('Cave', 'Area', 'Dragon', 'Gold', 'Color');
 
-INSERT INTO properties (propertyName, idTypeSet) VALUES
+INSERT INTO properties (propertyName, idtypeSet) VALUES
   ('Bow 1',  1),
   ('Bow 2',  1),
   ('Bow 3',  1),
@@ -94,7 +94,7 @@ INSERT INTO properties (propertyName, idTypeSet) VALUES
 
 -- 'admin' -> 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg='
 -- 'qwer' -> '9vLqj0XYoFfJVmoz+ZR02i5camYE1zYSFlDicwxvsKM='
-INSERT INTO users (idUser, username, password, idTypeSet) VALUES
+INSERT INTO users (idUser, username, password, idtypeSet) VALUES
   (1, 'admin', 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg=', 1),
   (2, 'user1', '9vLqj0XYoFfJVmoz+ZR02i5camYE1zYSFlDicwxvsKM=', 2),
   (3, 'user2', '9vLqj0XYoFfJVmoz+ZR02i5camYE1zYSFlDicwxvsKM=', 3),

@@ -35,10 +35,11 @@ public class CategoryDAO extends AbstractDAO<Category, Integer> {
         return query.getResultList();
     }
 
-    public List<Category> findAllWithUser() {
+    public List<Category> findAllWithUserAndTypeSet() {
         TypedQuery<Category> query = em.createQuery(
                 "SELECT c FROM Category c " +
-                        "JOIN FETCH c.user u ", Category.class);
+                        "JOIN FETCH c.user u " +
+                        "JOIN FETCH u.typeSet ", Category.class);
         return query.getResultList();
     }
 

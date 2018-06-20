@@ -77,26 +77,26 @@ public class CatalogBean implements Serializable {
                                 category.getClass().getSimpleName(),
                                 category.getIdCategory(),
                                 category.getName(),
-                                category.getUser().getTypeSet().getIdTypeSet()
+                                category.getUser().getTypeSet().getCategoryType()
                         ),
                         charactersServiceRemote.getElementsByIdCategory(category.getIdCategory()),
-                        category.getUser().getTypeSet().getIdTypeSet()
+                        category.getUser().getTypeSet().getElementType()
                 ));
     }
 
     public void updateGrowlAction(ActionEvent actionEvent) {
-        if(errorMessage != null && !errorMessage.isEmpty()) {
+        if (errorMessage != null && !errorMessage.isEmpty()) {
             addMessage(errorMessage);
             System.out.println(errorMessage);
         }
     }
 
     private void addMessage(String summary) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    private void addNode(TreeNode parentNode, TreeNodeData data, Collection<Element> elements, Integer typeSetId) {
+    private void addNode(TreeNode parentNode, TreeNodeData data, Collection<Element> elements, String typeSetType) {
         TreeNode node = new DefaultTreeNode(data, parentNode);
         node.setExpanded(true);
         if (elements != null) {
@@ -106,10 +106,10 @@ public class CatalogBean implements Serializable {
                                 e.getClass().getSimpleName(),
                                 e.getIdElement(),
                                 e.getName(),
-                                typeSetId
+                                typeSetType
                         ),
                         null,
-                        typeSetId
+                        typeSetType
                 );
             }
         }
