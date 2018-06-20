@@ -34,7 +34,7 @@
 
                 <br/>
 
-                <p:growl id="error-msg" life="3000" />
+                <p:growl id="error-msg" life="3000"/>
                 <h:form id="catalogForm">
                     <p:tree value="#{catalogBean.root}" var="node">
                         <p:treeNode>
@@ -56,7 +56,7 @@
                                       icon="ui-icon-pencil">
                                 <f:param name="id#{node.type}" value="#{node.id}"/>
                             </p:button>
-                            <h:outputText value="#{node.name} + #{node.idTypeSet}" />
+                            <h:outputText value="#{node.name} + #{node.idTypeSet}"/>
                         </p:treeNode>
                     </p:tree>
 
@@ -71,24 +71,29 @@
                 <hr/>
                 <h2>Best equipped characters</h2>
 
-                <ui:repeat value="#{catalogBean.bestElements}" var="bestElems">
-                    <h:form id="best-elems#{bestElems.get(0).category.user.typeSet.idTypeSet}">
-                        <p:dataList value="#{bestElems}"
-                                    var="element"
-                                    type="ordered"
-                                    rendered="#{bestElems.size() > 0}"
-                        >
-                            <f:facet name="header">
-                                #{bestElems.get(0).category.user.typeSet.elementFortune}
-                                <span class="label label-success">
+                <h:dataTable value="#{catalogBean.bestElements}"
+                             var="bestElems"
+                             style="width: 100%;"
+                >
+                    <h:column>
+                        <h:form>
+                            <p:dataList value="#{bestElems}"
+                                        var="element"
+                                        type="ordered"
+                                        rendered="#{bestElems.size() > 0}"
+                            >
+                                <f:facet name="header">
+                                    #{bestElems.get(0).category.user.typeSet.elementFortune}
+                                    <span class="label label-success">
                                 #{bestElems.get(0).category.user.typeSet.elementType}
                             </span>
-                            </f:facet>
-                            #{element.name}: #{element.fortune}
-                        </p:dataList>
-                    </h:form>
-                    <br/>
-                </ui:repeat>
+                                </f:facet>
+                                #{element.name}: #{element.fortune}
+                            </p:dataList>
+                        </h:form>
+                        <br/>
+                    </h:column>
+                </h:dataTable>
 
                 <hr/>
             </div>
