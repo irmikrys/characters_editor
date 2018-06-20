@@ -1,4 +1,4 @@
-package bean;
+package bean.manager;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -9,19 +9,20 @@ import java.util.List;
 
 @Named
 @ApplicationScoped
-public class ManagerBean implements Serializable {
+public class SessionManagerBean implements Serializable {
 
     private static final long serialVersionUID = -7902579108607730057L;
 
     private List<String> loggedInUsers;
 
-    public ManagerBean() {
+    public SessionManagerBean() {
         System.out.println("Manager bean constructor");
     }
 
     @PostConstruct
     public void init() {
         loggedInUsers = new LinkedList<>();
+        System.out.println("Manager bean initialized");
     }
 
     public String getSessionMessage(String username) {

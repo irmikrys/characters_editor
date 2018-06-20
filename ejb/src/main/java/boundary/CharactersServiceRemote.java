@@ -2,11 +2,14 @@ package boundary;
 
 import model.Category;
 import model.Element;
+import model.TypeSet;
 import model.User;
 
 import java.util.LinkedList;
 
 public interface CharactersServiceRemote {
+
+    TypeSet getTypeSetByIdCategory(Integer idCategory);
 
     LinkedList<User> getAllUsers();
 

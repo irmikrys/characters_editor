@@ -2,6 +2,7 @@ package bean;
 
 import boundary.CharactersServiceRemote;
 import model.Category;
+import model.TypeSet;
 import util.EJBUtility;
 import util.MessagesUtility;
 
@@ -23,7 +24,7 @@ public class CategoryBean implements Serializable {
     private String name;
     private String mode;
     private Category category;
-    private Integer typeSetId = 1;
+    private TypeSet typeSet;
 
     private String successMessage;
     private String errorMessage;
@@ -43,14 +44,29 @@ public class CategoryBean implements Serializable {
         errorMessage = null;
         mode = "Add category";
 
+        try {
+            typeSet = charactersServiceRemote.getUserFromSessionWithTypeSet().getTypeSet();
+        } catch (Exception e) {
+            errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
+        }
+
         String idCategoryString = getParamFromContext("idCategory");
 
         if (idCategoryString != null) {
-            category = charactersServiceRemote
-                    .getCategoryByIdCategory(Integer.parseInt(idCategoryString));
-            value = category.getSize();
-            name = category.getName();
             mode = "Edit category";
+            try {
+                category = charactersServiceRemote
+                        .getCategoryByIdCategory(Integer.parseInt(idCategoryString));
+                typeSet = charactersServiceRemote.getTypeSetByIdCategory(category.getIdCategory());
+                value = category.getSize();
+                name = category.getName();
+            } catch (Exception e) {
+                if(e instanceof NumberFormatException) {
+                    errorMessage = "Wrong id format " + MessagesUtility.getSimpleMessageFromException(e.getMessage());
+                } else {
+                    errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
+                }
+            }
         }
     }
 
@@ -71,7 +87,7 @@ public class CategoryBean implements Serializable {
     }
 
     private void addCategory() {
-        charactersServiceRemote.addCategory(name, value, typeSetId);
+        charactersServiceRemote.addCategory(name, value, typeSet.getIdTypeSet());
         clearFields();
         successMessage = "Category successfully added!";
         errorMessage = null;
@@ -126,5 +142,13 @@ public class CategoryBean implements Serializable {
 
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
+    }
+
+    public TypeSet getTypeSet() {
+        return typeSet;
+    }
+
+    public void setTypeSet(TypeSet typeSet) {
+        this.typeSet = typeSet;
     }
 }

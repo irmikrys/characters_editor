@@ -40,6 +40,15 @@ public class CharactersService implements CharactersServiceRemote {
     @EJB
     private TypeSetDAO typeSetDAO;
 
+    // typeSet
+
+    @Override
+    public TypeSet getTypeSetByIdCategory(Integer idCategory) {
+        return typeSetDAO.findTypeSetByCategoryId(idCategory).orElseThrow(
+                () -> new TypeSetNotFoundException("Cannot find type set by id category " + idCategory)
+        );
+    }
+
     // users
 
     @Override
@@ -78,12 +87,6 @@ public class CharactersService implements CharactersServiceRemote {
         }
     }
 
-    public LinkedList<Category> getCategoriesBySessionUser() {
-        User user = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName())
-                .orElseThrow(() -> new UserNotFoundException("User logged in not found"));
-        return new LinkedList<>(categoryDAO.findAllByUser(user.getIdUser()));
-    }
-
     // categories
 
     @Override
@@ -94,6 +97,16 @@ public class CharactersService implements CharactersServiceRemote {
     @Override
     public LinkedList<Category> getAllCategoriesWithElements() {
         return new LinkedList<>(categoryDAO.findAllWithElements());
+    }
+
+    @Override
+    public LinkedList<Category> getCategoriesBySessionUser() {
+        User user = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName())
+                .orElseThrow(() -> new UserNotFoundException("User logged in not found"));
+        if (sessionContext.isCallerInRole("Manager")) {
+            return new LinkedList<>(categoryDAO.findAll());
+        }
+        return new LinkedList<>(categoryDAO.findAllByUser(user.getIdUser()));
     }
 
     @Override
@@ -188,7 +201,7 @@ public class CharactersService implements CharactersServiceRemote {
         User categoryUser = userDAO.findById(category.getUser().getIdUser()).orElseThrow(
                 () -> new UserNotFoundException("Category owner doesn't exist")
         );
-        if (isUserLoggedInModifying(categoryUser.getUsername())) { //hasModificationRights(...) -> then also admin could
+        if (hasModificationRights(categoryUser.getUsername())) {
             try {
                 Category categoryChecked = categoryDAO.findByIdWithUser(category.getIdCategory()).orElseThrow(
                         () -> new CategoryNotFoundException("Cannot find element category  " + category)
@@ -219,6 +232,10 @@ public class CharactersService implements CharactersServiceRemote {
                         .orElseThrow(
                                 () -> new UserNotFoundException("User logged in not found")
                         );
+                if (element.getCategory().getUser().getTypeSet().getIdTypeSet() !=
+                        category.getUser().getTypeSet().getIdTypeSet()) {
+                    throw new WrongFractionException("Cannot move element to another fraction");
+                }
                 if (!loggedUser.getUsername().equals(category.getUser().getUsername())) {
                     throw new AccessDeniedException("You cannot move element to someone else's category");
                 }
@@ -251,11 +268,11 @@ public class CharactersService implements CharactersServiceRemote {
 
     private boolean hasModificationRights(String username) {
 
-        return isUserLoggedInModifying(username) ||
+        return isOwnerModifying(username) ||
                 sessionContext.isCallerInRole("Manager");
     }
 
-    private boolean isUserLoggedInModifying(String username) {
+    private boolean isOwnerModifying(String username) {
         User loggedUser = userDAO.findByUsername(sessionContext.getCallerPrincipal().getName())
                 .orElseThrow(() -> new UserNotFoundException("User logged in not found"));
         return loggedUser.getUsername().equals(username);
