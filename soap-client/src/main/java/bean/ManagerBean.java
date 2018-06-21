@@ -104,7 +104,7 @@ public class ManagerBean implements Serializable {
     public void updateElementPower() {
         try {
             System.out.println("Updating power in 5 seconds...");
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(5);
             System.out.println("Trying to update power after 5 seconds...");
             editorService.updateElementPower(elemIdEdit);
             successMessage = "Element randomly updated!";
@@ -118,12 +118,6 @@ public class ManagerBean implements Serializable {
         initDataView();
     }
 
-    public void initCategories() {
-        System.out.println("Initializing categories...");
-        categories = new ArrayList<>(editorService.getAllCategories());
-        categoriesForUser = new ArrayList<>(editorService.getAllCategoriesForSoapUser());
-    }
-
     public void updateGrowlAction(ActionEvent actionEvent) {
         if (errorMessage != null && !errorMessage.isEmpty()) {
             addMessage(errorMessage);
@@ -135,12 +129,18 @@ public class ManagerBean implements Serializable {
         }
     }
 
+    private void initCategories() {
+        System.out.println("Initializing categories...");
+        categories = new ArrayList<>(editorService.getAllCategories());
+        categoriesForUser = new ArrayList<>(editorService.getAllCategoriesForSoapUser());
+    }
+
     private void addMessage(String summary) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    public void initDataView() {
+    private void initDataView() {
         System.out.println("Initializing data view...");
         root = new DefaultTreeNode("Categories", null);
         this.getCategories().forEach(categoryDTO -> {
