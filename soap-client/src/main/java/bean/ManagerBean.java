@@ -92,7 +92,10 @@ public class ManagerBean implements Serializable {
         this.getCategories().forEach(categoryDTO -> {
             Collection<ElementDTO> elements = null;
             if(categoryDTO.getElementDTOS().size() > 0) elements = categoryDTO.getElementDTOS();
-            addNode(root, categoryDTO.getName(), elements);
+            addNode(root,
+                    categoryDTO.getName() + " (" + categoryDTO.getIdCategory() + ") ",
+                    elements
+            );
         });
     }
 
@@ -101,7 +104,7 @@ public class ManagerBean implements Serializable {
         node.setExpanded(true);
         if (elements != null) {
             for (ElementDTO e : elements) {
-                addNode(node, e.getName(), null);
+                addNode(node, e.getName() + " (" + e.getIdElement() + ") ", null);
             }
         }
     }
