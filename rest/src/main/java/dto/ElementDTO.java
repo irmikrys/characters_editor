@@ -23,6 +23,13 @@ public class ElementDTO {
         power = element.getPower();
     }
 
+    public ElementDTO(String name, int fortune, int property, int power) {
+        this.name = name;
+        this.fortune = fortune;
+        this.property = property;
+        this.power = power;
+    }
+
     public String getName() {
         return name;
     }

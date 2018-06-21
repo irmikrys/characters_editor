@@ -11,7 +11,10 @@ public class Main {
         ClientREST clientREST = new ClientREST();
 
         clientREST.getAllCategories()
-                .forEach(System.out::println);
+                .forEach(categoryDTO -> {
+                    System.out.println(categoryDTO);
+                    categoryDTO.getElementDTOS().forEach(System.out::println);
+                });
 
         Optional<CategoryDTO> category1 = clientREST.getCategoryById(3);
         category1.ifPresent(System.out::println);
