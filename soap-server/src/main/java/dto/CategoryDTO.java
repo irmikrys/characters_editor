@@ -4,6 +4,7 @@ import model.Category;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.stream.Collectors;
 
 @XmlRootElement
@@ -12,7 +13,7 @@ public class CategoryDTO {
     private int idCategory;
     private String name;
     private int size;
-    private Collection<ElementDTO> elementDTOS;
+    private Collection<ElementDTO> elementDTOS = new LinkedList<>();
     private int idUser;
 
     public CategoryDTO() {

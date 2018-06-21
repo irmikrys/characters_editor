@@ -6,6 +6,7 @@
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
 >
 
 <h:head>
@@ -21,7 +22,15 @@
     <div class="container-fluid">
         <div class="row content">
 
+            <p:growl id="msg" life="3000"/>
+
             <div class="col-sm-12">
+
+                <p:commandButton value="Check messages"
+                                 actionListener="#{managerBean.updateGrowlAction(null)}"
+                                 update="msg"
+                />
+
                 <h4>
                     <span style="font-size: small;">INFORMATION</span>
                 </h4>
@@ -29,6 +38,14 @@
                 <h2>Current Characters</h2>
                 <h5><span class="label label-danger">Fantasy</span>
                 </h5>
+
+                <h:form id="catalogForm">
+                    <p:tree value="#{managerBean.root}" var="node">
+                        <p:treeNode>
+                            <h:outputText value="#{node}"/>
+                        </p:treeNode>
+                    </p:tree>
+                </h:form>
 
                 <hr/>
                 <h4>
@@ -39,15 +56,6 @@
                 <h2>Add category</h2>
                 <h5><span class="label label-primary">Category</span>
                 </h5>
-                <h:outputText value="#{managerBean.successMessage}"
-                              styleClass="success-message"
-                              rendered="#{managerBean.errorMessage == null}"
-                />
-
-                <h:outputText value="#{managerBean.errorMessage}"
-                              styleClass="error-message"
-                              rendered="#{managerBean.errorMessage != null}"
-                />
 
                 <h:form id="category-form">
 
@@ -84,7 +92,8 @@
 
                     <h:commandButton id="submit-category"
                                      styleClass="btn btn-default"
-                                     value="Submit"
+                                     value="Add category"
+                                     action="#{managerBean.addCategory}"
                     >
                     </h:commandButton>
 
