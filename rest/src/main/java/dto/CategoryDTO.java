@@ -1,6 +1,7 @@
 package dto;
 
 import model.Category;
+import translator.Translator;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Collection;
@@ -25,6 +26,17 @@ public class CategoryDTO {
         elementDTOS = category.getElements()
                 .stream()
                 .map(ElementDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    public CategoryDTO(Category category, Translator translator) {
+        if(translator != null) name = translator.translate(category.getName());
+        else name = category.getName();
+        size = category.getSize();
+        idUser = category.getIdUser();
+        elementDTOS = category.getElements()
+                .stream()
+                .map(element -> new ElementDTO(element, translator))
                 .collect(Collectors.toList());
     }
 

@@ -1,6 +1,7 @@
 package dto;
 
 import model.Element;
+import translator.Translator;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,6 +29,14 @@ public class ElementDTO {
         this.fortune = fortune;
         this.property = property;
         this.power = power;
+    }
+
+    public ElementDTO(Element element, Translator translator) {
+        if(translator != null) name = translator.translate(element.getName());
+        else name = element.getName();
+        fortune = element.getFortune();
+        property = element.getProperty();
+        power = element.getPower();
     }
 
     public String getName() {

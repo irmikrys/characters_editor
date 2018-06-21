@@ -6,6 +6,10 @@ import dto.CategoryDTO;
 import dto.ElementDTO;
 import model.Category;
 import model.Element;
+import translator.Dictionary;
+import translator.DictionaryRepository;
+import translator.LanguageTranslator;
+import translator.Translator;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -26,6 +30,9 @@ public class EditorManager {
     @Inject
     private ElementDAO elementDAO;
 
+    @Inject
+    private DictionaryRepository dictionaryRepository;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/categories")
@@ -42,6 +49,28 @@ public class EditorManager {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/categories/translator/{idTranslator}")
+    public Response getAllCategoriesTranslated(@PathParam("idTranslator") Integer idTranslator) {
+        Optional<Dictionary> dictionary = dictionaryRepository.getDictionary(idTranslator);
+        if(dictionary.isPresent()) {
+            Translator translator = new LanguageTranslator(dictionary.get());
+            List<CategoryDTO> categoryDTOS = categoryDAO.findAll()
+                    .stream()
+                    .map(category -> new CategoryDTO(category, translator))
+                    .collect(Collectors.toList());
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(categoryDTOS)
+                    .build();
+        } else {
+            return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .build();
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/categories/{idCategory}")
     public Response getCategoryById(@PathParam("idCategory") Integer idCategory) {
         Optional<Category> category = categoryDAO.findById(idCategory);
@@ -53,6 +82,31 @@ public class EditorManager {
         } else {
             return Response
                     .status(Response.Status.NOT_FOUND)
+                    .build();
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/categories/{idCategory}/translator/{idDictionary}")
+    public Response getCategoryByIdTranslated(
+            @PathParam("idCategory") Integer idCategory,
+            @PathParam("idDictionary") Integer idDictionary) {
+        Optional<Category> category = categoryDAO.findById(idCategory);
+        Optional<Dictionary> dictionary = dictionaryRepository.getDictionary(idDictionary);
+        if(category.isPresent() && dictionary.isPresent()) {
+            Translator translator = new LanguageTranslator(dictionary.get());
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(new CategoryDTO(category.get(), translator))
+                    .build();
+        } else {
+            return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .header(
+                            "Not Found",
+                            "category " + idCategory + " or dictionary " + idDictionary
+                    )
                     .build();
         }
     }
