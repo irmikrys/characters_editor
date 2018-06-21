@@ -20,13 +20,8 @@ public class Category implements Serializable {
 
     }
 
-    public Category(String name, int size, int idUser) {
-        this.name = name;
-        this.size = size;
-        this.idUser = idUser;
-    }
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idCategory", nullable = false)
     public Integer getIdCategory() {
         return idCategory;

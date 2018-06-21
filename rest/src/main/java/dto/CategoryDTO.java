@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 @XmlRootElement
 public class CategoryDTO {
 
-    private int idCategory;
     private String name;
     private int size;
     private Collection<ElementDTO> elementDTOS;
@@ -20,7 +19,6 @@ public class CategoryDTO {
     }
 
     public CategoryDTO(Category category) {
-        idCategory = category.getIdCategory();
         name = category.getName();
         size = category.getSize();
         idUser = category.getIdUser();
@@ -28,20 +26,6 @@ public class CategoryDTO {
                 .stream()
                 .map(ElementDTO::new)
                 .collect(Collectors.toList());
-    }
-
-    public CategoryDTO(String name, int size, int idUser) {
-        this.name = name;
-        this.size = size;
-        this.idUser = idUser;
-    }
-
-    public int getIdCategory() {
-        return idCategory;
-    }
-
-    public void setIdCategory(int idCategory) {
-        this.idCategory = idCategory;
     }
 
     public String getName() {
@@ -78,6 +62,6 @@ public class CategoryDTO {
 
     @Override
     public String toString() {
-        return String.format("CategoryDTO[%d, %s, %d]", idCategory, name, size);
+        return String.format("CategoryDTO[%s, %d]", name, size);
     }
 }

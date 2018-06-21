@@ -1,15 +1,15 @@
 package app;
 
 import dao.CategoryDAO;
+import dao.ElementDAO;
 import dto.CategoryDTO;
+import dto.ElementDTO;
 import model.Category;
+import model.Element;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -22,6 +22,9 @@ public class EditorManager {
 
     @Inject
     private CategoryDAO categoryDAO;
+
+    @Inject
+    private ElementDAO elementDAO;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -50,6 +53,26 @@ public class EditorManager {
         } else {
             return Response
                     .status(Response.Status.NOT_FOUND)
+                    .build();
+        }
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/categories/{idCategory}/elements")
+    public Response addElement(@PathParam("idCategory") Integer idCategory,
+                               ElementDTO elementDTO) {
+        Optional<Category> category = categoryDAO.findById(idCategory);
+        if (category.isPresent()) {
+            Element element = new Element(elementDTO, category.get());
+            elementDAO.add(element);
+            return Response
+                    .ok()
+                    .build();
+        } else {
+            return Response
+                    .status(Response.Status.NOT_FOUND)
+                    .header("Not Found", "category by id " + idCategory)
                     .build();
         }
     }

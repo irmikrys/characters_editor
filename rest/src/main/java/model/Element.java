@@ -1,5 +1,7 @@
 package model;
 
+import dto.ElementDTO;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -20,15 +22,16 @@ public class Element implements Serializable {
 
     }
 
-    public Element(Category category, String name, int fortune, int property, int power) {
+    public Element(ElementDTO elementDTO, Category category) {
         this.category = category;
-        this.name = name;
-        this.fortune = fortune;
-        this.property = property;
-        this.power = power;
+        this.name = elementDTO.getName();
+        this.fortune = elementDTO.getFortune();
+        this.property = elementDTO.getProperty();
+        this.power = elementDTO.getPower();
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idElement", nullable = false)
     public Integer getIdElement() {
         return idElement;

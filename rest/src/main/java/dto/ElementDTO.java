@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class ElementDTO {
 
-    private int idElement;
     private String name;
     private int fortune;
     private int property;
@@ -18,26 +17,10 @@ public class ElementDTO {
     }
 
     public ElementDTO(Element element) {
-        idElement = element.getIdElement();
         name = element.getName();
         fortune = element.getFortune();
         property = element.getProperty();
         power = element.getPower();
-    }
-
-    public ElementDTO(String name, int fortune, int property, int power) {
-        this.name = name;
-        this.fortune = fortune;
-        this.property = property;
-        this.power = power;
-    }
-
-    public int getIdElement() {
-        return idElement;
-    }
-
-    public void setIdElement(int idElement) {
-        this.idElement = idElement;
     }
 
     public String getName() {
@@ -74,6 +57,6 @@ public class ElementDTO {
 
     @Override
     public String toString() {
-        return String.format("ElementDTO[%d, %s, %d, %d]", idElement, name, property, power);
+        return String.format("ElementDTO[%s, %d, %d]", name, property, power);
     }
 }
