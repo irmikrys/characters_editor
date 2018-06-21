@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Named(value = "managerBean")
 @SessionScoped
@@ -100,6 +101,23 @@ public class ManagerBean implements Serializable {
         initDataView();
     }
 
+    public void updateElementPower() {
+        try {
+            System.out.println("Updating power in 5 seconds...");
+            TimeUnit.SECONDS.sleep(1);
+            System.out.println("Trying to update power after 5 seconds...");
+            editorService.updateElementPower(elemIdEdit);
+            successMessage = "Element randomly updated!";
+        } catch (Exception e) {
+            errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
+            successMessage = null;
+        }
+        clearFields();
+        elemIdEdit = null;
+        initCategories();
+        initDataView();
+    }
+
     public void initCategories() {
         System.out.println("Initializing categories...");
         categories = new ArrayList<>(editorService.getAllCategories());
@@ -111,7 +129,8 @@ public class ManagerBean implements Serializable {
         if (errorMessage != null && !errorMessage.isEmpty()) {
             addMessage(errorMessage);
             System.out.println(errorMessage);
-        } else if (successMessage != null && !successMessage.isEmpty()){
+        }
+        if (successMessage != null && !successMessage.isEmpty()){
             addMessage(successMessage);
             System.out.println(successMessage);
         }
@@ -156,7 +175,6 @@ public class ManagerBean implements Serializable {
         elemPower = null;
         elemProperty = null;
         elemName = null;
-        elemIdEdit = null;
         elemFortuneEdit = null;
     }
 
