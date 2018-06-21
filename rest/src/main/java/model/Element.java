@@ -2,7 +2,6 @@ package model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 @Table(name = "elements", schema = "soa_game")
@@ -10,13 +9,13 @@ public class Element implements Serializable {
 
     private static final long serialVersionUID = -5383214602565441079L;
 
-    private int idElement;
+    private Integer idElement;
     private String name;
-    private int fortune;
-    private int property;
-    private int power;
+    private Integer fortune;
+    private Integer property;
+    private Integer power;
     private Category category;
-    
+
     public Element() {
 
     }
@@ -28,19 +27,19 @@ public class Element implements Serializable {
         this.property = property;
         this.power = power;
     }
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idElement", nullable = false)
-    public int getIdElement() {
+    public Integer getIdElement() {
         return idElement;
     }
 
-    public void setIdElement(int idElement) {
+    public void setIdElement(Integer idElement) {
         this.idElement = idElement;
     }
 
-    @Column(name = "name", nullable = false)
+    @Basic
+    @Column(name = "name", nullable = false, length = 255)
     public String getName() {
         return name;
     }
@@ -49,59 +48,44 @@ public class Element implements Serializable {
         this.name = name;
     }
 
+    @Basic
     @Column(name = "fortune", nullable = false)
-    public int getFortune() {
+    public Integer getFortune() {
         return fortune;
     }
 
-    public void setFortune(int arrowsNum) {
-        this.fortune = arrowsNum;
+    public void setFortune(Integer fortune) {
+        this.fortune = fortune;
     }
 
+    @Basic
     @Column(name = "property", nullable = false)
-    public int getProperty() {
+    public Integer getProperty() {
         return property;
     }
 
-    public void setProperty(int crossbow) {
-        this.property = crossbow;
+    public void setProperty(Integer property) {
+        this.property = property;
     }
 
+    @Basic
     @Column(name = "power", nullable = false)
-    public int getPower() {
+    public Integer getPower() {
         return power;
     }
 
-    public void setPower(int power) {
+    public void setPower(Integer power) {
         this.power = power;
     }
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idCategory", referencedColumnName = "idCategory", nullable = false)
     public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Category CategoryByIdCategory) {
-        this.category = CategoryByIdCategory;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Element element = (Element) o;
-        return idElement == element.idElement &&
-                fortune == element.fortune &&
-                property == element.property &&
-                power == element.power &&
-                Objects.equals(name, element.name);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(idElement, name, fortune, property, power);
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override

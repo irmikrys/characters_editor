@@ -10,11 +10,11 @@ public class Category implements Serializable {
 
     private static final long serialVersionUID = 5793941245980666186L;
 
-    private int idCategory;
+    private Integer idCategory;
     private String name;
-    private int size;
+    private Integer size;
+    private Integer idUser;
     private Collection<Element> elements;
-    private int idUser;
 
     public Category() {
 
@@ -27,17 +27,17 @@ public class Category implements Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idCategory", nullable = false)
-    public int getIdCategory() {
+    public Integer getIdCategory() {
         return idCategory;
     }
 
-    public void setIdCategory(int idCategory) {
+    public void setIdCategory(Integer idCategory) {
         this.idCategory = idCategory;
     }
 
-    @Column(name = "name", nullable = false)
+    @Basic
+    @Column(name = "name", nullable = false, length = 191)
     public String getName() {
         return name;
     }
@@ -46,16 +46,27 @@ public class Category implements Serializable {
         this.name = name;
     }
 
+    @Basic
     @Column(name = "size", nullable = false)
-    public int getSize() {
+    public Integer getSize() {
         return size;
     }
 
-    public void setSize(int treesNum) {
-        this.size = treesNum;
+    public void setSize(Integer size) {
+        this.size = size;
     }
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @Basic
+    @Column(name = "idUser", nullable = false)
+    public Integer getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
+    }
+
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     public Collection<Element> getElements() {
         return elements;
     }
@@ -64,14 +75,6 @@ public class Category implements Serializable {
         this.elements = elements;
     }
 
-    @Column(name = "idUser", nullable = false)
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
-    }
 
     @Override
     public String toString() {
