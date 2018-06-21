@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="elementDTOS" type="{http://soa.org/soap/editor}elementDTO" maxOccurs="unbounded" minOccurs="0"/&gt;
+ *         &lt;element name="idCategory" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="idUser" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *         &lt;element name="size" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
@@ -34,6 +35,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "categoryDTO", propOrder = {
     "elementDTOS",
+    "idCategory",
     "idUser",
     "name",
     "size"
@@ -42,6 +44,7 @@ public class CategoryDTO {
 
     @XmlElement(nillable = true)
     protected List<ElementDTO> elementDTOS;
+    protected int idCategory;
     protected int idUser;
     protected String name;
     protected int size;
@@ -73,6 +76,22 @@ public class CategoryDTO {
             elementDTOS = new ArrayList<ElementDTO>();
         }
         return this.elementDTOS;
+    }
+
+    /**
+     * Gets the value of the idCategory property.
+     * 
+     */
+    public int getIdCategory() {
+        return idCategory;
+    }
+
+    /**
+     * Sets the value of the idCategory property.
+     * 
+     */
+    public void setIdCategory(int value) {
+        this.idCategory = value;
     }
 
     /**

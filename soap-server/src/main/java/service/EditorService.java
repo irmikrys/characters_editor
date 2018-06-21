@@ -7,16 +7,16 @@ import exception.ElementNotFoundException;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
-import java.util.List;
+import java.util.LinkedList;
 
 @WebService(targetNamespace = "http://soa.org/soap/editor")
 public interface EditorService {
 
     @WebMethod
-    List<CategoryDTO> getAllCategories();
+    LinkedList<CategoryDTO> getAllCategories();
 
     @WebMethod
-    List<CategoryDTO> getAllCategoriesForSoapUser();
+    LinkedList<CategoryDTO> getAllCategoriesForSoapUser();
 
     @WebMethod
     void addCategory(String name, Integer size)

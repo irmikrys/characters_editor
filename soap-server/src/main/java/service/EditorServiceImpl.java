@@ -12,7 +12,7 @@ import model.Element;
 import javax.inject.Inject;
 import javax.jws.WebService;
 import javax.persistence.PersistenceException;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Random;
 
 @WebService(
@@ -33,13 +33,13 @@ public class EditorServiceImpl implements EditorService {
     private ElementDAO elementDAO;
 
     @Override
-    public List<CategoryDTO> getAllCategories() {
-        return categoryDAO.findAll();
+    public LinkedList<CategoryDTO> getAllCategories() {
+        return new LinkedList<>(categoryDAO.findAll());
     }
 
     @Override
-    public List<CategoryDTO> getAllCategoriesForSoapUser() {
-        return categoryDAO.findAllByIdUser(ID_USER);
+    public LinkedList<CategoryDTO> getAllCategoriesForSoapUser() {
+        return new LinkedList<>(categoryDAO.findAllByIdUser(ID_USER));
     }
 
     @Override
