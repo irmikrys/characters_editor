@@ -22,6 +22,14 @@ public class Element implements Serializable {
 
     }
 
+    public Element(String name, Integer fortune, Integer property, Integer power, Category category) {
+        this.name = name;
+        this.fortune = fortune;
+        this.property = property;
+        this.power = power;
+        this.category = category;
+    }
+
     public Element(ElementDTO elementDTO, Category category) {
         this.category = category;
         this.name = elementDTO.getName();

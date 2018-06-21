@@ -5,7 +5,7 @@
              version="2.2">
 
 
-    <persistence-unit name="SOA">
+    <persistence-unit name="com.irmikrys.soa">
         <jta-data-source>java:jboss/datasources/soa-game-DS</jta-data-source>
 
         <class>model.Category</class>

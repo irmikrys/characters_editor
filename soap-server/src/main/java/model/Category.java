@@ -20,6 +20,12 @@ public class Category implements Serializable {
 
     }
 
+    public Category(String name, Integer size, Integer idUser) {
+        this.name = name;
+        this.size = size;
+        this.idUser = idUser;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idCategory", nullable = false)
@@ -61,7 +67,7 @@ public class Category implements Serializable {
         this.idUser = idUser;
     }
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     public Collection<Element> getElements() {
         return elements;
     }
