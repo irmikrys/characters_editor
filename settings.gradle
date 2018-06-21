@@ -3,4 +3,5 @@ include 'web'
 include 'ejb'
 include 'rest'
 include 'soap-server'
+include 'soap-client'
 
