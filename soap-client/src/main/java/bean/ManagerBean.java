@@ -122,7 +122,6 @@ public class ManagerBean implements Serializable {
         System.out.println("Initializing categories...");
         categories = new ArrayList<>(editorService.getAllCategories());
         categoriesForUser = new ArrayList<>(editorService.getAllCategoriesForSoapUser());
-        categories.forEach(System.out::println);
     }
 
     public void updateGrowlAction(ActionEvent actionEvent) {
@@ -130,7 +129,7 @@ public class ManagerBean implements Serializable {
             addMessage(errorMessage);
             System.out.println(errorMessage);
         }
-        if (successMessage != null && !successMessage.isEmpty()){
+        if (successMessage != null && !successMessage.isEmpty()) {
             addMessage(successMessage);
             System.out.println(successMessage);
         }
@@ -146,9 +145,10 @@ public class ManagerBean implements Serializable {
         root = new DefaultTreeNode("Categories", null);
         this.getCategories().forEach(categoryDTO -> {
             Collection<ElementDTO> elements = null;
-            if(categoryDTO.getElementDTOS().size() > 0) elements = categoryDTO.getElementDTOS();
+            if (categoryDTO.getElementDTOS().size() > 0) elements = categoryDTO.getElementDTOS();
             addNode(root,
-                    categoryDTO.getName() + " (" + categoryDTO.getIdCategory() + ") ",
+                    categoryDTO.getName() + " (" + categoryDTO.getIdCategory()
+                            + "), size: " + categoryDTO.getSize(),
                     elements
             );
         });
@@ -160,7 +160,8 @@ public class ManagerBean implements Serializable {
         if (elements != null) {
             for (ElementDTO e : elements) {
                 addNode(node,
-                        e.getName() + " (" + e.getIdElement() + "), " + e.getFortune(),
+                        e.getName() + " (" + e.getIdElement() + "), " + e.getFortune() +
+                                ", power: " + e.getPower(),
                         null
                 );
             }
