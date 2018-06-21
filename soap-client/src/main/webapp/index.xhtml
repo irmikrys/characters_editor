@@ -101,6 +101,103 @@
 
                 <br/>
 
+
+                <hr/>
+
+                <h2>Add element</h2>
+                <h5><span class="label label-primary">Element</span>
+                </h5>
+
+                <h:form id="element-form">
+
+                    <div class="form-group form-div">
+
+                        <h:outputLabel id="elem-category-lbl"
+                                       for="elem-category">
+                            Category id:
+                        </h:outputLabel>
+                        <h:inputText id="elem-category"
+                                     styleClass="form-control"
+                                     value="#{managerBean.elemIdCategory}"
+                                     required="true"
+                                     requiredMessage="Value is required"
+                                     converterMessage="You can enter digits only"
+                                     a:placeholder="id...">
+                            <f:ajax/>
+                        </h:inputText>
+                        <h:message for="name" styleClass="error-message"/><br/>
+
+                        <h:outputLabel id="elem-name-lbl"
+                                       for="elem-name">
+                            Name:
+                        </h:outputLabel>
+                        <h:inputText id="elem-name"
+                                     styleClass="form-control"
+                                     value="#{managerBean.elemName}"
+                                     required="true"
+                                     requiredMessage="Name is required"
+                                     a:placeholder="name...">
+                            <f:ajax/>
+                        </h:inputText>
+                        <h:message for="name" styleClass="error-message"/><br/>
+
+                        <h:outputLabel id="elem-quantity-lbl"
+                                       for="elem-quantity">
+                            Fortune:
+                        </h:outputLabel>
+                        <h:inputText id="elem-quantity"
+                                     styleClass="form-control"
+                                     value="#{managerBean.elemFortune}"
+                                     required="true"
+                                     requiredMessage="Value is required"
+                                     converterMessage="You can enter digits only"
+                                     a:placeholder="fortune...">
+                            <f:ajax/>
+                        </h:inputText>
+                        <h:message for="quantity" styleClass="error-message"/><br/>
+
+                        <h:outputLabel id="propType-lbl"
+                                       for="propType">
+                            Property:
+                        </h:outputLabel>
+                        <h:inputText id="propType"
+                                     styleClass="form-control"
+                                     value="#{managerBean.elemProperty}"
+                                     required="true"
+                                     requiredMessage="Value is required"
+                                     converterMessage="You can enter digits only"
+                                     a:placeholder="property...">
+                            <f:ajax/>
+                        </h:inputText>
+                        <h:message for="propType" styleClass="error-message"/><br/>
+
+                        <h:outputLabel id="power-lbl"
+                                       for="power">
+                            Power:
+                        </h:outputLabel>
+                        <h:inputText id="power"
+                                     styleClass="form-control"
+                                     value="#{managerBean.elemPower}"
+                                     required="true"
+                                     requiredMessage="Value is required"
+                                     converterMessage="You can enter digits only"
+                                     a:placeholder="power...">
+                            <f:ajax/>
+                        </h:inputText>
+                        <h:message for="power" styleClass="error-message"/><br/>
+
+                        <h:commandButton id="submit-element"
+                                         styleClass="btn btn-default"
+                                         value="Submit"
+                                         action="#{managerBean.addElement}"
+                        >
+                        </h:commandButton>
+                    </div>
+
+                </h:form>
+
+                <br/>
+
             </div>
 
         </div>

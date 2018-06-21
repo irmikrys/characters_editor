@@ -29,8 +29,15 @@ public class ManagerBean implements Serializable {
 
     private ArrayList<CategoryDTO> categories;
     private ArrayList<CategoryDTO> categoriesForUser;
+
     private String categoryName;
     private Integer categorySize;
+
+    private String elemName;
+    private Integer elemFortune;
+    private Integer elemProperty;
+    private Integer elemPower;
+    private Integer elemIdCategory;
 
     private String successMessage;
     private String errorMessage;
@@ -55,6 +62,19 @@ public class ManagerBean implements Serializable {
         try {
             editorService.addCategory(categoryName, categorySize);
             successMessage = "Category successfully added!";
+        } catch (Exception e) {
+            errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
+            successMessage = null;
+        }
+        clearFields();
+        initCategories();
+        initDataView();
+    }
+
+    public void addElement() {
+        try {
+            editorService.addElement(elemIdCategory, elemName, elemFortune, elemProperty, elemPower);
+            successMessage = "Element successfully added!";
         } catch (Exception e) {
             errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
             successMessage = null;
@@ -112,6 +132,11 @@ public class ManagerBean implements Serializable {
     private void clearFields() {
         categoryName = null;
         categorySize = null;
+        elemFortune = null;
+        elemIdCategory = null;
+        elemPower = null;
+        elemProperty = null;
+        elemName = null;
     }
 
     public List<CategoryDTO> getCategories() {
@@ -144,6 +169,46 @@ public class ManagerBean implements Serializable {
 
     public void setCategorySize(Integer categorySize) {
         this.categorySize = categorySize;
+    }
+
+    public String getElemName() {
+        return elemName;
+    }
+
+    public void setElemName(String elemName) {
+        this.elemName = elemName;
+    }
+
+    public Integer getElemFortune() {
+        return elemFortune;
+    }
+
+    public void setElemFortune(Integer elemFortune) {
+        this.elemFortune = elemFortune;
+    }
+
+    public Integer getElemProperty() {
+        return elemProperty;
+    }
+
+    public void setElemProperty(Integer elemProperty) {
+        this.elemProperty = elemProperty;
+    }
+
+    public Integer getElemPower() {
+        return elemPower;
+    }
+
+    public void setElemPower(Integer elemPower) {
+        this.elemPower = elemPower;
+    }
+
+    public Integer getElemIdCategory() {
+        return elemIdCategory;
+    }
+
+    public void setElemIdCategory(Integer elemIdCategory) {
+        this.elemIdCategory = elemIdCategory;
     }
 
     public String getSuccessMessage() {
