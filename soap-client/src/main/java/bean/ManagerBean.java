@@ -39,6 +39,9 @@ public class ManagerBean implements Serializable {
     private Integer elemPower;
     private Integer elemIdCategory;
 
+    private Integer elemIdEdit;
+    private Integer elemFortuneEdit;
+
     private String successMessage;
     private String errorMessage;
     private TreeNode root;
@@ -75,6 +78,19 @@ public class ManagerBean implements Serializable {
         try {
             editorService.addElement(elemIdCategory, elemName, elemFortune, elemProperty, elemPower);
             successMessage = "Element successfully added!";
+        } catch (Exception e) {
+            errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
+            successMessage = null;
+        }
+        clearFields();
+        initCategories();
+        initDataView();
+    }
+
+    public void editElement() {
+        try {
+            editorService.updateElementFortune(elemIdEdit, elemFortuneEdit);
+            successMessage = "Element successfully updated!";
         } catch (Exception e) {
             errorMessage = MessagesUtility.getSimpleMessageFromException(e.getMessage());
             successMessage = null;
@@ -124,7 +140,10 @@ public class ManagerBean implements Serializable {
         node.setExpanded(true);
         if (elements != null) {
             for (ElementDTO e : elements) {
-                addNode(node, e.getName() + " (" + e.getIdElement() + ") ", null);
+                addNode(node,
+                        e.getName() + " (" + e.getIdElement() + "), " + e.getFortune(),
+                        null
+                );
             }
         }
     }
@@ -137,6 +156,8 @@ public class ManagerBean implements Serializable {
         elemPower = null;
         elemProperty = null;
         elemName = null;
+        elemIdEdit = null;
+        elemFortuneEdit = null;
     }
 
     public List<CategoryDTO> getCategories() {
@@ -209,6 +230,22 @@ public class ManagerBean implements Serializable {
 
     public void setElemIdCategory(Integer elemIdCategory) {
         this.elemIdCategory = elemIdCategory;
+    }
+
+    public Integer getElemIdEdit() {
+        return elemIdEdit;
+    }
+
+    public void setElemIdEdit(Integer elemIdEdit) {
+        this.elemIdEdit = elemIdEdit;
+    }
+
+    public Integer getElemFortuneEdit() {
+        return elemFortuneEdit;
+    }
+
+    public void setElemFortuneEdit(Integer elemFortuneEdit) {
+        this.elemFortuneEdit = elemFortuneEdit;
     }
 
     public String getSuccessMessage() {

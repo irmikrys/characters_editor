@@ -54,7 +54,7 @@
                 <hr/>
 
                 <h2>Add category</h2>
-                <h5><span class="label label-primary">Category</span>
+                <h5><span class="label label-success">Category</span>
                 </h5>
 
                 <h:form id="category-form">
@@ -105,7 +105,7 @@
                 <hr/>
 
                 <h2>Add element</h2>
-                <h5><span class="label label-primary">Element</span>
+                <h5><span class="label label-success">Element</span>
                 </h5>
 
                 <h:form id="element-form">
@@ -125,7 +125,7 @@
                                      a:placeholder="id...">
                             <f:ajax/>
                         </h:inputText>
-                        <h:message for="name" styleClass="error-message"/><br/>
+                        <h:message for="elem-category" styleClass="error-message"/><br/>
 
                         <h:outputLabel id="elem-name-lbl"
                                        for="elem-name">
@@ -139,7 +139,7 @@
                                      a:placeholder="name...">
                             <f:ajax/>
                         </h:inputText>
-                        <h:message for="name" styleClass="error-message"/><br/>
+                        <h:message for="elem-name" styleClass="error-message"/><br/>
 
                         <h:outputLabel id="elem-quantity-lbl"
                                        for="elem-quantity">
@@ -154,7 +154,7 @@
                                      a:placeholder="fortune...">
                             <f:ajax/>
                         </h:inputText>
-                        <h:message for="quantity" styleClass="error-message"/><br/>
+                        <h:message for="elem-quantity" styleClass="error-message"/><br/>
 
                         <h:outputLabel id="propType-lbl"
                                        for="propType">
@@ -193,6 +193,61 @@
                         >
                         </h:commandButton>
                     </div>
+
+                </h:form>
+
+                <br/>
+
+                <hr/>
+                <h4>
+                    <span style="font-size: small;">EDITION</span>
+                </h4>
+                <hr/>
+
+                <h2>Edit element's fortune</h2>
+                <h5><span class="label label-primary">Category</span>
+                </h5>
+
+                <h:form id="elem-edit-form">
+
+                    <div class="form-group form-div">
+                        <h:outputLabel id="elem-id-lbl"
+                                       for="elem-id">
+                            Element id:
+                        </h:outputLabel>
+                        <h:inputText id="elem-id"
+                                     styleClass="form-control"
+                                     value="#{managerBean.elemIdEdit}"
+                                     required="true"
+                                     requiredMessage="Value is required"
+                                     converterMessage="You can enter digits only"
+                                     a:placeholder="id...">
+                            <f:ajax/>
+                        </h:inputText>
+                        <h:message for="name" styleClass="error-message"/><br/>
+
+                        <h:outputLabel id="edit-elem-fortune-lbl"
+                                       for="edit-elem-fortune">
+                            New fortune:
+                        </h:outputLabel>
+                        <h:inputText id="edit-elem-fortune"
+                                     styleClass="form-control"
+                                     value="#{managerBean.elemFortuneEdit}"
+                                     required="true"
+                                     requiredMessage="Value is required"
+                                     converterMessage="You can enter digits only"
+                                     a:placeholder="fortune...">
+                            <f:ajax/>
+                        </h:inputText>
+                        <h:message for="edit-elem-fortune" styleClass="error-message"/>
+                    </div>
+
+                    <h:commandButton id="submit-edit-elem"
+                                     styleClass="btn btn-default"
+                                     value="Add category"
+                                     action="#{managerBean.editElement}"
+                    >
+                    </h:commandButton>
 
                 </h:form>
 
