@@ -38,7 +38,7 @@ class ClientREST {
                 .path(String.valueOf(idCategory))
                 .request(MediaType.APPLICATION_JSON)
                 .get();
-        System.out.println("Get category by id status: " + response.getStatus());
+        System.out.format("Get category by id %d status: %d\n",idCategory, response.getStatus());
         return Optional.ofNullable(response
                 .readEntity(CategoryDTO.class));
     }
