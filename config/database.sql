@@ -1,9 +1,9 @@
--- DROP DATABASE IF EXISTS soa_game;
--- CREATE DATABASE soa_game
---   CHARACTER SET utf8mb4
---   COLLATE utf8mb4_unicode_ci;
---
--- USE soa_game;
+ DROP DATABASE IF EXISTS soa_game;
+ CREATE DATABASE soa_game
+   CHARACTER SET utf8mb4
+   COLLATE utf8mb4_unicode_ci;
+
+USE soa_game;
 
 DROP TABLE IF EXISTS elements, categories, properties, userroles, users, roles, typesSets;
 
