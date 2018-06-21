@@ -24,6 +24,9 @@ public class ManagerBean implements Serializable {
     private String categoryName;
     private String categorySize;
 
+    private String successMessage;
+    private String errorMessage;
+
     ManagerBean() {
         System.out.println("Manager bean constructor");
         EditorService_Service editorService_service = new EditorService_Service();
@@ -33,15 +36,17 @@ public class ManagerBean implements Serializable {
     @PostConstruct
     public void init() {
         initCategories();
+        clearFields();
     }
 
     public void initCategories() {
-        categories = (LinkedList<CategoryDTO>) editorService.getAllCategories();
-        categoriesForUser = (LinkedList<CategoryDTO>) editorService.getAllCategoriesForSoapUser();
+        categories = new LinkedList<>(editorService.getAllCategories());
+        categoriesForUser = new LinkedList<>(editorService.getAllCategoriesForSoapUser());
     }
 
     public void clearFields() {
-
+        categoryName = null;
+        categorySize = null;
     }
 
     public List<CategoryDTO> getCategories() {
@@ -74,5 +79,21 @@ public class ManagerBean implements Serializable {
 
     public void setCategorySize(String categorySize) {
         this.categorySize = categorySize;
+    }
+
+    public String getSuccessMessage() {
+        return successMessage;
+    }
+
+    public void setSuccessMessage(String successMessage) {
+        this.successMessage = successMessage;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }
