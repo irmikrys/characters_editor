@@ -57,6 +57,6 @@ public class ElementDTO {
 
     @Override
     public String toString() {
-        return String.format("ElementDTO[%s, %d, %d]", name, property, power);
+        return String.format("\t\tElementDTO[%s, %d, %d]", name, property, power);
     }
 }

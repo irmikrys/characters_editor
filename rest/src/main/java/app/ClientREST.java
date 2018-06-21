@@ -1,11 +1,9 @@
 package app;
 
 import dto.CategoryDTO;
-import dto.ElementDTO;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,9 +22,10 @@ class ClientREST {
                 .path(MAIN_PATH)
                 .request(MediaType.APPLICATION_JSON)
                 .get();
-        System.out.println("\tGet all categories status: " + response.getStatus());
+        System.out.println("Get all categories status: " + response.getStatus());
         return response
-                .readEntity(new GenericType<List<CategoryDTO>>() {});
+                .readEntity(new GenericType<List<CategoryDTO>>() {
+                });
     }
 
     Optional<CategoryDTO> getCategoryById(Integer idCategory) {
@@ -36,7 +35,7 @@ class ClientREST {
                 .path(String.valueOf(idCategory))
                 .request(MediaType.APPLICATION_JSON)
                 .get();
-        System.out.println("\tGet category by id status: " + response.getStatus());
+        System.out.println("Get category by id status: " + response.getStatus());
         return Optional.ofNullable(response
                 .readEntity(CategoryDTO.class));
     }

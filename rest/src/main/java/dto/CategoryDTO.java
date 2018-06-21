@@ -62,6 +62,6 @@ public class CategoryDTO {
 
     @Override
     public String toString() {
-        return String.format("CategoryDTO[%s, %d]", name, size);
+        return String.format("\tCategoryDTO[%s, %d]", name, size);
     }
 }
