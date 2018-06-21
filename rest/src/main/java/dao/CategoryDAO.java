@@ -1,7 +1,9 @@
 package dao;
 
 import model.Category;
+import org.jboss.ejb3.annotation.SecurityDomain;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+@SecurityDomain("soaEJBApplicationDomain")
+@PermitAll
 @Stateless
 public class CategoryDAO {
 

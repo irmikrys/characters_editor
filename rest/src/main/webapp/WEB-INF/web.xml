@@ -8,8 +8,8 @@
         <web-resource-collection>
             <web-resource-name>app-html-auth</web-resource-name>
             <url-pattern>/*</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
+            <!--<http-method>GET</http-method>-->
+            <!--<http-method>POST</http-method>-->
             <http-method>TRACE</http-method>
             <http-method>HEAD</http-method>
             <http-method>DELETE</http-method>

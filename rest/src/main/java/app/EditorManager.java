@@ -6,11 +6,13 @@ import dto.CategoryDTO;
 import dto.ElementDTO;
 import model.Category;
 import model.Element;
+import org.jboss.ejb3.annotation.SecurityDomain;
 import translator.Dictionary;
 import translator.DictionaryRepository;
 import translator.LanguageTranslator;
 import translator.Translator;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -20,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@SecurityDomain("soaEJBApplicationDomain")
+@PermitAll
 @Stateless
 @Path("/editor")
 public class EditorManager {

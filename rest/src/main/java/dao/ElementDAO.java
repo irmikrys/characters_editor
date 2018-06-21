@@ -1,11 +1,15 @@
 package dao;
 
 import model.Element;
+import org.jboss.ejb3.annotation.SecurityDomain;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+@SecurityDomain("soaEJBApplicationDomain")
+@PermitAll
 @Stateless
 public class ElementDAO {
 
