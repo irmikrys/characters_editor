@@ -69,18 +69,21 @@ public class CatalogBean implements Serializable {
     }
 
     public void initDataView() {
-        root = new DefaultTreeNode(new TreeNodeData(null, null, "Categories", null), null);
+        root = new DefaultTreeNode("Characters", null);
         this.getCategories().forEach(
-                category -> addNode(
+                c -> addNode(
                         root,
                         new TreeNodeData(
-                                category.getClass().getSimpleName(),
-                                category.getIdCategory(),
-                                category.getName(),
-                                category.getUser().getTypeSet().getCategoryType()
+                                c.getClass().getSimpleName(),
+                                c.getIdCategory(),
+                                c.getName(),
+                                c.getUser().getTypeSet().getCategoryType(),
+                                c.getUser().getUsername(),
+                                "size: " + c.getSize()
                         ),
-                        charactersServiceRemote.getElementsByIdCategory(category.getIdCategory()),
-                        category.getUser().getTypeSet().getElementType()
+                        charactersServiceRemote.getElementsByIdCategory(c.getIdCategory()),
+                        c.getUser().getTypeSet().getElementType(),
+                        c.getUser().getUsername()
                 ));
     }
 
@@ -96,7 +99,8 @@ public class CatalogBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    private void addNode(TreeNode parentNode, TreeNodeData data, Collection<Element> elements, String typeSetType) {
+    private void addNode(TreeNode parentNode, TreeNodeData data, Collection<Element> elements, String typeSetType,
+                         String owner) {
         TreeNode node = new DefaultTreeNode(data, parentNode);
         node.setExpanded(true);
         if (elements != null) {
@@ -106,10 +110,15 @@ public class CatalogBean implements Serializable {
                                 e.getClass().getSimpleName(),
                                 e.getIdElement(),
                                 e.getName(),
-                                typeSetType
+                                typeSetType,
+                                owner,
+                                "fortune: " + e.getFortune() +
+                                        ", prop: " + e.getProperty() +
+                                        ", power: " + e.getPower()
                         ),
                         null,
-                        typeSetType
+                        typeSetType,
+                        owner
                 );
             }
         }

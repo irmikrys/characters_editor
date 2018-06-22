@@ -35,9 +35,28 @@
                 <br/>
 
                 <p:growl id="error-msg" life="3000"/>
-                <h:form id="catalogForm">
-                    <p:tree value="#{catalogBean.root}" var="node">
-                        <p:treeNode>
+                <h:form id="catalogForm" style="width: 900px;">
+
+                    <p:treeTable value="#{catalogBean.root}" var="node">
+                        <f:facet name="header">
+                            Characters
+                        </f:facet>
+                        <p:column headerText="Name">
+                            <h:outputText value="#{node.name}"/>
+                        </p:column>
+                        <p:column headerText="Type">
+                            <h:outputText value="#{node.type}"/>
+                        </p:column>
+                        <p:column headerText="Id">
+                            <h:outputText value="#{node.id}"/>
+                        </p:column>
+                        <p:column headerText="Owner">
+                            <h:outputText value="#{node.owner}"/>
+                        </p:column>
+                        <p:column headerText="Properties" style="width: 250px">
+                            <h:outputText value="#{node.properties}"/>
+                        </p:column>
+                        <p:column style="width:50px">
                             <p:commandButton icon="ui-icon-trash"
                                              update="catalogForm error-msg best-elems"
                             >
@@ -52,13 +71,14 @@
                                            message="Are you sure you want to delete #{node.name}?"
                                 />
                             </p:commandButton>
+                        </p:column>
+                        <p:column style="width:50px">
                             <p:button outcome="#{node.type.toLowerCase()}-part1"
                                       icon="ui-icon-pencil">
                                 <f:param name="id#{node.type}" value="#{node.id}"/>
                             </p:button>
-                            <h:outputText value="#{node.name} (#{node.typeSetType})"/>
-                        </p:treeNode>
-                    </p:tree>
+                        </p:column>
+                    </p:treeTable>
 
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                         <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes"

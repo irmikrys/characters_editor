@@ -10,12 +10,17 @@ public class TreeNodeData implements Serializable {
     private Integer id;
     private String name;
     private String typeSetType;
+    private String owner;
+    private String properties;
 
-    public TreeNodeData(String type, Integer id, String name, String typeSetType) {
+    public TreeNodeData(String type, Integer id, String name, String typeSetType, String owner,
+                        String properties) {
         this.type = type;
         this.id = id;
         this.name = name;
         this.typeSetType = typeSetType;
+        this.owner = owner;
+        this.properties = properties;
     }
 
     public String getType() {
@@ -48,5 +53,21 @@ public class TreeNodeData implements Serializable {
 
     public void setTypeSetType(String typeSetType) {
         this.typeSetType = typeSetType;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getProperties() {
+        return properties;
+    }
+
+    public void setProperties(String properties) {
+        this.properties = properties;
     }
 }
